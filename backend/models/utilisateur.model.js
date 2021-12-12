@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Utilisateur = sequelize.define("utilisateurs", {
+    const Utilisateur = sequelize.define("utilisateur", {
       nom: {
         type: Sequelize.STRING(100),
         allowNull: false
@@ -26,9 +26,10 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false
       }
     },
-    {
-      tableName: 'utilisateur',
-      freezeTableName: true
-    });
+      {
+        tableName: 'utilisateur',
+        freezeTableName: true
+      }
+    );
     return Utilisateur;
 };
