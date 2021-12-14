@@ -27,7 +27,6 @@ module.exports = (sequelize, Sequelize) => {
       }
     },
       {
-        tableName: 'utilisateur',
         freezeTableName: true
       }
     );

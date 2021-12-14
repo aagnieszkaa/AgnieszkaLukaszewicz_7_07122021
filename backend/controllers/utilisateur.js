@@ -6,8 +6,8 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.mot_de_passe, 10)
         .then(hash => {
             db.Utilisateur.create({
-                nom: req.body.nom,
-                prenom: req.body.prenom,
+                nom: req.body.nom, //infos recues du frontend
+                prenom: req.body.prenom, 
                 email: req.body.email,
                 mot_de_passe: hash,
                 image_chemin: req.body.image_chemin,
