@@ -3,6 +3,10 @@ const router = express.Router();
 
 const utilisateurCtrl = require('../controllers/utilisateur');
 
-router.post('/signup', utilisateurCtrl.signup);
+const multer = require('../middleware/multer-config');
+
+router.post('/signup', multer, utilisateurCtrl.signup);
+
+
 
 module.exports = router;
