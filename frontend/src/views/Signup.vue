@@ -1,66 +1,122 @@
 <template>
     <Header></Header>
-        <div class="container mt-4">
-            <div class="row form">
-                <form class="offset-1 col-10">
-                    <h2 v-if="mode == 'signup'">Créer votre compte</h2>
-                    <h2 v-else>Connectez-vous</h2>
-                    <p v-if="mode == 'signup'">Vous avez déjà le compte ? <span class="link" @click="switchToConnexion()">Connectez-vous</span></p>
-                    <p v-else>Vous n'avez pas de compte ? <span class="link" @click="switchToCreation()">Créer votre compte</span></p>
-                    <div class="form-group row mb-2 mt-4" v-if="mode == 'signup'">
-                        <label for="nom" class="col-sm-2 col-form-label">Nom : </label>
-                        <div class="col-sm-10">
-                            <input type="text" id="nom" name="nom" class="form-control" v-model="nom">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2" v-if="mode == 'signup'">
-                        <label for="prenom" class="col-sm-2 col-form-label">Prénom : </label>
-                        <div class="col-sm-10">
-                            <input type="text" id="prenom" name="prenom" class="form-control" v-model="prenom">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2">
-                        <label for="email" class="col-sm-2 col-form-label">E-mail : </label>
-                        <div class="col-sm-10">
-                            <input type="email" id="email" name="email" class="form-control" v-model="email">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2">
-                        <label for="mot_de_passe" class="col-sm-2 col-form-label">Mot de passe : </label>
-                        <div class="col-sm-10">
-                            <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control" v-model="mot_de_passe">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2" v-if="mode == 'signup'">
-                        <label for="image_chemin" class="col-sm-2 col-form-label">Photo : </label>
-                        <div class="col-sm-10">
-                            <input type="file">
-                        </div>
-                    </div>
-                    <fieldset class="form-group mb-2" v-if="mode == 'signup'">
-                        <legend class="col-form-label col-sm-2 pt-0">Fonction</legend>
-                            <div class="col-sm-10">
-                                <div class="form-check">
-                                    <input type="radio" id="employee" name="fonction" value="employee" class="form-check-input" v-model="employee">
-                                    <label for="employee" class="form-check-label">Employée</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="radio" id="charge_com" name="fonction" value="charge_com" class="form-check-input" v-model="charge">   
-                                    <label for="charge_com" class="form-check-label">Chargé de la communication</label> 
-                                </div>
-                            </div>      
-                    </fieldset>
-                    <div class="form-group row mb-2" v-if="mode == 'signup'">
-                        <label for="mdpRh" class="col-sm-2 col-form-label">Mot de passe fourni par les RH : </label><br>
-                        <div class="col-sm-10">
-                            <input type="password" id="mdpRh" name="mdpRh" class="form-control" v-model="mdpRh">
-                        </div>
-                    </div>
-                    <button @click="creerCompte()" type="submit" class="btn btn-primary mb-4" v-if="mode == 'signup'" :disabled="!validated">Créer mon compte</button>
-                    <button type="submit" class="btn btn-primary mb-4" v-else :disabled="!validated">Connectez-vous</button>
-                </form>
-            </div>
-        </div>
+    <b-container class="mt-4 mb-4">
+        <b-row class="form">
+            <b-form class="offset-1 col-10">
+                <h2 v-if="mode == 'signup'">Créer votre compte</h2>
+                <h2 v-else>Connectez-vous</h2>
+                <p v-if="mode == 'signup'">Vous avez déjà le compte ? <span class="link" @click="switchToConnexion()">Connectez-vous</span></p>
+                <p v-else>Vous n'avez pas de compte ? <span class="link" @click="switchToCreation()">Créer votre compte</span></p>
+                <b-form-group
+                label="Nom :"
+                label-for="input-nom"
+                class="mb-2 mt-4"
+                v-if="mode == 'signup'">
+                    <b-form-input
+                    id="input-nom"
+                    v-model="nom"
+                    type="text"
+                    required>
+                    </b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                label="Prénom :"
+                label-for="input-prenom"
+                class="mb-2"
+                v-if="mode == 'signup'">
+                    <b-form-input
+                    id="input-prenom"
+                    v-model="prenom"
+                    type="text"
+                    required>
+                    </b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                label="E-mail :"
+                label-for="input-prenom"
+                class="mb-2">
+                    <b-form-input
+                    id="input-email"
+                    v-model="email"
+                    type="email"
+                    required>
+                    </b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                label="Mot de passe :"
+                label-for="input-mot_de_passe"
+                class="mb-2">
+                    <b-form-input
+                    id="input-mot_de_passe"
+                    v-model="mot_de_passe"
+                    type="password"
+                    required>
+                    </b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                label="Photo :"
+                label-for="input-photo"
+                class="mb-2"
+                v-if="mode == 'signup'">
+                    <input type="text" 
+                    id="input-photo"
+                    v-model="image_chemin"
+                    required>
+                </b-form-group>
+
+                <b-form-group
+                label="Fonction :"
+                class="mb-2"
+                v-if="mode == 'signup'">
+                    <b-form-radio 
+                    name="input-radio" 
+                    value="0"
+                    v-model="fonction"
+                    @change="radioChange($event)">
+                    Chargé de la communication
+                    </b-form-radio>
+
+                    <b-form-radio 
+                    name="input-radio" 
+                    value="1"
+                    v-model="fonction"
+                    @change="radioChange($event)">
+                    Employée
+                    </b-form-radio>
+
+                </b-form-group>
+
+                <b-form-group
+                label="Mot de passe fourni par les RH :"
+                label-for="input-mot_de_passe_RH"
+                class="mb-2"
+                v-if="mode == 'signup'">
+                    <b-form-input
+                    id="input-mot_de_passe_RH"
+                    v-model="mot_de_passe_RH"
+                    type="password"
+                    :required="optionCommunication">
+                    </b-form-input>
+                </b-form-group>
+
+                <b-button 
+                type="submit" 
+                variant="primary"
+                v-if="mode == 'signup'"
+                @click="signup()">Créez votre compte</b-button>
+
+                <b-button 
+                type="submit" 
+                variant="primary"
+                v-else>Connectez-vous</b-button>
+                
+            </b-form>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
@@ -75,30 +131,26 @@ export default {
   data: function () {
     return {
         mode: 'signup',
-        email: '',
+       /* nom: '',
         prenom: '',
-        nom: '',
+        email: '',
         mot_de_passe: '',
-        employee: '',
-        charge: '',
+        image_chemin: '',*/
+        fonction: 0
+
     }
   },
 computed: {
-    validated: function () {
-      if (this.mode == 'signup') {
-        if (this.email != "" && this.prenom != "" && this.nom != "" && this.mot_de_passe != "" && this.employee || this.charge != "") {
+    /*optionCommunication: function () {
+      if (this.mode == 'signup' && document.querySelector('input[name="input-radio"]:checked').value == 'first-radio') {
           return true;
-        } else {
-          return false;
-        }
       } else {
-        if (this.email != "" && this.mot_de_passe != "") {
-          return true;
-        } else {
           return false;
-        }
       }
-    }
+    }*/   
+    lala () {
+        return this.fonction;
+    }  
   },
   methods: {
       switchToConnexion: function () {
@@ -107,8 +159,18 @@ computed: {
       switchToCreation: function () {
           this.mode = 'signup';
       },
-      creerCompte: function () {
-          console.log(this.email);
+          radioChange(event) {
+        this.fonction = event.target.value;
+    }, 
+      signup: function () {
+          this.$store.dispatch('signup', {
+              nom: this.nom,
+              prenom: this.prenom,
+              email: this.email,
+              mot_de_passe: this.mot_de_passe,
+              image_chemin: this.image_chemin,
+              fonction: this.lala,
+          })
       },
   }
 }
