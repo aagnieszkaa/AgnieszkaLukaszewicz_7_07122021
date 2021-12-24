@@ -83,10 +83,10 @@ export default createStore({
         })
       });
     },
-    infosUtilisateur: ({commit}) => {
-      instance.post('/infos')
+    utilisateurInfo: ({commit}) => {
+      instance.get('/auth/infos')
       .then(function (response) {
-        commit('utilisateurInfo', response.data.infos);
+        commit('utilisateurInfo', response.data);
       })
       .catch(function () {
       });

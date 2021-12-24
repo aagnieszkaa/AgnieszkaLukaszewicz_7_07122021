@@ -170,7 +170,7 @@ computed: {
             email: this.email,
             mot_de_passe: this.mot_de_passe,
             image_chemin: this.image_chemin,
-            fonctionfonction: this.fonction,
+            fonction: this.fonction,
         }).then(function (){
             self.login();
         }), function (error){

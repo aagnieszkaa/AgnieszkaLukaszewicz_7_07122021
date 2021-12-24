@@ -44,3 +44,19 @@ exports.login = (req, res, next) => {
       })
       .catch(error => res.status(500).json({ error }));
   };
+
+  exports.infos = (req, res, next) => {
+    Utilisateur.findOne({
+      _id: req.params.id
+    }).then(
+      (utilisateur) => {
+        res.status(200).json(utilisateur);
+      }
+    ).catch(
+      (error) => {
+        res.status(404).json({
+          error: error
+        });
+      }
+    );
+  };

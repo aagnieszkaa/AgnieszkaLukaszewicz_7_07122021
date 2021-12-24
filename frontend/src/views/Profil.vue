@@ -4,11 +4,11 @@
         <b-container class="mt-4">
             <b-row>
                 <b-card
-                    title="{{utilisateur.prenom}} {{utilisateur.nom}}"
                     img-src="https://picsum.photos/600/300/?image=25"
                     img-alt="Photo de profil"
                     img-top
                     class="mb-2 offset-3 col-6">
+                    <b-card-title>{{utilisateur.prenom}} {{utilisateur.nom}}</b-card-title>
                     <b-card-text>{{utilisateur.fonction}}</b-card-text>
                     <b-card-text>{{utilisateur.email}}</b-card-text>
                     <b-row>
