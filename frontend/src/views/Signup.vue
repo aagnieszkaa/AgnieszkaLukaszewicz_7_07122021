@@ -111,16 +111,21 @@
                     <b-button 
                     type="submit" 
                     variant="primary"
-                    v-else>Connectez-vous</b-button>
-                    
+                    v-else
+                    @click="login()">Connectez-vous</b-button>
                 </b-form>
+                <p v-if="mode == 'login' && status == 'error_login'">Identifiants incorrects</p>
+                <p v-if="mode == 'signup' && status == 'error_signup'">Choisissez une autre adresse e-mail</p>
             </b-row>
         </b-container>
+        
+        <!--<span v-if="state == 'connexionEnCours'">Connexion en cours</span>-->
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
 
 export default {
@@ -131,7 +136,8 @@ export default {
   data: function () {
     return {
         mode: 'signup',
-        fonction: 1
+        fonction: 1,
+        image_chemin: '',
     }
   },
 computed: {
@@ -141,7 +147,8 @@ computed: {
       } else {
           return false;
       }
-    }    
+    },
+    ...mapState(['status'])   
   },
   methods: {
       switchToConnexion: function () {
@@ -153,19 +160,34 @@ computed: {
       photoChange: function (event) {
           const files = event.target.files;
           let filename = files[0].name;
-          
-          console.log(filename);
+          this.image_chemin = filename;
       },
-      signup: function () {
-          this.$store.dispatch('signup', {
-              nom: this.nom,
-              prenom: this.prenom,
-              email: this.email,
-              mot_de_passe: this.mot_de_passe,
-              image_chemin: this.image_chemin,
-              fonction: this.fonction,
-          })
+      signup: function (){
+          const self = this;
+        this.$store.dispatch('signup', {
+            nom: this.nom,
+            prenom: this.prenom,
+            email: this.email,
+            mot_de_passe: this.mot_de_passe,
+            image_chemin: this.image_chemin,
+            fonctionfonction: this.fonction,
+        }).then(function (){
+            self.login();
+        }), function (error){
+            console.log(error);
+        }
       },
+    login: function () {
+      const self = this;
+      this.$store.dispatch('login', {
+        email: this.email,
+        mot_de_passe: this.mot_de_passe,
+      }).then(function () {
+        self.$router.push('/profil');
+      }, function (error) {
+        console.log(error);
+      })
+    },
   }
 }
 </script>
