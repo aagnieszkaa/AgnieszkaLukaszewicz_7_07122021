@@ -140,6 +140,12 @@ export default {
         image_chemin: '',
     }
   },
+    mounted: function () {
+    if (this.$store.state.utilisateur.utilisateurId != -1) {
+      this.$router.push('/profil');
+      return ;
+    }
+  },
 computed: {
     optionCommunication: function () {
       if (this.mode == 'signup' && this.fonction == 0) {

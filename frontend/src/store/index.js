@@ -51,6 +51,13 @@ export default createStore({
     utilisateurInfo: function (state, utilisateurInfo) {
       state.utilisateurInfo = utilisateurInfo;
     },
+    logout: function (state) {
+      state.utilisateur = {
+        utilisateurId: -1,
+        token: '',
+      }
+      localStorage.removeItem('utilisateur');
+    }
   },
   actions: {
     signup: ({commit}, utilisateurInfo) => {

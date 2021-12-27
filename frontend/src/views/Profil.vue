@@ -1,6 +1,7 @@
 <template>
     <div>
         <Header></Header>
+        <Menu></Menu>
         <b-container class="mt-4">
             <b-row>
                 <b-card
@@ -21,6 +22,12 @@
                         variant="primary"
                         class="offset-2 col-5"
                         >Modifier le compte</b-button>
+
+                        <b-button 
+                        variant="primary"
+                        class="offset-3 col-6 mt-4"
+                        @click="logout()"
+                        >Déconnexion</b-button>
                     </b-row>
                 </b-card>
             </b-row>
@@ -31,12 +38,14 @@
 <script>
 // @ is an alias to /src
 import Header from '@/components/Header.vue'
+import Menu from '@/components/Menu.vue'
 import { mapState } from 'vuex';
 
 export default {
   name: 'Profil',
   components: {
-    Header
+    Header,
+    Menu,
   },
   mounted: function (){
       console.log(this.$store.state.utilisateur);
@@ -51,6 +60,12 @@ export default {
       utilisateur: 'utilisateurInfo',
     })
   },
+  methods: {
+    logout: function () {
+      this.$store.commit('logout');
+      this.$router.push('/');
+    }
+  }
 }
 </script>
 

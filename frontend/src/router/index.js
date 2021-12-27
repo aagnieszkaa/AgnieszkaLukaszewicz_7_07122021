@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Signup from '../views/Signup.vue'
 import Profil from '../views/Profil.vue'
+import Memes from '../views/Memes.vue'
 
 const routes = [
   {
@@ -12,7 +13,13 @@ const routes = [
     path: '/profil',
     name: 'Profil',
     component: Profil
+  },
+  {
+    path: '/memes',
+    name: 'Memes',
+    component: Memes
   }
+
 
   
   /*{
