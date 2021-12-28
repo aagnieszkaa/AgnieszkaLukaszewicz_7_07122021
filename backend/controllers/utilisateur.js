@@ -60,3 +60,31 @@ exports.infos = (req, res, next) => {
     }
   );
 };
+/*
+exports.deleteUser = (req, res, next) => {
+  Utilisateur.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Objet modifié !'}))
+    .catch(error => res.status(400).json({ error }));
+};
+
+exports.modifyUser = (req, res, next) => {
+  //si le fichier est renseigne, le premier block, s'il n'est pas la, deuxieme block
+  const utilisateurObject = req.file ?
+    {
+      ...JSON.parse(req.body.utilisateur),
+      //ajout d'une image
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
+    } : { ...req.body };
+  Utilisateur.findOne({ _id: req.params.id })
+    .then(utilisateur => {
+      const filename = utilisateur.imageUrl.split('/images/')[1];
+      //supprimer l'image lors de la modification
+      fs.unlink(`images/${filename}`, () => {
+        //mettre à jour la sauce (remplacer le premier argument par le deuxième)
+        Utilisateur.updateOne({ _id: req.params.id }, { ...utilisateurObject, _id: req.params.id })
+          .then(() => res.status(200).json({ message: 'Utilisateur modifié !'}))
+          .catch(error => res.status(400).json({ error }));
+      });
+  })
+  .catch(error => res.status(500).json({ error }));
+};*/
