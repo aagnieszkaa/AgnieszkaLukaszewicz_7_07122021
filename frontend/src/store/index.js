@@ -63,14 +63,13 @@ export default createStore({
     signup: ({commit}, utilisateurInfo) => {
       commit('changeStatus', 'loading');
       return new Promise((resolve, reject) => {
-        commit;
         instance.post('/auth/signup', utilisateurInfo)
         .then(function (response) {
-          commit('changeStatus', 'created');
+          commit('changeStatus', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', 'error_signup');
+          commit('changeStatus', '');
           reject(error);
         })
       });
@@ -85,13 +84,13 @@ export default createStore({
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', 'error_login');
+          commit('changeStatus', '');
           reject(error);
         })
       });
     },
-    utilisateurInfo: ({commit}) => {
-      instance.get('/auth/infos')
+    utilisateurInfo: ({commit}, utilisateurId) => {
+      instance.get('/auth/infos/'+utilisateurId)
       .then(function (response) {
         commit('utilisateurInfo', response.data);
       })

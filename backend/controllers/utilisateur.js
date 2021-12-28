@@ -15,17 +15,22 @@ exports.signup = (req, res, next) => {
                 fonction: req.body.fonction
             })
             .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
-            .catch(error => res.status(400).json({ error }));
+            .catch(error => res.status(400).json({ error: 'Email déjà utilisé !' }))
         })
         .catch(error => res.status(500).json({ error }));
 };
 
 exports.login = (req, res, next) => {
-  Utilisateur.findOne({ email: req.body.email })
+  console.log(req.body);
+  db.Utilisateur.findOne({ where: { email: req.body.email } })
     .then(utilisateur => {
+      console.log(utilisateur);
       if (!utilisateur) {
         return res.status(404).json({ error: 'Utilisateur non trouvé !' });
       }
+     /* if (utilisateur.enabled == 0){
+        return res.status(404).json({ error: 'Votre compte est desactive !' });
+      }*/
       bcrypt.compare(req.body.mot_de_passe, utilisateur.mot_de_passe)
         .then(valid => {
           if (!valid) {
@@ -46,9 +51,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.infos = (req, res, next) => {
-  Utilisateur.findOne({
-    _id: req.params.id
-  }).then(
+  db.Utilisateur.findOne({ where: { id: req.params.id } }).then(
     (utilisateur) => {
       res.status(200).json(utilisateur);
     }
@@ -65,9 +68,15 @@ exports.deleteUser = (req, res, next) => {
   Utilisateur.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
     .then(() => res.status(200).json({ message: 'Objet modifié !'}))
     .catch(error => res.status(400).json({ error }));
-};
-
-exports.modifyUser = (req, res, next) => {
+};*/
+/*db.Utilisateur.findOne({ where: { id: req.params.id } })
+    .then(utilisateur => {
+        db.Utilisateur.update({ enabled: false }, { where: { id: req.params.id } })
+        .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
+        .catch(error => res.status(400).json({ error }))
+    })
+    .catch(error => res.status(500).json({ error }))
+/*exports.modifyUser = (req, res, next) => {
   //si le fichier est renseigne, le premier block, s'il n'est pas la, deuxieme block
   const utilisateurObject = req.file ?
     {

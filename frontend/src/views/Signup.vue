@@ -15,10 +15,13 @@
                     v-if="mode == 'signup'">
                         <b-form-input
                         id="input-nom"
-                        v-model="nom"
+                        v-model="state.nom"
                         type="text"
                         required>
                         </b-form-input>
+                        <span class="error" v-if="vSignup$.nom.$error">
+                          {{ vSignup$.nom.$errors[0].$message }}
+                        </span>
                     </b-form-group>
 
                     <b-form-group
@@ -28,10 +31,13 @@
                     v-if="mode == 'signup'">
                         <b-form-input
                         id="input-prenom"
-                        v-model="prenom"
+                        v-model="state.prenom"
                         type="text"
                         required>
                         </b-form-input>
+                        <span class="error" v-if="vSignup$.prenom.$error">
+                          {{ vSignup$.prenom.$errors[0].$message }}
+                        </span>
                     </b-form-group>
 
                     <b-form-group
@@ -40,10 +46,20 @@
                     class="mb-2">
                         <b-form-input
                         id="input-email"
-                        v-model="email"
+                        v-model="state.email"
                         type="email"
                         required>
                         </b-form-input>
+                        <div v-if="mode == 'signup'">
+                          <span class="error" v-if="vSignup$.email.$error">
+                            {{ vSignup$.email.$errors[0].$message }}
+                          </span>
+                        </div>
+                        <div v-else>
+                          <span class="error" v-if="vLogin$.email.$error">
+                            {{ vLogin$.email.$errors[0].$message }}
+                          </span>
+                        </div>
                     </b-form-group>
 
                     <b-form-group
@@ -52,10 +68,20 @@
                     class="mb-2">
                         <b-form-input
                         id="input-mot_de_passe"
-                        v-model="mot_de_passe"
+                        v-model="state.mot_de_passe"
                         type="password"
                         required>
                         </b-form-input>
+                        <div v-if="mode == 'signup'">
+                          <span class="error" v-if="vSignup$.mot_de_passe.$error">
+                            {{ vSignup$.mot_de_passe.$errors[0].$message }}
+                          </span>
+                        </div>
+                        <div v-else>
+                          <span class="error" v-if="vLogin$.mot_de_passe.$error">
+                            {{ vLogin$.mot_de_passe.$errors[0].$message }}
+                          </span>
+                        </div>
                     </b-form-group>
 
                     <b-form-group
@@ -76,19 +102,21 @@
                         <b-form-radio 
                         name="input-radio" 
                         value="0"
-                        v-model="fonction">
+                        v-model="state.fonction">
                         Chargé de la communication
                         </b-form-radio>
 
                         <b-form-radio 
                         name="input-radio" 
                         value="1"
-                        v-model="fonction">
+                        v-model="state.fonction">
                         Employée
                         </b-form-radio>
 
                     </b-form-group>
-
+                    <span class="error" v-if="vSignup$.fonction.$error">
+                          {{ vSignup$.fonction.$errors[0].$message }}
+                    </span>
                     <b-form-group
                     label="Mot de passe fourni par les RH :"
                     label-for="input-mot_de_passe_RH"
@@ -103,10 +131,9 @@
                     </b-form-group>
 
                     <b-button 
-                    type="submit" 
                     variant="primary"
                     v-if="mode == 'signup'"
-                    @click="signup()">Créez votre compte</b-button>
+                    @click="signup">Créez votre compte</b-button>
 
                     <b-button 
                     type="submit" 
@@ -114,8 +141,7 @@
                     v-else
                     @click="login()">Connectez-vous</b-button>
                 </b-form>
-                <p v-if="mode == 'login' && status == 'error_login'">Identifiants incorrects</p>
-                <p v-if="mode == 'signup' && status == 'error_signup'">Choisissez une autre adresse e-mail</p>
+                <span>{{ error }}</span>
             </b-row>
         </b-container>
         
@@ -127,17 +153,48 @@
 // @ is an alias to /src
 import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
+import useVuelidate from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
+import { reactive } from 'vue'
 
 export default {
   name: 'Signup',
   components: {
     Header
   },
+setup () {
+    const state = reactive({
+      nom: '',
+      prenom: '',
+      email: '',
+      mot_de_passe: '',
+      /*image_chemin: '',*/
+      fonction: '',
+    })
+    const rulesSignup = {
+      nom: { required },
+      prenom: { required },
+      email: { required, email },
+      mot_de_passe: { required },
+      /*image_chemin: { required },*/
+      fonction: { required },
+    }
+    const rulesLogin = {
+      email: { required, email },
+      mot_de_passe: { required },
+    }
+
+    const vSignup$ = useVuelidate(rulesSignup, state)
+    const vLogin$ = useVuelidate(rulesLogin, state)
+
+    return { state, vSignup$, vLogin$ }
+  },
   data: function () {
     return {
         mode: 'signup',
         fonction: 1,
         image_chemin: '',
+        error: '',
     }
   },
     mounted: function () {
@@ -148,7 +205,7 @@ export default {
   },
 computed: {
     optionCommunication: function () {
-      if (this.mode == 'signup' && this.fonction == 0) {
+      if (this.mode == 'signup' && this.state.fonction == 0) {
           return true;
       } else {
           return false;
@@ -168,31 +225,53 @@ computed: {
           let filename = files[0].name;
           this.image_chemin = filename;
       },
-      signup: function (){
-          const self = this;
-        this.$store.dispatch('signup', {
-            nom: this.nom,
-            prenom: this.prenom,
-            email: this.email,
-            mot_de_passe: this.mot_de_passe,
-            image_chemin: this.image_chemin,
-            fonction: this.fonction,
-        }).then(function (){
-            self.login();
-        }), function (error){
-            console.log(error);
+      submitFormSignup() {
+        this.vSignup$.$validate();
+        if(!this.vSignup$.$error) {
+          return true;
+        } else {
+          this.error = '';
+          return false;
         }
       },
+      submitFormLogin() {
+        this.vLogin$.$validate();
+        if(!this.vLogin$.$error) {
+          return true;
+        } else {
+          this.error = '';
+          return false;
+        }
+      },
+      signup: function (){
+          if(this.submitFormSignup()) {
+            const self = this;
+            this.$store.dispatch('signup', {
+              nom: this.state.nom,
+              prenom: this.state.prenom,
+              email: this.state.email,
+              mot_de_passe: this.state.mot_de_passe,
+              image_chemin: this.image_chemin,
+              fonction: this.state.fonction,
+            }).then(function (){
+                self.login();
+            }, function (error){
+                self.error = error.response.data.error;
+            })
+          }
+      },
     login: function () {
-      const self = this;
-      this.$store.dispatch('login', {
-        email: this.email,
-        mot_de_passe: this.mot_de_passe,
-      }).then(function () {
-        self.$router.push('/profil');
-      }, function (error) {
-        console.log(error);
-      })
+      if(this.submitFormLogin()) {
+        const self = this;
+        this.$store.dispatch('login', {
+          email: this.state.email,
+          mot_de_passe: this.state.mot_de_passe,
+        }).then(function () {
+          self.$router.push('/profil');
+        }, function (error) {
+          self.error = error.response.data.error;
+        })
+      }
     },
   }
 }

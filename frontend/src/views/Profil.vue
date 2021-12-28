@@ -24,7 +24,6 @@
                         >Modifier le compte</b-button>
 
                         <b-button 
-                        variant="primary"
                         class="offset-3 col-6 mt-4"
                         @click="logout()"
                         >Déconnexion</b-button>
@@ -53,7 +52,7 @@ export default {
       this.$router.push('/');
       return;
     }
-    this.$store.dispatch('utilisateurInfo');
+    this.$store.dispatch('utilisateurInfo', this.$store.state.utilisateur.utilisateurId);
   },
   computed: {
     ...mapState({
