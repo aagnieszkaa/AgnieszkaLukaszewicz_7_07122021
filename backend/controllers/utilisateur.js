@@ -4,15 +4,16 @@ const { Utilisateur } = require('../models');
 const db = require("../models");
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.mot_de_passe, 10)
+    const utilisateurObject = JSON.parse(req.body.utilisateur)
+    bcrypt.hash(utilisateurObject.mot_de_passe, 10)
         .then(hash => {
             db.Utilisateur.create({
-                nom: req.body.nom, //infos recues du frontend
-                prenom: req.body.prenom, 
-                email: req.body.email,
+                nom: utilisateurObject.nom, //infos recues du frontend
+                prenom: utilisateurObject.prenom, 
+                email: utilisateurObject.email,
                 mot_de_passe: hash,
-                image_chemin: req.body.image_chemin,
-                fonction: req.body.fonction
+                image_chemin: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+                fonction: utilisateurObject.fonction,
             })
             .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
             .catch(error => res.status(400).json({ error: 'Email déjà utilisé !' }))

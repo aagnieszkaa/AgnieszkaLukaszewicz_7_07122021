@@ -16,8 +16,7 @@
                         <b-form-input
                         id="input-nom"
                         v-model="state.nom"
-                        type="text"
-                        required>
+                        type="text">
                         </b-form-input>
                         <span class="error" v-if="vSignup$.nom.$error">
                           {{ vSignup$.nom.$errors[0].$message }}
@@ -32,8 +31,7 @@
                         <b-form-input
                         id="input-prenom"
                         v-model="state.prenom"
-                        type="text"
-                        required>
+                        type="text">
                         </b-form-input>
                         <span class="error" v-if="vSignup$.prenom.$error">
                           {{ vSignup$.prenom.$errors[0].$message }}
@@ -47,8 +45,7 @@
                         <b-form-input
                         id="input-email"
                         v-model="state.email"
-                        type="email"
-                        required>
+                        type="email">
                         </b-form-input>
                         <div v-if="mode == 'signup'">
                           <span class="error" v-if="vSignup$.email.$error">
@@ -69,8 +66,7 @@
                         <b-form-input
                         id="input-mot_de_passe"
                         v-model="state.mot_de_passe"
-                        type="password"
-                        required>
+                        type="password">
                         </b-form-input>
                         <div v-if="mode == 'signup'">
                           <span class="error" v-if="vSignup$.mot_de_passe.$error">
@@ -91,8 +87,11 @@
                     v-if="mode == 'signup'">
                         <input type="file" 
                         id="input-photo"
-                        @change="photoChange"
-                        required>
+                        accept="image/*"
+                        @change="photoChange">
+                        <span class="error" v-if="vSignup$.profil_image.$error">
+                          {{ vSignup$.profil_image.$errors[0].$message }}
+                        </span>
                     </b-form-group>
 
                     <b-form-group
@@ -112,11 +111,11 @@
                         v-model="state.fonction">
                         Employée
                         </b-form-radio>
-
-                    </b-form-group>
-                    <span class="error" v-if="vSignup$.fonction.$error">
+                      <span class="error" v-if="vSignup$.fonction.$error">
                           {{ vSignup$.fonction.$errors[0].$message }}
-                    </span>
+                      </span>
+                    </b-form-group>
+                    
                     <b-form-group
                     label="Mot de passe fourni par les RH :"
                     label-for="input-mot_de_passe_RH"
@@ -136,7 +135,6 @@
                     @click="signup">Créez votre compte</b-button>
 
                     <b-button 
-                    type="submit" 
                     variant="primary"
                     v-else
                     @click="login()">Connectez-vous</b-button>
@@ -170,6 +168,7 @@ setup () {
       mot_de_passe: '',
       /*image_chemin: '',*/
       fonction: '',
+      profil_image: null
     })
     const rulesSignup = {
       nom: { required },
@@ -178,6 +177,7 @@ setup () {
       mot_de_passe: { required },
       /*image_chemin: { required },*/
       fonction: { required },
+      profil_image: { required }
     }
     const rulesLogin = {
       email: { required, email },
@@ -192,8 +192,8 @@ setup () {
   data: function () {
     return {
         mode: 'signup',
-        fonction: 1,
-        image_chemin: '',
+        /*fonction: 1,
+        image_chemin: '',*/
         error: '',
     }
   },
@@ -205,7 +205,8 @@ setup () {
   },
 computed: {
     optionCommunication: function () {
-      if (this.mode == 'signup' && this.state.fonction == 0) {
+      const value = this.state.fonction;
+      if (this.mode == 'signup' && value == 0) {
           return true;
       } else {
           return false;
@@ -221,9 +222,7 @@ computed: {
           this.mode = 'signup';
       },
       photoChange: function (event) {
-          const files = event.target.files;
-          let filename = files[0].name;
-          this.image_chemin = filename;
+          this.state.profil_image = event.target.files[0];
       },
       submitFormSignup() {
         this.vSignup$.$validate();
@@ -243,22 +242,26 @@ computed: {
           return false;
         }
       },
-      signup: function (){
-          if(this.submitFormSignup()) {
-            const self = this;
-            this.$store.dispatch('signup', {
-              nom: this.state.nom,
-              prenom: this.state.prenom,
-              email: this.state.email,
-              mot_de_passe: this.state.mot_de_passe,
-              image_chemin: this.image_chemin,
-              fonction: this.state.fonction,
-            }).then(function (){
-                self.login();
-            }, function (error){
-                self.error = error.response.data.error;
-            })
+      signup: function () {
+        if(this.submitFormSignup()) {
+          const self = this;
+          let utilisateurObj = {
+            nom: this.state.nom,
+            prenom: this.state.prenom,
+            email: this.state.email,
+            mot_de_passe: this.state.mot_de_passe,
+            fonction: this.state.fonction
           }
+          const fd = new FormData();
+          fd.append('profil_image', this.state.profil_image);
+          fd.append('utilisateur', JSON.stringify(utilisateurObj));
+          this.$store.dispatch('signup', fd)
+          .then(function () {
+            self.login();
+          }, function (error) {
+            self.error = error.response.data.error;
+          })
+        }
       },
     login: function () {
       if(this.submitFormLogin()) {
@@ -286,3 +289,7 @@ body{
     color: blue;
 }
 </style>
+
+
+
+
