@@ -23,6 +23,7 @@
                         <b-button 
                         variant="primary"
                         class="offset-2 col-5"
+                        @click="editUser()"
                         >Modifier le compte</b-button>
 
                         <b-button 
@@ -72,6 +73,9 @@ export default {
     logout: function () {
       this.$store.commit('logout');
       this.$router.push('/');
+    },
+    editUser: function () {
+      this.$router.push('/editUser');
     },
     deleteUser: function () {
       const self = this;

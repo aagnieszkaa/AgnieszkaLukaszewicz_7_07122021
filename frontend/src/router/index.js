@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Signup from '../views/Signup.vue'
 import Profil from '../views/Profil.vue'
 import Memes from '../views/Memes.vue'
+import EditUser from '../views/EditUser.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/memes',
     name: 'Memes',
     component: Memes
+  },
+  {
+    path: '/editUser',
+    name: 'EditUser',
+    component: EditUser
   }
 
 
