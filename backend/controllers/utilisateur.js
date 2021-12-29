@@ -29,7 +29,7 @@ exports.login = (req, res, next) => {
         return res.status(404).json({ error: 'Utilisateur non trouvé !' });
       }
       if (utilisateur.enabled == 0){
-        return res.status(404).json({ error: 'Votre compte est desactivé !' });
+        return res.status(403).json({ error: 'Votre compte est desactivé !' });
       }else{
         bcrypt.compare(req.body.mot_de_passe, utilisateur.mot_de_passe)
         .then(valid => {
@@ -64,17 +64,6 @@ exports.infos = (req, res, next) => {
     }
   );
 };
-
-/*exports.deleteUser = (req, res, next) => {
-  db.Utilisateur.findOne({ where: { id: req.params.id } })
-    .then((utilisateur) => {
-
-        db.Utilisateur.update({ enabled: 0 })
-        .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
-        .catch(error => res.status(400).json({ error }))
-    })
-    .catch(error => res.status(500).json({ error }))
-  }*/
 
   exports.deleteUser = (req, res, next) => {
     db.Utilisateur.update(

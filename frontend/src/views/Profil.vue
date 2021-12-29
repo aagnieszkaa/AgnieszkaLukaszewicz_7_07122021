@@ -69,8 +69,7 @@ export default {
       const self = this;
       this.$store.dispatch('suppressionUtilisateur', this.$store.state.utilisateur.utilisateurId)
       .then(function () {
-        console.log('hello');
-        self.$router.push('/');
+        self.logout();
       })
     }
   }
