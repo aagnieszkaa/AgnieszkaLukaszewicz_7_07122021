@@ -28,10 +28,10 @@ exports.login = (req, res, next) => {
       if (!utilisateur) {
         return res.status(404).json({ error: 'Utilisateur non trouvé !' });
       }
-     /* if (utilisateur.enabled == 0){
-        return res.status(404).json({ error: 'Votre compte est desactive !' });
-      }*/
-      bcrypt.compare(req.body.mot_de_passe, utilisateur.mot_de_passe)
+      if (utilisateur.enabled == 0){
+        return res.status(404).json({ error: 'Votre compte est desactivé !' });
+      }else{
+        bcrypt.compare(req.body.mot_de_passe, utilisateur.mot_de_passe)
         .then(valid => {
           if (!valid) {
             return res.status(400).json({ error: 'Mot de passe incorrect !' });
@@ -46,6 +46,7 @@ exports.login = (req, res, next) => {
           });
         })
         .catch(error => res.status(500).json({ error }));
+      }
     })
     .catch(error => res.status(500).json({ error }));
 };
@@ -63,37 +64,33 @@ exports.infos = (req, res, next) => {
     }
   );
 };
-/*
-exports.deleteUser = (req, res, next) => {
-  Utilisateur.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-    .catch(error => res.status(400).json({ error }));
-};*/
-/*db.Utilisateur.findOne({ where: { id: req.params.id } })
-    .then(utilisateur => {
-        db.Utilisateur.update({ enabled: false }, { where: { id: req.params.id } })
+
+/*exports.deleteUser = (req, res, next) => {
+  db.Utilisateur.findOne({ where: { id: req.params.id } })
+    .then((utilisateur) => {
+
+        db.Utilisateur.update({ enabled: 0 })
         .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
         .catch(error => res.status(400).json({ error }))
     })
     .catch(error => res.status(500).json({ error }))
-/*exports.modifyUser = (req, res, next) => {
-  //si le fichier est renseigne, le premier block, s'il n'est pas la, deuxieme block
-  const utilisateurObject = req.file ?
-    {
-      ...JSON.parse(req.body.utilisateur),
-      //ajout d'une image
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
-    } : { ...req.body };
-  Utilisateur.findOne({ _id: req.params.id })
-    .then(utilisateur => {
-      const filename = utilisateur.imageUrl.split('/images/')[1];
-      //supprimer l'image lors de la modification
-      fs.unlink(`images/${filename}`, () => {
-        //mettre à jour la sauce (remplacer le premier argument par le deuxième)
-        Utilisateur.updateOne({ _id: req.params.id }, { ...utilisateurObject, _id: req.params.id })
-          .then(() => res.status(200).json({ message: 'Utilisateur modifié !'}))
-          .catch(error => res.status(400).json({ error }));
-      });
-  })
-  .catch(error => res.status(500).json({ error }));
-};*/
+  }*/
+
+  exports.deleteUser = (req, res, next) => {
+    db.Utilisateur.update(
+       {
+        enabled: 0
+       },
+       {
+          where: {
+             id: req.params.id,
+          },
+       }
+    )
+       .then((utilisateur) =>
+          res.status(201).json({ message: "Compte supprimé" })
+       )
+       .catch((error) => res.status(500).json(error));
+ };
+
+

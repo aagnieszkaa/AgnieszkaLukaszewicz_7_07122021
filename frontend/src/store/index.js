@@ -37,6 +37,7 @@ export default createStore({
       mot_de_passe: '',
       image_chemin: '',
       fonction: '',
+      enabled: '',
     },
   },
   mutations: {
@@ -57,7 +58,10 @@ export default createStore({
         token: '',
       }
       localStorage.removeItem('utilisateur');
-    }
+    },
+    DELETE_USER: function (state) {
+      state.utilisateurInfo = { ...state.utilisateurInfo, enabled: 0 };
+    },
   },
   actions: {
     signup: ({commit}, utilisateurInfo) => {
@@ -90,13 +94,23 @@ export default createStore({
       });
     },
     utilisateurInfo: ({commit}, utilisateurId) => {
+      console.log(utilisateurId);
       instance.get('/auth/infos/'+utilisateurId)
       .then(function (response) {
         commit('utilisateurInfo', response.data);
       })
       .catch(function () {
       });
-    }
+    },
+    suppressionUtilisateur: ({commit}, utilisateurId) => {
+      console.log(utilisateurId);
+      instance.put('/auth/deleteUser/'+utilisateurId)
+      .then(function (response) {
+        commit('DELETE_USER', response.data);
+      })
+      .catch(function () {
+      });
+    },
   },
   modules: {
   }

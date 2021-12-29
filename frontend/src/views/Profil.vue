@@ -16,6 +16,7 @@
                         <b-button 
                         variant="primary"
                         class="col-5"
+                        @click="deleteUser()"
                         >Supprimer le compte</b-button>
 
                         <b-button 
@@ -47,7 +48,7 @@ export default {
     Menu,
   },
   mounted: function (){
-      console.log(this.$store.state.utilisateur);
+    console.log(this.$store.state.utilisateur);
     if (this.$store.state.utilisateur.utilisateurId == -1) {
       this.$router.push('/');
       return;
@@ -63,6 +64,14 @@ export default {
     logout: function () {
       this.$store.commit('logout');
       this.$router.push('/');
+    },
+    deleteUser: function () {
+      const self = this;
+      this.$store.dispatch('suppressionUtilisateur', this.$store.state.utilisateur.utilisateurId)
+      .then(function () {
+        console.log('hello');
+        self.$router.push('/');
+      })
     }
   }
 }
