@@ -10,7 +10,8 @@
                     img-top
                     class="mb-2 offset-3 col-6">
                     <b-card-title>{{utilisateur.prenom}} {{utilisateur.nom}}</b-card-title>
-                    <b-card-text>{{utilisateur.fonction}}</b-card-text>
+                    <b-card-text v-if="chargeCommunication">Chargé de la communication</b-card-text>
+                    <b-card-text v-else>Employée</b-card-text>
                     <b-card-text>{{utilisateur.email}}</b-card-text>
                     <b-row>
                         <b-button 
@@ -48,16 +49,23 @@ export default {
     Menu,
   },
   mounted: function (){
-    console.log(this.$store.state.utilisateur);
-    if (this.$store.state.utilisateur.utilisateurId == -1) {
+    if (this.utilisateur_token_id.utilisateurId == -1) {
       this.$router.push('/');
       return;
     }
-    this.$store.dispatch('utilisateurInfo', this.$store.state.utilisateur.utilisateurId);
+    this.$store.dispatch('utilisateurInfo', this.utilisateur_token_id.utilisateurId);
   },
   computed: {
+    chargeCommunication: function () {
+      if (this.utilisateur.fonction == false) {
+          return true;
+      } else {
+          return false;
+      }
+    },
     ...mapState({
       utilisateur: 'utilisateurInfo',
+      utilisateur_token_id: 'utilisateur',
     })
   },
   methods: {
@@ -67,7 +75,7 @@ export default {
     },
     deleteUser: function () {
       const self = this;
-      this.$store.dispatch('suppressionUtilisateur', this.$store.state.utilisateur.utilisateurId)
+      this.$store.dispatch('suppressionUtilisateur', this.utilisateur_token_id.utilisateurId)
       .then(function () {
         self.logout();
       })
