@@ -14,7 +14,7 @@ router.post('/signup', multer, utilisateurCtrl.signup);
 router.post('/login', maxLoggin.limiter, utilisateurCtrl.login);
 /*router.put('/modifyUser', multer, utilisateurCtrl.modifyUser);*/
 router.put('/deleteUser/:id', auth, utilisateurCtrl.deleteUser);
-router.get('/infos/:id', auth, utilisateurCtrl.infos);
+router.get('/infos/:id', auth, multer, utilisateurCtrl.infos);
 
 
 module.exports = router;

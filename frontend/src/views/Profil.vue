@@ -5,7 +5,7 @@
         <b-container class="mt-4">
             <b-row>
                 <b-card
-                    img-src="https://picsum.photos/600/300/?image=25"
+                    :img-src="utilisateur.image_chemin"
                     img-alt="Photo de profil"
                     img-top
                     class="mb-2 offset-3 col-6">
