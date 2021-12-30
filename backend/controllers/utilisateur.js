@@ -1,11 +1,14 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Utilisateur } = require('../models');
 const db = require("../models");
+const fs = require('fs');
 
 exports.signup = (req, res, next) => {
     const utilisateurObject = JSON.parse(req.body.utilisateur)
-    bcrypt.hash(utilisateurObject.mot_de_passe, 10)
+    db.Utilisateur.findOne({ where: { email: utilisateurObject.email }})
+    .then(utilisateur => {
+      if(!utilisateur){
+        bcrypt.hash(utilisateurObject.mot_de_passe, 10)
         .then(hash => {
             db.Utilisateur.create({
                 nom: utilisateurObject.nom, //infos recues du frontend
@@ -16,8 +19,13 @@ exports.signup = (req, res, next) => {
                 fonction: utilisateurObject.fonction,
             })
             .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
-            .catch(error => res.status(400).json({ error: 'Email déjà utilisé !' }))
+            .catch(error => res.status(400).json({ error }))
         })
+      } else {
+        fs.unlink(`images/${req.file.filename}`, () => {});
+        return res.status(400).json({ error: 'Email déjà utilisé !' });
+      }
+    })
         .catch(error => res.status(500).json({ error }));
 };
 
@@ -92,7 +100,7 @@ exports.infos = (req, res, next) => {
 
       image_chemin: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
     } : { ...req.body };
-  Utilisateur.findOne({ where: { id: req.params.id } })
+  db.Utilisateur.findOne({ where: { id: req.params.id } })
     .then(utilisateur => {
       const filename = utilisateur.image_chemin.split('/images/')[1];
 
