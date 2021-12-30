@@ -84,3 +84,23 @@ exports.infos = (req, res, next) => {
  };
 
 
+
+ exports.modifyUser = (req, res, next) => {
+  const utilisateurObject = req.file ?
+    {
+      ...JSON.parse(req.body.utilisateur),
+
+      image_chemin: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
+    } : { ...req.body };
+  Utilisateur.findOne({ where: { id: req.params.id } })
+    .then(utilisateur => {
+      const filename = utilisateur.image_chemin.split('/images/')[1];
+
+      fs.unlink(`images/${filename}`, () => {
+
+        db.Utilisateur.update({ ...utilisateurObject }, { where: { id: req.params.id } })
+        .then(utilisateur => res.status(200).json({ utilisateur }))
+      });
+  })
+  .catch(error => res.status(500).json({ error }));
+};

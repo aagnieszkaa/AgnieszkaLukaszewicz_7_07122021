@@ -30,7 +30,7 @@ export default createStore({
   state: {
     status: '',
     utilisateur: utilisateur,
-  utilisateurInfo: {
+    utilisateurInfo: {
       nom:'',
       prenom: '',
       email: '',
@@ -105,6 +105,14 @@ export default createStore({
       instance.put('/auth/deleteUser/'+utilisateurId)
       .then(function (response) {
         commit('DELETE_USER', response.data);
+      })
+      .catch(function () {
+      });
+    },
+    modificationUtilisateur: ({commit}, utilisateurId, utilisateurInfo) => {
+      instance.put('/auth/modifyUser/'+utilisateurId, utilisateurInfo)
+      .then(function (response) {
+        commit('utilisateurInfo', response.data);
       })
       .catch(function () {
       });

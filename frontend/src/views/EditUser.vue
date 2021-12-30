@@ -13,6 +13,7 @@
                     class="mb-2 mt-4">
                         <b-form-input
                         id="input-nom"
+                        v-model="state.nom"
                         type="text">
                         </b-form-input>
                     </b-form-group>
@@ -23,18 +24,23 @@
                     class="mb-2">
                         <b-form-input
                         id="input-prenom"
+                        v-model="state.prenom"
                         type="text">
                         </b-form-input>
                     </b-form-group>
 
                     <b-form-group
                     label="E-mail :"
-                    label-for="input-prenom"
+                    label-for="input-email"
                     class="mb-2">
                         <b-form-input
                         id="input-email"
+                        v-model="state.email"
                         type="email">
                         </b-form-input>
+                        <span class="error" v-if="vModification$.email.$error">
+                            {{ vModification$.email.$errors[0].$message }}
+                        </span>
                     </b-form-group>
 
                     <b-form-group
@@ -43,6 +49,7 @@
                     class="mb-2">
                         <b-form-input
                         id="input-mot_de_passe"
+                        v-model="state.mot_de_passe"
                         type="password">
                         </b-form-input>
                     </b-form-group>
@@ -53,10 +60,13 @@
                     class="mb-2">
                         <input type="file" 
                         id="input-photo"
-                        accept="image/*">
+                        accept="image/*"
+                        @change="photoChange">
                     </b-form-group>
 
-                    <b-button variant="primary">Enregistrer</b-button>
+                    <b-button 
+                    variant="primary"
+                    @click="modifyUser()">Enregistrer</b-button>
                 </b-form>
                 <span>{{ error }}</span>
             </b-row>
@@ -68,6 +78,10 @@
 
 import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
+import { mapState } from 'vuex';
+import useVuelidate from '@vuelidate/core'
+import { email } from '@vuelidate/validators'
+import { reactive } from 'vue'
 
 
 export default {
@@ -76,6 +90,64 @@ export default {
     Header,
     Menu
   },
+  setup () {
+    const state = reactive({
+      nom: '',
+      prenom: '',
+      email: '',
+      mot_de_passe: '',
+      profil_image: null
+    })
+    const rulesModification = {
+      email: { email },
+    }
+    const vModification$ = useVuelidate(rulesModification, state)
+    return { state, vModification$ }
+  },
+    data: function () {
+    return {
+        error: '',
+    }
+  },
+  computed: {
+    ...mapState({
+      utilisateur_token_id: 'utilisateur',
+    })
+  },
+  
+    methods: {  
+        submitFormModification() {
+            this.vModification$.$validate();
+            if(!this.vModification$.$error) {
+            return true;
+            } else {
+            this.error = '';
+            return false;
+            }
+        },
+        photoChange: function (event) {
+          this.state.profil_image = event.target.files[0];
+        },
+        modifyUser: function () {
+            if(this.submitFormModification()) {
+            const self = this;
+            let utilisateurObj = {
+                nom: this.state.nom,
+                prenom: this.state.prenom,
+                email: this.state.email,
+                mot_de_passe: this.state.mot_de_passe,
+            }
+            const fd = new FormData();
+            fd.append('profil_image', this.state.profil_image);
+            fd.append('utilisateur', JSON.stringify(utilisateurObj));
+            this.$store.dispatch('modificationUtilisateur', this.utilisateur_token_id.utilisateurId, fd)
+            .then(function () {
+                self.$router.push('/profil');
+            }, function (error) {
+                self.error = error.response.data.error;
+            })}
+        },       
+    },
 }
 </script>
 

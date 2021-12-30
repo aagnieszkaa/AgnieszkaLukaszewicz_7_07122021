@@ -40,7 +40,7 @@
 
                     <b-form-group
                     label="E-mail :"
-                    label-for="input-prenom"
+                    label-for="input-email"
                     class="mb-2">
                         <b-form-input
                         id="input-email"
