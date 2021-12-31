@@ -15,11 +15,11 @@
                     v-if="mode == 'signup'">
                         <b-form-input
                         id="input-nom"
-                        v-model="state.nom"
+                        v-model="state.input.nom"
                         type="text">
                         </b-form-input>
-                        <span class="error" v-if="vSignup$.nom.$error">
-                          {{ vSignup$.nom.$errors[0].$message }}
+                        <span class="error" v-if="vSignup$.input.nom.$error">
+                          {{ vSignup$.input.nom.$errors[0].$message }}
                         </span>
                     </b-form-group>
 
@@ -30,11 +30,11 @@
                     v-if="mode == 'signup'">
                         <b-form-input
                         id="input-prenom"
-                        v-model="state.prenom"
+                        v-model="state.input.prenom"
                         type="text">
                         </b-form-input>
-                        <span class="error" v-if="vSignup$.prenom.$error">
-                          {{ vSignup$.prenom.$errors[0].$message }}
+                        <span class="error" v-if="vSignup$.input.prenom.$error">
+                          {{ vSignup$.input.prenom.$errors[0].$message }}
                         </span>
                     </b-form-group>
 
@@ -44,17 +44,17 @@
                     class="mb-2">
                         <b-form-input
                         id="input-email"
-                        v-model="state.email"
+                        v-model="state.input.email"
                         type="email">
                         </b-form-input>
                         <div v-if="mode == 'signup'">
-                          <span class="error" v-if="vSignup$.email.$error">
-                            {{ vSignup$.email.$errors[0].$message }}
+                          <span class="error" v-if="vSignup$.input.email.$error">
+                            {{ vSignup$.input.email.$errors[0].$message }}
                           </span>
                         </div>
                         <div v-else>
-                          <span class="error" v-if="vLogin$.email.$error">
-                            {{ vLogin$.email.$errors[0].$message }}
+                          <span class="error" v-if="vLogin$.input.email.$error">
+                            {{ vLogin$.input.email.$errors[0].$message }}
                           </span>
                         </div>
                     </b-form-group>
@@ -65,17 +65,17 @@
                     class="mb-2">
                         <b-form-input
                         id="input-mot_de_passe"
-                        v-model="state.mot_de_passe"
+                        v-model="state.input.mot_de_passe"
                         type="password">
                         </b-form-input>
                         <div v-if="mode == 'signup'">
-                          <span class="error" v-if="vSignup$.mot_de_passe.$error">
-                            {{ vSignup$.mot_de_passe.$errors[0].$message }}
+                          <span class="error" v-if="vSignup$.input.mot_de_passe.$error">
+                            {{ vSignup$.input.mot_de_passe.$errors[0].$message }}
                           </span>
                         </div>
                         <div v-else>
-                          <span class="error" v-if="vLogin$.mot_de_passe.$error">
-                            {{ vLogin$.mot_de_passe.$errors[0].$message }}
+                          <span class="error" v-if="vLogin$.input.mot_de_passe.$error">
+                            {{ vLogin$.input.mot_de_passe.$errors[0].$message }}
                           </span>
                         </div>
                     </b-form-group>
@@ -100,19 +100,19 @@
                     v-if="mode == 'signup'">
                         <b-form-radio 
                         name="input-radio" 
-                        value="0"
-                        v-model="state.fonction">
+                        value="1"
+                        v-model="state.input.fonction">
                         Chargé de la communication
                         </b-form-radio>
 
                         <b-form-radio 
                         name="input-radio" 
-                        value="1"
-                        v-model="state.fonction">
+                        value="0"
+                        v-model="state.input.fonction">
                         Employée
                         </b-form-radio>
-                      <span class="error" v-if="vSignup$.fonction.$error">
-                          {{ vSignup$.fonction.$errors[0].$message }}
+                      <span class="error" v-if="vSignup$.input.fonction.$error">
+                          {{ vSignup$.input.fonction.$errors[0].$message }}
                       </span>
                     </b-form-group>
                     
@@ -123,10 +123,12 @@
                     v-if="mode == 'signup' && optionCommunication">
                         <b-form-input
                         id="input-mot_de_passe_RH"
-                        v-model="mot_de_passe_RH"
-                        type="password"
-                        :required="optionCommunication">
+                        v-model="state.input.mot_de_passe_RH"
+                        type="password">
                         </b-form-input>
+                        <span class="error" v-if="vSignup$.input.mot_de_passe_RH.$error">
+                          {{ vSignup$.input.mot_de_passe_RH.$errors[0].$message }}
+                      </span>
                     </b-form-group>
 
                     <b-button 
@@ -152,8 +154,8 @@
 import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
 import useVuelidate from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
-import { reactive } from 'vue'
+import { required, email, requiredIf } from '@vuelidate/validators'
+import { reactive, computed } from 'vue'
 
 export default {
   name: 'Signup',
@@ -162,27 +164,37 @@ export default {
   },
 setup () {
     const state = reactive({
-      nom: '',
-      prenom: '',
-      email: '',
-      mot_de_passe: '',
-      /*image_chemin: '',*/
-      fonction: '',
+      input: {
+        nom: '',
+        prenom: '',
+        email: '',
+        mot_de_passe: '',
+        fonction: '',
+        mot_de_passe_RH: '',
+      },
       profil_image: null
     })
-    const rulesSignup = {
-      nom: { required },
-      prenom: { required },
-      email: { required, email },
-      mot_de_passe: { required },
-      /*image_chemin: { required },*/
-      fonction: { required },
-      profil_image: { required }
-    }
-    const rulesLogin = {
-      email: { required, email },
-      mot_de_passe: { required },
-    }
+
+    const rulesSignup = computed(() => {
+      return {
+        input: {
+        nom: { required },
+        prenom: { required },
+        email: { required, email },
+        mot_de_passe: { required },
+        fonction: { required },
+        mot_de_passe_RH: { required: requiredIf(state.input.fonction == 1) }
+      },
+      profil_image: { required }}
+    })
+
+    const rulesLogin = computed(() => {
+      return {
+        input: {
+          email: { required, email },
+          mot_de_passe: { required },
+      }}
+    })
 
     const vSignup$ = useVuelidate(rulesSignup, state)
     const vLogin$ = useVuelidate(rulesLogin, state)
@@ -192,8 +204,6 @@ setup () {
   data: function () {
     return {
         mode: 'signup',
-        /*fonction: 1,
-        image_chemin: '',*/
         error: '',
     }
   },
@@ -205,11 +215,11 @@ setup () {
   },
 computed: {
     optionCommunication: function () {
-      const value = this.state.fonction;
+      const value = this.state.input.fonction;
       if (this.mode == 'signup' && value == 0) {
-          return true;
-      } else {
           return false;
+      } else {
+          return true;
       }
     },
     ...mapState(['status'])   
@@ -245,16 +255,9 @@ computed: {
       signup: function () {
         if(this.submitFormSignup()) {
           const self = this;
-          let utilisateurObj = {
-            nom: this.state.nom,
-            prenom: this.state.prenom,
-            email: this.state.email,
-            mot_de_passe: this.state.mot_de_passe,
-            fonction: this.state.fonction
-          }
           const fd = new FormData();
           fd.append('profil_image', this.state.profil_image);
-          fd.append('utilisateur', JSON.stringify(utilisateurObj));
+          fd.append('utilisateur', JSON.stringify(this.state.input));
           this.$store.dispatch('signup', fd)
           .then(function () {
             self.login();
@@ -267,8 +270,8 @@ computed: {
       if(this.submitFormLogin()) {
         const self = this;
         this.$store.dispatch('login', {
-          email: this.state.email,
-          mot_de_passe: this.state.mot_de_passe,
+          email: this.state.input.email,
+          mot_de_passe: this.state.input.mot_de_passe,
         }).then(function () {
           self.$router.push('/profil');
         }, function (error) {

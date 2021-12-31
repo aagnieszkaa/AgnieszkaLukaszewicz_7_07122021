@@ -80,7 +80,7 @@ import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
 import { mapState } from 'vuex';
 import useVuelidate from '@vuelidate/core'
-import { email } from '@vuelidate/validators'
+import { required, email } from '@vuelidate/validators'
 import { reactive } from 'vue'
 
 
@@ -99,7 +99,7 @@ export default {
       profil_image: null
     })
     const rulesModification = {
-      email: { email },
+      email: { required, email },
     }
     const vModification$ = useVuelidate(rulesModification, state)
     return { state, vModification$ }

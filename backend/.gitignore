@@ -1,3 +1,6 @@
 node_modules
-images/*
-!images/.gitkeep
+
+images/post/*
+!images/post/.gitkeep
+images/profil/*
+!images/profil/.gitkeep

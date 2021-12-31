@@ -2,12 +2,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require("../models");
 const fs = require('fs');
+const dbConfig = require("../config/db.config.js");
 
 exports.signup = (req, res, next) => {
     const utilisateurObject = JSON.parse(req.body.utilisateur)
     db.Utilisateur.findOne({ where: { email: utilisateurObject.email }})
     .then(utilisateur => {
       if(!utilisateur){
+        if(utilisateurObject.fonction == 1 && utilisateurObject.mot_de_passe_RH != dbConfig.mot_de_passe_RH) {
+          fs.unlink(`images/profil/${req.file.filename}`, () => {});
+          return res.status(400).json({ error: 'Mot de passe RH incorrect !' });
+        }
         bcrypt.hash(utilisateurObject.mot_de_passe, 10)
         .then(hash => {
             db.Utilisateur.create({
@@ -15,14 +20,14 @@ exports.signup = (req, res, next) => {
                 prenom: utilisateurObject.prenom, 
                 email: utilisateurObject.email,
                 mot_de_passe: hash,
-                image_chemin: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+                image_chemin: `${req.protocol}://${req.get('host')}/images/profil/${req.file.filename}`,
                 fonction: utilisateurObject.fonction,
             })
             .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
             .catch(error => res.status(400).json({ error }))
         })
       } else {
-        fs.unlink(`images/${req.file.filename}`, () => {});
+        fs.unlink(`images/profil/${req.file.filename}`, () => {});
         return res.status(400).json({ error: 'Email déjà utilisé !' });
       }
     })
@@ -92,7 +97,7 @@ exports.infos = (req, res, next) => {
  };
 
 
-
+/*
  exports.modifyUser = (req, res, next) => {
   const utilisateurObject = req.file ?
     {
@@ -111,4 +116,41 @@ exports.infos = (req, res, next) => {
       });
   })
   .catch(error => res.status(500).json({ error }));
+};*/
+
+/*
+exports.modifyUser = (req, res, next) => {
+  const utilisateurObject = JSON.parse(req.file);
+  db.Utilisateur.findOne({ where: { id: req.params.id }})
+      bcrypt.hash(utilisateurObject.mot_de_passe, 10)
+      .then(hash => {
+        fs.unlink(`images/${req.file.filename}`, () => {
+          db.Utilisateur.update({
+            ...utilisateurObject,
+              mot_de_passe: hash,
+              image_chemin: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+          })
+          .then(() => res.status(200).json({ message: 'Utilisateur modifié !' }))
+          .catch(error => res.status(400).json({ error }))
+        });   
+      })
+      .catch(error => res.status(500).json({ error }));
 };
+*/
+
+exports.modifyUser = (req, res, next) => {
+  const utilisateurObject = req.file ?
+    {
+      ...JSON.parse(req.body.utilisateur),
+      image_chemin: `${req.protocol}://${req.get('host')}/images/profil/${req.file.filename}`,
+    } : { ...req.body };
+  db.Utilisateur.findOne({ where: { id: req.params.id } })
+    .then(utilisateur => {
+      const filename = utilisateur.image_chemin.split('/images/')[1];
+      fs.unlink(`images/${filename}`, () => {
+        db.Utilisateur.update({ id: req.params.id }, { ...utilisateurObject, id: req.params.id })
+        .then(utilisateur => res.status(200).json({ utilisateur }))
+      });
+  })
+  .catch(error => res.status(500).json({ error }));
+}

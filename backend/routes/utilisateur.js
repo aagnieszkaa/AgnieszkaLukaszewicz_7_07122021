@@ -10,12 +10,10 @@ const multer = require('../middleware/multer-config');
 
 
 
-router.post('/signup', multer, utilisateurCtrl.signup);
+router.post('/signup', multer.single("profil_image"), utilisateurCtrl.signup);
 router.post('/login', maxLoggin.limiter, utilisateurCtrl.login);
 router.put('/deleteUser/:id', auth, utilisateurCtrl.deleteUser);
-router.put('/modifyUser/:id', auth, multer, utilisateurCtrl.modifyUser);
-router.get('/infos/:id', auth, multer, utilisateurCtrl.infos);
-
-
+router.put('/modifyUser/:id', auth, multer.single("profil_image"), utilisateurCtrl.modifyUser);
+router.get('/infos/:id', auth, utilisateurCtrl.infos);
 
 module.exports = router;
