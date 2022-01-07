@@ -20,6 +20,7 @@
 	
 	// LES MODELS
 	db.Utilisateur = require("./utilisateur.model.js")(sequelize, Sequelize);
+	db.Publication = require("./publication.model.js")(sequelize, Sequelize);
 	// ...
 	
 	module.exports = db;

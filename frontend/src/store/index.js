@@ -116,8 +116,20 @@ export default createStore({
       })
       .catch(function () {
       });
-
-
+    },
+    publicationContent: ({commit}, publicationInfo) => {
+      commit('changeStatus', 'loading');
+      return new Promise((resolve, reject) => {
+        instance.post('/publications/savePublication', publicationInfo)
+        .then(function (response) {
+          commit('changeStatus', '');
+          resolve(response);
+        })
+        .catch(function (error) {
+          commit('changeStatus', '');
+          reject(error);
+        })
+      });
     },
   },
   modules: {

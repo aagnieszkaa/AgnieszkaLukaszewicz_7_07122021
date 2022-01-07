@@ -96,48 +96,6 @@ exports.infos = (req, res, next) => {
        .catch((error) => res.status(500).json(error));
  };
 
-
-/*
- exports.modifyUser = (req, res, next) => {
-  const utilisateurObject = req.file ?
-    {
-      ...JSON.parse(req.body.utilisateur),
-
-      image_chemin: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
-    } : { ...req.body };
-  db.Utilisateur.findOne({ where: { id: req.params.id } })
-    .then(utilisateur => {
-      const filename = utilisateur.image_chemin.split('/images/')[1];
-
-      fs.unlink(`images/${filename}`, () => {
-
-        db.Utilisateur.update({ ...utilisateurObject }, { where: { id: req.params.id } })
-        .then(utilisateur => res.status(200).json({ utilisateur }))
-      });
-  })
-  .catch(error => res.status(500).json({ error }));
-};*/
-
-/*
-exports.modifyUser = (req, res, next) => {
-  const utilisateurObject = JSON.parse(req.file);
-  db.Utilisateur.findOne({ where: { id: req.params.id }})
-      bcrypt.hash(utilisateurObject.mot_de_passe, 10)
-      .then(hash => {
-        fs.unlink(`images/${req.file.filename}`, () => {
-          db.Utilisateur.update({
-            ...utilisateurObject,
-              mot_de_passe: hash,
-              image_chemin: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-          })
-          .then(() => res.status(200).json({ message: 'Utilisateur modifié !' }))
-          .catch(error => res.status(400).json({ error }))
-        });   
-      })
-      .catch(error => res.status(500).json({ error }));
-};
-*/
-
 exports.modifyUser = (req, res, next) => {
   const utilisateurObject = req.file ?
     {

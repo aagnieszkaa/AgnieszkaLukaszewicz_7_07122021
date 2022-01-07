@@ -4,7 +4,8 @@ const path = require('path');
 
 
 const utilisateurRoutes = require('./routes/utilisateur');
-//const sauceRoutes = require('./routes/sauce');*/
+const publicationRoutes = require('./routes/publication');
+
 const app = express();
 
 // CORS
@@ -21,7 +22,7 @@ var corsOptions = {
 	
 	// USE ROUTES
     app.use('/api/auth', utilisateurRoutes);
-    //app.use('/api/sauces', sauceRoutes);
+    app.use('/api/publications', publicationRoutes);
 	// simple route de test
 	app.get("/", (req, res) => {
 	    res.json({ message: "Welcome to my application." });
