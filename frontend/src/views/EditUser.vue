@@ -13,18 +13,20 @@
                     class="mb-2 mt-4">
                         <b-form-input
                         id="input-nom"
-                        v-model="state.nom"
+                        v-model="state.input.nom"
                         type="text">
+                        
                         </b-form-input>
                     </b-form-group>
-
+                    <p>{{ utilisateurInfo.nom }}</p>
+                    <p>{{this.utilisateurInfo.nom}}</p>
                     <b-form-group
                     label="Prénom :"
                     label-for="input-prenom"
                     class="mb-2">
                         <b-form-input
                         id="input-prenom"
-                        v-model="state.prenom"
+                        v-model="state.input.prenom"
                         type="text">
                         </b-form-input>
                     </b-form-group>
@@ -35,12 +37,12 @@
                     class="mb-2">
                         <b-form-input
                         id="input-email"
-                        v-model="state.email"
+                        v-model="state.input.email"
                         type="email">
                         </b-form-input>
-                        <span class="error" v-if="vModification$.email.$error">
+                        <!--<span class="error" v-if="vModification$.email.$error">
                             {{ vModification$.email.$errors[0].$message }}
-                        </span>
+                        </span>-->
                     </b-form-group>
 
                     <b-form-group
@@ -49,7 +51,7 @@
                     class="mb-2">
                         <b-form-input
                         id="input-mot_de_passe"
-                        v-model="state.mot_de_passe"
+                        v-model="state.input.mot_de_passe"
                         type="password">
                         </b-form-input>
                     </b-form-group>
@@ -76,12 +78,12 @@
 
 <script>
 
+import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
-import { mapState } from 'vuex';
 import useVuelidate from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 
 
 export default {
@@ -90,17 +92,35 @@ export default {
     Header,
     Menu
   },
+  computed: {
+    ...mapState({
+      utilisateur_token_id: 'utilisateur',
+      utilisateurInfo: 'utilisateurInfo',
+    })
+  },
+    mounted: function (){
+    this.$store.dispatch('utilisateurInfo', this.utilisateur_token_id.utilisateurId);
+  },
   setup () {
     const state = reactive({
-      nom: '',
-      prenom: '',
-      email: '',
-      mot_de_passe: '',
+      input: {
+        nom: '',
+        prenom: '',
+        email: '',
+        mot_de_passe: '',
+      },
       profil_image: null
     })
-    const rulesModification = {
-      email: { required, email },
-    }
+    const rulesModification = computed(() => {
+      return {
+        input: {
+        nom: { required },
+        prenom: { required },
+        email: { required, email },
+        mot_de_passe: { required },
+      },
+      profil_image: { required }}
+    })
     const vModification$ = useVuelidate(rulesModification, state)
     return { state, vModification$ }
   },
@@ -109,11 +129,7 @@ export default {
         error: '',
     }
   },
-  computed: {
-    ...mapState({
-      utilisateur_token_id: 'utilisateur',
-    })
-  },
+
   
     methods: {  
         submitFormModification() {
@@ -131,15 +147,9 @@ export default {
         modifyUser: function () {
             if(this.submitFormModification()) {
             const self = this;
-            let utilisateurObj = {
-                nom: this.state.nom,
-                prenom: this.state.prenom,
-                email: this.state.email,
-                mot_de_passe: this.state.mot_de_passe,
-            }
             const fd = new FormData();
             fd.append('profil_image', this.state.profil_image);
-            fd.append('utilisateur', JSON.stringify(utilisateurObj));
+            fd.append('utilisateur', JSON.stringify(this.state.input));
             this.$store.dispatch('modificationUtilisateur', this.utilisateur_token_id.utilisateurId, fd)
             .then(function () {
                 self.$router.push('/profil');
