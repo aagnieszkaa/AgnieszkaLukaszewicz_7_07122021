@@ -5,7 +5,7 @@ const db = require("../models");
 exports.savePublication = (req, res, next) => {
     //conversion de la chaîne en objet JSON
     const publicationObject = JSON.parse(req.body.publication);
-    console.log(publicationObject);
+    console.log(req.body.publication);
     //créer une instance du modèle sauce
     db.Publication.create({
         creatorId: publicationObject.creatorId, //infos recues du frontend

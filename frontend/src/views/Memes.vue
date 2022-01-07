@@ -120,6 +120,7 @@ setup () {
         textContent: '',
         creatorId: '',
       },
+      post_image: null
     })
 
     const rulesPublication = computed(() => {
@@ -127,7 +128,8 @@ setup () {
         input: {
         title: { required },
         textContent: { required },
-      }}
+      },
+      post_image: { required }}
     })
 
     const vPublication$ = useVuelidate(rulesPublication, state)
@@ -137,13 +139,12 @@ setup () {
   data: function () {
     return {
         error: '',
-        post_image: null,
     }
   },
 
   methods: {
       photoChange: function (event) {
-          this.post_image = event.target.files[0];
+          this.state.post_image = event.target.files[0];        
       },
       submitFormPublication() {
         this.vPublication$.$validate();
@@ -158,7 +159,7 @@ setup () {
         if(this.submitFormPublication()) {
           const self = this;
           const fd = new FormData();
-          fd.append('imageContent', this.post_image);
+          fd.append('post_image', this.state.post_image);
           fd.append('publication', JSON.stringify(this.state.input));
           this.$store.dispatch('publicationContent', fd)
           .then(function () {

@@ -119,6 +119,7 @@ export default createStore({
     },
     publicationContent: ({commit}, publicationInfo) => {
       commit('changeStatus', 'loading');
+      console.log(publicationInfo);
       return new Promise((resolve, reject) => {
         instance.post('/publications/savePublication', publicationInfo)
         .then(function (response) {
