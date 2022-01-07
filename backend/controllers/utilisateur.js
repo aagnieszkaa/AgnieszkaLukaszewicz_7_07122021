@@ -143,14 +143,19 @@ exports.modifyUser = (req, res, next) => {
     {
       ...JSON.parse(req.body.utilisateur),
       image_chemin: `${req.protocol}://${req.get('host')}/images/profil/${req.file.filename}`,
-    } : { ...req.body };
+    } : { ...JSON.parse(req.body.utilisateur) };
+    console.log(utilisateurObject);
+
   db.Utilisateur.findOne({ where: { id: req.params.id } })
     .then(utilisateur => {
-      const filename = utilisateur.image_chemin.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
-        db.Utilisateur.update({ id: req.params.id }, { ...utilisateurObject, id: req.params.id })
-        .then(utilisateur => res.status(200).json({ utilisateur }))
-      });
+      const filename = utilisateur.image_chemin.split('/images/profil/')[1];
+      if(req.file) {
+        fs.unlink(`images/profil/${filename}`, () => {
+        });
+      }    
+      db.Utilisateur.update({ ...utilisateurObject }, { where: { id: req.params.id } })
+      .then(utilisateur => res.status(200).json({ utilisateur }))
+      .catch(error => res.status(400).json({ error }))
   })
   .catch(error => res.status(500).json({ error }));
 }

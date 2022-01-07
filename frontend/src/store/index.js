@@ -109,13 +109,15 @@ export default createStore({
       .catch(function () {
       });
     },
-    modificationUtilisateur: ({commit}, utilisateurId, utilisateurInfo) => {
-      instance.put('/auth/modifyUser/'+utilisateurId, utilisateurInfo)
+    modificationUtilisateur: ({commit}, utilisateur) => {
+      instance.put('/auth/modifyUser/'+utilisateur.utilisateurId, utilisateur.utilisateurAll)
       .then(function (response) {
         commit('utilisateurInfo', response.data);
       })
       .catch(function () {
       });
+
+
     },
   },
   modules: {

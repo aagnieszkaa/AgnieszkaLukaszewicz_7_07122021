@@ -14,12 +14,12 @@
                         <b-form-input
                         id="input-nom"
                         v-model="state.input.nom"
-                        type="text">
-                        
+                        type="text"> 
                         </b-form-input>
+                        <span class="error" v-if="vModification$.input.nom.$error">
+                            {{ vModification$.input.nom.$errors[0].$message }}
+                        </span>
                     </b-form-group>
-                    <p>{{ utilisateurInfo.nom }}</p>
-                    <p>{{this.utilisateurInfo.nom}}</p>
                     <b-form-group
                     label="Prénom :"
                     label-for="input-prenom"
@@ -29,32 +29,21 @@
                         v-model="state.input.prenom"
                         type="text">
                         </b-form-input>
+                        <span class="error" v-if="vModification$.input.prenom.$error">
+                            {{ vModification$.input.prenom.$errors[0].$message }}
+                        </span>
                     </b-form-group>
 
-                    <b-form-group
-                    label="E-mail :"
-                    label-for="input-email"
-                    class="mb-2">
-                        <b-form-input
-                        id="input-email"
-                        v-model="state.input.email"
-                        type="email">
-                        </b-form-input>
-                        <!--<span class="error" v-if="vModification$.email.$error">
-                            {{ vModification$.email.$errors[0].$message }}
-                        </span>-->
-                    </b-form-group>
-
-                    <b-form-group
-                    label="Mot de passe :"
-                    label-for="input-mot_de_passe"
-                    class="mb-2">
-                        <b-form-input
-                        id="input-mot_de_passe"
-                        v-model="state.input.mot_de_passe"
-                        type="password">
-                        </b-form-input>
-                    </b-form-group>
+                    <b-row>
+                        <img
+                        class="col-5"
+                        ref="photoProfil"
+                        :src="utilisateurInfo.image_chemin" />
+                        <img
+                        class="col-5"
+                        ref="preview"
+                        src="" />
+                    </b-row>
 
                     <b-form-group
                     label="Photo :"
@@ -65,6 +54,7 @@
                         accept="image/*"
                         @change="photoChange">
                     </b-form-group>
+                    
 
                     <b-button 
                     variant="primary"
@@ -82,7 +72,7 @@ import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
 import useVuelidate from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+import { required } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
 
@@ -99,27 +89,28 @@ export default {
     })
   },
     mounted: function (){
-    this.$store.dispatch('utilisateurInfo', this.utilisateur_token_id.utilisateurId);
+    const self = this;
+    this.$store.dispatch('utilisateurInfo', this.utilisateur_token_id.utilisateurId)
+    .then(function () {
+      self.state.input.prenom = self.utilisateurInfo.prenom;
+      self.state.input.nom = self.utilisateurInfo.nom;
+    }, function () {
+      self.logout();
+    })
   },
   setup () {
     const state = reactive({
       input: {
         nom: '',
         prenom: '',
-        email: '',
-        mot_de_passe: '',
       },
-      profil_image: null
     })
     const rulesModification = computed(() => {
       return {
         input: {
         nom: { required },
         prenom: { required },
-        email: { required, email },
-        mot_de_passe: { required },
-      },
-      profil_image: { required }}
+      }}
     })
     const vModification$ = useVuelidate(rulesModification, state)
     return { state, vModification$ }
@@ -127,9 +118,9 @@ export default {
     data: function () {
     return {
         error: '',
+        profil_image: null,
     }
   },
-
   
     methods: {  
         submitFormModification() {
@@ -142,15 +133,22 @@ export default {
             }
         },
         photoChange: function (event) {
-          this.state.profil_image = event.target.files[0];
-        },
+            this.profil_image = event.target.files[0];
+            let reader = new FileReader();
+            reader.onload = () => {
+                this.$refs.preview.src = reader.result;
+                this.$refs.photoProfil.style.display = "none";
+            }
+            reader.readAsDataURL(this.profil_image);
+                },
         modifyUser: function () {
             if(this.submitFormModification()) {
+                
             const self = this;
             const fd = new FormData();
-            fd.append('profil_image', this.state.profil_image);
+            fd.append('profil_image', this.profil_image);
             fd.append('utilisateur', JSON.stringify(this.state.input));
-            this.$store.dispatch('modificationUtilisateur', this.utilisateur_token_id.utilisateurId, fd)
+            this.$store.dispatch('modificationUtilisateur', {utilisateurAll: fd, utilisateurId: self.utilisateur_token_id.utilisateurId})
             .then(function () {
                 self.$router.push('/profil');
             }, function (error) {

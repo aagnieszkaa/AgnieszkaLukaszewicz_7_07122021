@@ -59,9 +59,9 @@ export default {
   computed: {
     chargeCommunication: function () {
       if (this.utilisateur.fonction == false) {
-          return true;
-      } else {
           return false;
+      } else {
+          return true;
       }
     },
     ...mapState({
