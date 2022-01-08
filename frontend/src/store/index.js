@@ -158,6 +158,19 @@ export default createStore({
         })
       });
     },
+    suppressionPublication: ({commit}, publicationId) => {
+      return new Promise((resolve, reject) => {
+        instance.delete('/publications/deletePublication/'+publicationId)
+        .then(function (response) {
+          commit('changeStatus', '');
+          resolve(response);
+        })
+        .catch(function (error) {
+          commit('changeStatus', '');
+          reject(error);
+        }); 
+      })
+    },
   },
   modules: {
   }

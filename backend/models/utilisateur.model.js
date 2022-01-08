@@ -35,5 +35,12 @@ module.exports = (sequelize, Sequelize) => {
         freezeTableName: true
       }
     );
+/*
+    Utilisateur.associate = models => {
+      Utilisateur.hasMany(models.Publication, {
+        onDelete: "cascade"
+      });
+    };
+*/
     return Utilisateur;
 };

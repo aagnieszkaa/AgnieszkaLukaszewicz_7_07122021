@@ -21,5 +21,16 @@ module.exports = (sequelize, Sequelize) => {
         freezeTableName: true
       }
     );
+/*
+    Publication.associate = models => {
+      Publication.belongsTo(models.Utilisateur, {
+        foreignKey: {
+          type: Sequelize.INTEGER,
+          name: 'creatorId',
+          allowNull: false
+        }
+      });
+    };
+*/
     return Publication;
 };
