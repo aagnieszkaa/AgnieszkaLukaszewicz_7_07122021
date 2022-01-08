@@ -48,48 +48,31 @@
                 </b-form>
             </b-row>
 
-            <b-row>
-                <b-card
-                    img-src="https://picsum.photos/600/300/?image=25"
-                    img-alt="Photo de profil"
-                    img-top
-                    class="mb-2 offset-3 col-6">
-                    <b-card-title>Créé par : Agnieszka Lukaszewicz</b-card-title>
-                    <b-card-text>27/12/2021</b-card-text>
-                    <b-card-text>Description</b-card-text>
-                    <b-row>
-                        <b-button 
-                        variant="primary"
-                        class="col-5"
-                        >Supprimer</b-button>
 
-                        <b-button 
-                        variant="primary"
-                        class="offset-2 col-5"
-                        >Modifier</b-button>
-                    </b-row>
+            <ul>
+              <li v-for="item in publications" v-bind:key="item" class="listOfMemes">
+                <b-card
+                    :img-src="item.post_image"
+                    img-alt="Meme"
+                    img-top
+                    class="mb-2 offset-2 col-8">
+                      <b-card-title>{{item.title}}</b-card-title>
+                      <b-card-text>auteur : {{ utilisateurInfo.prenom }} {{ utilisateurInfo.nom }}</b-card-text>
+                      <b-card-text>{{item.textContent}}</b-card-text>
+                      <b-card-footer>
+                        <li>Créé le : {{item.createdAt}}</li>
+                        <li>Dernière modification : {{item.updatedAt}}</li>
+                      </b-card-footer>   
                 </b-card>
-            </b-row>
+              </li>
+            </ul>
+
+
         </b-container>
     </div> 
 </template>
-<!--
-<script>
-// @ is an alias to /src
-import Header from '@/components/Header.vue'
-import Menu from '@/components/Menu.vue'
-
-export default {
-  name: 'Memes',
-  components: {
-    Header,
-    Menu,
-  },
-}
-</script>-->
 
 <script>
-// @ is an alias to /src
 import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
@@ -112,6 +95,8 @@ export default {
     mounted: function (){
         const self = this;
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
+        self.$store.dispatch('utilisateurInfo', self.utilisateur_token_id.utilisateurId);
+        self.refreshData();
     },
 setup () {
     const state = reactive({
@@ -139,6 +124,7 @@ setup () {
   data: function () {
     return {
         error: '',
+        publications: [],
     }
   },
 
@@ -169,11 +155,23 @@ setup () {
           })
         }
       },
-    
-  }
+      refreshData: function () {
+        const self = this;
+        self.$store.dispatch('showPublications')
+        .then(function (response) {
+            self.publications = response.data;
+            self.$router.push('/memes');
+          }, function (error) {
+            self.error = error.response.data.error;
+          })
+        }
+      },
 }
 </script>
 
 <style lang="scss" scoped>
+li {
+  list-style-type: none;
+}
 
 </style>

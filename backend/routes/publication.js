@@ -10,6 +10,7 @@ const multer = require('../middleware/multer-config');
 
 
 router.post('/savePublication', auth, multer.single("post_image"), publicationCtrl.savePublication);
+router.get('/getListOfMemes', auth, publicationCtrl.getListOfMemes);
 /*
 router.post('/login', maxLoggin.limiter, utilisateurCtrl.login);
 router.put('/deleteUser/:id', auth, utilisateurCtrl.deleteUser);

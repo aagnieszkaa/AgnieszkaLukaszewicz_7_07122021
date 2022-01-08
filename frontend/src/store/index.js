@@ -144,6 +144,20 @@ export default createStore({
         })
       });
     },
+    showPublications: ({commit}) => {
+      commit('changeStatus', 'loading');
+      return new Promise((resolve, reject) => {
+        instance.get('/publications/getListOfMemes')
+        .then(function (response) {
+          commit('changeStatus', '');
+          resolve(response);
+        })
+        .catch(function (error) {
+          commit('changeStatus', '');
+          reject(error);
+        })
+      });
+    },
   },
   modules: {
   }
