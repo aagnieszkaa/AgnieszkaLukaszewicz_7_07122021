@@ -89,6 +89,7 @@ export default {
     })
   },
     mounted: function (){
+    this.$refs.preview.style.display = "none";
     const self = this;
     this.$store.dispatch('utilisateurInfo', this.utilisateur_token_id.utilisateurId)
     .then(function () {
@@ -137,6 +138,7 @@ export default {
             let reader = new FileReader();
             reader.onload = () => {
                 this.$refs.preview.src = reader.result;
+                this.$refs.preview.style.display = "";
                 this.$refs.photoProfil.style.display = "none";
             }
             reader.readAsDataURL(this.profil_image);

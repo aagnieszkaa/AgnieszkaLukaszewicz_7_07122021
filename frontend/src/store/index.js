@@ -94,28 +94,40 @@ export default createStore({
       });
     },
     utilisateurInfo: ({commit}, utilisateurId) => {
-      instance.get('/auth/infos/'+utilisateurId)
-      .then(function (response) {
-        commit('utilisateurInfo', response.data);
+      return new Promise((resolve, reject) => {
+        instance.get('/auth/infos/'+utilisateurId)
+        .then(function (response) {
+          commit('utilisateurInfo', response.data);
+          resolve(response);
+        })
+        .catch(function (error) {
+          reject(error);
+        }); 
       })
-      .catch(function () {
-      });
     },
     suppressionUtilisateur: ({commit}, utilisateurId) => {
-      instance.put('/auth/deleteUser/'+utilisateurId)
-      .then(function (response) {
-        commit('DELETE_USER', response.data);
+      return new Promise((resolve, reject) => {
+        instance.put('/auth/deleteUser/'+utilisateurId)
+        .then(function (response) {
+          commit('DELETE_USER', response.data);
+          resolve(response);
+        })
+        .catch(function (error) {
+          reject(error);
+        }); 
       })
-      .catch(function () {
-      });
     },
     modificationUtilisateur: ({commit}, utilisateur) => {
-      instance.put('/auth/modifyUser/'+utilisateur.utilisateurId, utilisateur.utilisateurAll)
-      .then(function (response) {
-        commit('utilisateurInfo', response.data);
+      return new Promise((resolve, reject) => {
+        instance.put('/auth/modifyUser/'+utilisateur.utilisateurId, utilisateur.utilisateurAll)
+        .then(function (response) {
+          commit('utilisateurInfo', response.data);
+          resolve(response);
+        })
+        .catch(function (error) {
+          reject(error);
+        }); 
       })
-      .catch(function () {
-      });
     },
     publicationContent: ({commit}, publicationInfo) => {
       commit('changeStatus', 'loading');

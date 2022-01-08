@@ -10,7 +10,7 @@ exports.savePublication = (req, res, next) => {
     db.Publication.create({
         creatorId: publicationObject.creatorId, //infos recues du frontend
         title: publicationObject.title, 
-        imageContent: `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`,
+        post_image: `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`,
         textContent: publicationObject.textContent,
     })
 
