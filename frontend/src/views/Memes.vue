@@ -149,6 +149,7 @@ setup () {
           fd.append('publication', JSON.stringify(this.state.input));
           this.$store.dispatch('publicationContent', fd)
           .then(function () {
+            self.refreshData();
             self.$router.push('/memes');
           }, function (error) {
             self.error = error.response.data.error;
@@ -160,7 +161,6 @@ setup () {
         self.$store.dispatch('showPublications')
         .then(function (response) {
             self.publications = response.data;
-            self.$router.push('/memes');
           }, function (error) {
             self.error = error.response.data.error;
           })
