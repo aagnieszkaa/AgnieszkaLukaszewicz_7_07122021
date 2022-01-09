@@ -23,10 +23,7 @@ var corsOptions = {
 	// USE ROUTES
     app.use('/api/auth', utilisateurRoutes);
     app.use('/api/publications', publicationRoutes);
-	// simple route de test
-	app.get("/", (req, res) => {
-	    res.json({ message: "Welcome to my application." });
-});
+
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));

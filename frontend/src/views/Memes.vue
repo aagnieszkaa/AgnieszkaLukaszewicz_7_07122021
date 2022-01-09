@@ -48,30 +48,13 @@
                 </b-form>
             </b-row>
 
-
             <ul>
               <li v-for="item in publications" v-bind:key="item" class="listOfMemes">
-                <b-card
-                    :img-src="item.post_image"
-                    img-alt="Meme"
-                    img-top
-                    class="mb-2 offset-2 col-8">
-                      <b-card-title>{{item.title}}</b-card-title>
-                      <b-card-text>auteur : {{ this.utilisateurInfo.prenom }} {{ this.utilisateurInfo.nom }}</b-card-text>
-                      <b-card-text>{{item.textContent}}</b-card-text>
-                      <b-card-footer>
-                        <li>Créé le : {{item.createdAt}}</li>
-                        <li>Dernière modification : {{item.updatedAt}}</li>
-                        <b-button 
-                        variant="primary"
-                        @click="deletePost(item.id)">
-                        Supprimer</b-button>
-                      </b-card-footer>   
-                </b-card>
+                <Meme
+                  :publication="item">
+                </Meme>
               </li>
             </ul>
-
-
         </b-container>
     </div> 
 </template>
@@ -80,6 +63,7 @@
   import { mapState } from 'vuex';
   import Header from '@/components/Header.vue'
   import Menu from '@/components/Menu.vue'
+  import Meme from '@/components/Meme.vue'
   import useVuelidate from '@vuelidate/core'
   import { required } from '@vuelidate/validators'
   import { reactive, computed } from 'vue'
@@ -88,44 +72,45 @@ export default {
   components: {
     Header,
     Menu,
+    Meme,
   },
   computed: {
     ...mapState({
       utilisateur_token_id: 'utilisateur',
       utilisateurInfo: 'utilisateurInfo',
+      publications: 'publications',
     })
   },
     mounted: function (){
         const self = this;
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
         self.$store.dispatch('utilisateurInfo', self.utilisateur_token_id.utilisateurId);
-        self.refreshData();
+        self.$store.dispatch('showPublications');
     },
-setup () {
-    const state = reactive({
-      input: {
-        title: '',
-        textContent: '',
-        creatorId: '',
-      },
-      post_image: null
-    })
-    const rulesPublication = computed(() => {
-      return {
+  setup () {
+      const state = reactive({
         input: {
-        title: { required },
-        textContent: { required },
-      },
-      post_image: { required }}
-    })
-    const vPublication$ = useVuelidate(rulesPublication, state)
-    return { state, vPublication$ }
-  },
-  data: function () {
-    return {
-        error: '',
-        publications: [],
-    }
+          title: '',
+          textContent: '',
+          creatorId: '',
+        },
+        post_image: null
+      })
+      const rulesPublication = computed(() => {
+        return {
+          input: {
+          title: { required },
+          textContent: { required },
+        },
+        post_image: { required }}
+      })
+      const vPublication$ = useVuelidate(rulesPublication, state)
+      return { state, vPublication$ }
+    },
+    data: function () {
+      return {
+          error: '',
+      }
   },
   methods: {
       photoChange: function (event) {
@@ -143,6 +128,7 @@ setup () {
       createPost: function () {
         if(this.submitFormPublication()) {
           const self = this;
+          console.log(self.publications);
           const fd = new FormData();
           fd.append('post_image', this.state.post_image);
           fd.append('publication', JSON.stringify(this.state.input));
@@ -154,21 +140,11 @@ setup () {
           })
         }
       },
-      deletePost: function (id) {
-          const self = this;
-          console.log(id);
-          this.$store.dispatch('suppressionPublication', id)
-          .then(function () {
-            self.refreshData();
-          }, function (error) {
-            self.error = error.response.data.error;
-          })
-      },
       refreshData: function () {
         const self = this;
         self.$store.dispatch('showPublications')
         .then(function (response) {
-            self.publications = response.data;
+            console.log(response);
           }, function (error) {
             self.error = error.response.data.error;
           })

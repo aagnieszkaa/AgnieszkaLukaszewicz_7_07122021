@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require("../models");
 const fs = require('fs');
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require("../config/config.json");
 
 exports.signup = (req, res, next) => {
     const utilisateurObject = JSON.parse(req.body.utilisateur)
@@ -78,7 +78,7 @@ exports.infos = (req, res, next) => {
     }
   );
 };
-
+//on peut inclure toutes les publications
   exports.deleteUser = (req, res, next) => {
     db.Utilisateur.update(
        {

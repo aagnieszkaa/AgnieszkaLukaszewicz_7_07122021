@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Utilisateur = sequelize.define("utilisateur", {
+    const Utilisateur = sequelize.define('Utilisateur', {
       nom: {
         type: Sequelize.STRING(100),
         allowNull: false
@@ -32,15 +32,13 @@ module.exports = (sequelize, Sequelize) => {
       }
     },
       {
-        freezeTableName: true
+        tableName: 'utilisateur'
       }
     );
-/*
     Utilisateur.associate = models => {
       Utilisateur.hasMany(models.Publication, {
         onDelete: "cascade"
       });
     };
-*/
     return Utilisateur;
 };

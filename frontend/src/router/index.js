@@ -3,6 +3,7 @@ import Signup from '../views/Signup.vue'
 import Profil from '../views/Profil.vue'
 import Memes from '../views/Memes.vue'
 import EditUser from '../views/EditUser.vue'
+import EditPublication from '../views/EditPublication.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/editUser',
     name: 'EditUser',
     component: EditUser
+  },
+  {
+    path: '/editPublication',
+    name: 'EditPublication',
+    component: EditPublication
   }
 
 

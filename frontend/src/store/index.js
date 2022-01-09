@@ -31,14 +31,8 @@ export default createStore({
     status: '',
     utilisateur: utilisateur,
     utilisateurInfo: {
-      nom:'',
-      prenom: '',
-      email: '',
-      mot_de_passe: '',
-      image_chemin: '',
-      fonction: '',
-      enabled: '',
     },
+    publications: []
   },
   mutations: {
     changeStatus: function(state, status) {
@@ -61,6 +55,9 @@ export default createStore({
     },
     DELETE_USER: function (state) {
       state.utilisateurInfo = { ...state.utilisateurInfo, enabled: 0 };
+    },
+    SET_PUBLICATIONS: function (state, publications) {
+      state.publications = publications;
     },
   },
   actions: {
@@ -150,6 +147,7 @@ export default createStore({
         instance.get('/publications/getListOfMemes')
         .then(function (response) {
           commit('changeStatus', '');
+          commit('SET_PUBLICATIONS', response.data);
           resolve(response);
         })
         .catch(function (error) {
@@ -171,6 +169,18 @@ export default createStore({
         }); 
       })
     },
+    /*
+    modificationPublication: ({commit}, publication) => {
+      return new Promise((resolve, reject) => {
+        instance.put('/auth/modifyPublication/'+publication.id, publication)
+        .then(function (response) {
+          resolve(response);
+        })
+        .catch(function (error) {
+          reject(error);
+        }); 
+      })
+    },*/
   },
   modules: {
   }

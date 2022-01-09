@@ -1,9 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Publication = sequelize.define("publication", {
-      creatorId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
+    const Publication = sequelize.define("Publication", {
       title: {
         type: Sequelize.STRING(100),
         allowNull: false
@@ -18,19 +14,15 @@ module.exports = (sequelize, Sequelize) => {
       }
     },
       {
-        freezeTableName: true
+        tableName: 'publication'
       }
     );
-/*
     Publication.associate = models => {
       Publication.belongsTo(models.Utilisateur, {
         foreignKey: {
-          type: Sequelize.INTEGER,
-          name: 'creatorId',
           allowNull: false
         }
       });
     };
-*/
     return Publication;
 };
