@@ -20,7 +20,6 @@
         class="mt-2"
         @click="editPublication()">
         Modifier</b-button>
-
         </b-card-footer>   
     </b-card> 
 </template>

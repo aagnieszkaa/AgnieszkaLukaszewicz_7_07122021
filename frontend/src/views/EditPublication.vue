@@ -39,12 +39,12 @@
                         accept="image/*"
                         @change="photoChange">
                     </b-form-group>
-
+<!--
                     <b-button 
                     variant="primary"
                     @click="editPost()">
                     Modifier</b-button>
-
+-->
                 </b-form>
             </b-row>
     </div>
@@ -74,7 +74,6 @@ export default {
     })
   },
   mounted: function () {
-
     console.log(this.publications);
   },
   setup () {

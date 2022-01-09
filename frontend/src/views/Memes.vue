@@ -49,7 +49,7 @@
             </b-row>
 
             <ul>
-              <li v-for="item in publications" v-bind:key="item" class="listOfMemes">
+              <li v-for="item in publications" v-bind:key="item">
                 <Meme
                   :publication="item">
                 </Meme>
