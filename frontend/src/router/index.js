@@ -27,7 +27,7 @@ const routes = [
     component: EditUser
   },
   {
-    path: '/editPublication',
+    path: '/editPublication/:postId',
     name: 'EditPublication',
     component: EditPublication
   }

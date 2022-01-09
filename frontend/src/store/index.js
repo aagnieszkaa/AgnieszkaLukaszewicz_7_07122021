@@ -169,18 +169,20 @@ export default createStore({
         }); 
       })
     },
-    /*
+    
     modificationPublication: ({commit}, publication) => {
       return new Promise((resolve, reject) => {
-        instance.put('/auth/modifyPublication/'+publication.id, publication)
+        instance.put('/auth/modifyPublication/'+publication.publicationId, publication.publicationAll)
         .then(function (response) {
+          commit('changeStatus', '');
           resolve(response);
         })
         .catch(function (error) {
+          commit('changeStatus', '');
           reject(error);
         }); 
       })
-    },*/
+    },
   },
   modules: {
   }

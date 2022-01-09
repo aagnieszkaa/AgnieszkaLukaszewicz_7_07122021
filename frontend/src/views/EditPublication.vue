@@ -39,12 +39,12 @@
                         accept="image/*"
                         @change="photoChange">
                     </b-form-group>
-<!--
+
                     <b-button 
                     variant="primary"
                     @click="editPost()">
                     Modifier</b-button>
--->
+
                 </b-form>
             </b-row>
     </div>
@@ -60,8 +60,6 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
-
-
 export default {
   name: 'EditPublication',
   components: {
@@ -75,6 +73,7 @@ export default {
   },
   mounted: function () {
     console.log(this.publications);
+
   },
   setup () {
     const state = reactive({
@@ -113,26 +112,23 @@ export default {
           return false;
         }
     },
-    /*
+  
     editPost: function () {
+      console.log(this.$route.params.postId);
       if(this.submitFormModification()) {
         const self = this;
         const fd = new FormData();
-        fd.append('post_image', this.state.post_image);
+        fd.append('post_image', JSON.stringify(this.state.post_image));
         fd.append('publication', JSON.stringify(this.state.input));
-        this.$store.dispatch('modificationPublication', fd)
-        //this.$store.dispatch('modificationPublication', {publicationAll: fd, utilisateurId: self.utilisateur_token_id.utilisateurId})
+        this.$store.dispatch('modificationPublication', {publicationAll: fd, publicationId: self.$route.params.postId})
         .then(function () {
-          //self.refreshData();
-          console.log('ok');
-          //self.$router.push('/memes');
+          self.$router.push('/memes');
           console.log('ok');
         }, function (error) {
           self.error = error.response.data.error;
         })
       }
     },
-    */
   }
 }
   

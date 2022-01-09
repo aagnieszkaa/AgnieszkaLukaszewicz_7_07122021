@@ -59,7 +59,7 @@ export default {
             })
         },
         editPublication: function () {
-            this.$router.push('/editPublication');
+            this.$router.push(`/editPublication/${this.publication.id}`);
       },
     },
 }
