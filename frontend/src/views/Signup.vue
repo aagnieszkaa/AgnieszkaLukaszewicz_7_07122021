@@ -207,9 +207,9 @@ setup () {
         error: '',
     }
   },
-    mounted: function () {
+  mounted: function () {
     if (this.$store.state.utilisateur.utilisateurId != -1) {
-      this.$router.push('/profil');
+      this.$router.push(`/profil/${this.utilisateur_token_id.utilisateurId}`);
       return ;
     }
   },
@@ -222,7 +222,12 @@ computed: {
           return true;
       }
     },
-    ...mapState(['status'])   
+    //...mapState(['status'])  
+    ...mapState({
+        utilisateurInfo: 'utilisateurInfo',
+        utilisateur_token_id: 'utilisateur',
+        status: 'status'
+    }) 
   },
   methods: {
       switchToConnexion: function () {
@@ -273,7 +278,7 @@ computed: {
           email: this.state.input.email,
           mot_de_passe: this.state.input.mot_de_passe,
         }).then(function () {
-          self.$router.push('/profil');
+          self.$router.push(`/profil/${self.utilisateur_token_id.utilisateurId}`);
         }, function (error) {
           self.error = error.response.data.error;
         })

@@ -50,11 +50,12 @@ export default {
     Menu,
   },
   mounted: function (){
+    const self = this;
     if (this.utilisateur_token_id.utilisateurId == -1) {
       this.$router.push('/');
       return;
     }
-    this.$store.dispatch('utilisateurInfo', this.utilisateur_token_id.utilisateurId);
+    self.$store.dispatch('utilisateurInfo', self.$route.params.id);
   },
   computed: {
     chargeCommunication: function () {

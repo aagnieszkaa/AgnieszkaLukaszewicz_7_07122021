@@ -5,7 +5,7 @@
     img-top
     class="mb-2 offset-2 col-8">
         <b-card-title>{{publication.title}}</b-card-title>
-        <b-card-text>auteur : {{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</b-card-text>
+        <b-card-text>auteur : <span @click="goToProfile()">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</span></b-card-text>
         <b-card-text>{{publication.textContent}}</b-card-text>
         <b-card-footer>
         <li>Créé le : {{publication.createdAt}}</li>
@@ -67,12 +67,18 @@ export default {
         },
         editPublication: function () {
             this.$router.push(`/editPublication/${this.publication.id}`);
-      },
+        },
+        goToProfile: function () {
+            this.$router.push(`/profil/${this.publication.Utilisateur.id}`);
+        },
+        
     },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+span {
+    color: blue;
+}
 </style>

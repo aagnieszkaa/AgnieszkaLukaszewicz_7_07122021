@@ -6,14 +6,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'Menu',
+  computed: {
+    ...mapState({
+      utilisateur_token_id: 'utilisateur',
+    })
+  },
   methods: {
     memesPush: function () {
       this.$router.push('/memes');
     },
     profilPush: function () {
-      this.$router.push('/profil');
+      const self = this;
+      self.$router.push(`/profil/${self.utilisateur_token_id.utilisateurId}`);
     }
   }
 }
