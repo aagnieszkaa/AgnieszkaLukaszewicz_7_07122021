@@ -42,8 +42,15 @@
 
                     <b-button 
                     variant="primary"
+                    class="m-3"
                     @click="editPost()">
                     Modifier</b-button>
+
+                    <b-button 
+                    variant="primary"
+                    class="m-3"
+                    @click="abandon()">Abandonner</b-button>
+
                 </b-form>
             </b-row>
     </div>
@@ -108,7 +115,6 @@ export default {
           return false;
         }
     },
-  
     editPost: function () {
       if(this.submitFormModification()) {
         const self = this;
@@ -124,6 +130,9 @@ export default {
         })
       }
     },
+    abandon: function () {
+        this.$router.push('/memes');
+    }, 
   }
 }
   

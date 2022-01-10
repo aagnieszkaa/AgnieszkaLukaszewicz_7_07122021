@@ -58,7 +58,14 @@
 
                     <b-button 
                     variant="primary"
+                    class="m-3"
                     @click="modifyUser()">Enregistrer</b-button>
+
+                    <b-button 
+                    variant="primary"
+                    class="m-3"
+                    @click="abandon()">Abandonner</b-button>
+
                 </b-form>
                 <span>{{ error }}</span>
             </b-row>
@@ -142,10 +149,9 @@ export default {
                 this.$refs.photoProfil.style.display = "none";
             }
             reader.readAsDataURL(this.profil_image);
-                },
+        },
         modifyUser: function () {
-            if(this.submitFormModification()) {
-                
+            if(this.submitFormModification()) {   
             const self = this;
             const fd = new FormData();
             fd.append('profil_image', this.profil_image);
@@ -156,7 +162,10 @@ export default {
             }, function (error) {
                 self.error = error.response.data.error;
             })}
-        },       
+        }, 
+      abandon: function () {
+        this.$router.push('/profil');
+      },      
     },
 }
 </script>

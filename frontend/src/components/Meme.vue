@@ -11,11 +11,13 @@
         <li>Créé le : {{publication.createdAt}}</li>
         <li>Dernière modification : {{publication.updatedAt}}</li>
         <b-button 
+        v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
         variant="primary"
         @click="deletePost(publication.id)">
         Supprimer</b-button><br>
 
         <b-button 
+        v-if="publication.UtilisateurId === utilisateurInfo.id"
         variant="primary"
         class="mt-2"
         @click="editPublication()">
@@ -25,7 +27,7 @@
 </template>
 
 <script>
-//import { mapState } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
     name: 'Meme',
@@ -38,6 +40,11 @@ export default {
         return {
             error: '',
         }
+    },
+    computed: {
+        ...mapState({
+        utilisateurInfo: 'utilisateurInfo',
+        })
     },
     methods: {
         deletePost: function (id) {
