@@ -64,7 +64,46 @@ exports.modifyPublication = (req, res, next) => {
   })
   .catch(error => res.status(500).json({ error }));
 }
+/*
+exports.modifyPublication = (req, res, next) => {
+  const publicationObject = req.file ?
+    {
+      ...JSON.parse(req.body.publication),
+      post_image: `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`
+    } : { ...req.body };
+  db.Publication.findOne({ where: { id: req.params.id } })
+    .then(publication => {
+      const filename = publication.post_image.split('/images/post/')[1];
+      console.log('siema');
+        fs.unlink(`images/post/${filename}`, () => {
+          db.Publication.update({ ...publicationObject }, { where: { id: req.params.id } })
+          .then(publication => res.status(200).json({ publication }))
+          .catch(error => res.status(400).json({ error }))
+        });
+  })
+  .catch(error => res.status(500).json({ error }));
+}
+*/
+/*
+exports.modifyPublication = (req, res, next) => {
+  const publicationObject = req.file 
+    ? {
+        ...JSON.parse(req.body.publication),
+        post_image: `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`
+      }
+    : { ...req.body }
 
+  db.Publication.findOne({ where: { id: req.params.id } })
+  .then(publication => {
+    if (!publication) {
+      res.status(400).json({ error: "Vous n'avez pas l'autorisation" })
+    } else {
+      publication.update(publicationObject).then(publication => res.status(200).json({ publication }))
+    }
+  })
+}
+*/
+/*
 exports.getOneMeme = (req, res, next) => {
   db.Publication.findOne({
       where: { UtilisateurId: req.params.id },
@@ -80,6 +119,7 @@ exports.getOneMeme = (req, res, next) => {
       });
     }
   );}
+  */
 /*
 exports.getListOfMemes = (req, res, next) => {
     db.Publication.findAll({

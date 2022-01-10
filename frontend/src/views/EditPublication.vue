@@ -44,7 +44,6 @@
                     variant="primary"
                     @click="editPost()">
                     Modifier</b-button>
-
                 </b-form>
             </b-row>
     </div>
@@ -70,10 +69,6 @@ export default {
     ...mapState({
       publications: 'publications',
     })
-  },
-  mounted: function () {
-    console.log(this.publications);
-
   },
   setup () {
     const state = reactive({
@@ -101,7 +96,8 @@ export default {
   },
   methods: {
     photoChange: function (event) {
-          this.state.post_image = event.target.files[0];        
+          this.state.post_image = event.target.files[0];      
+          console.log(this.state.post_image);
     },
     submitFormModification() {
         this.vModification$.$validate();
@@ -114,11 +110,10 @@ export default {
     },
   
     editPost: function () {
-      console.log(this.$route.params.postId);
       if(this.submitFormModification()) {
         const self = this;
         const fd = new FormData();
-        fd.append('post_image', JSON.stringify(this.state.post_image));
+        fd.append('post_image', this.state.post_image);
         fd.append('publication', JSON.stringify(this.state.input));
         this.$store.dispatch('modificationPublication', {publicationAll: fd, publicationId: self.$route.params.postId})
         .then(function () {
