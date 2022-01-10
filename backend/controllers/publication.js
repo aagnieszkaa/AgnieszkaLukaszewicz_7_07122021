@@ -52,18 +52,15 @@ exports.modifyPublication = (req, res, next) => {
       ...JSON.parse(req.body.publication),
       post_image: `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`,
     } : { ...JSON.parse(req.body.publication) };
-    console.log(publicationObject);
-
   db.Publication.findOne({ where: { id: req.params.id } })
-    .then(utilisateur => {
-      const filename = publication.image_chemin.split('/images/post/')[1];
-      if(req.file) {
+    .then(publication => {
+      const filename = publication.post_image.split('/images/post/')[1];
+      console.log('siema');
         fs.unlink(`images/post/${filename}`, () => {
+          db.Publication.update({ ...publicationObject }, { where: { id: req.params.id } })
+          .then(publication => res.status(200).json({ publication }))
+          .catch(error => res.status(400).json({ error }))
         });
-      }    
-      db.Publication.update({ ...publicationObject }, { where: { id: req.params.id } })
-      .then(publication => res.status(200).json({ publication }))
-      .catch(error => res.status(400).json({ error }))
   })
   .catch(error => res.status(500).json({ error }));
 }

@@ -172,7 +172,7 @@ export default createStore({
     
     modificationPublication: ({commit}, publication) => {
       return new Promise((resolve, reject) => {
-        instance.put('/auth/modifyPublication/'+publication.publicationId, publication.publicationAll)
+        instance.put('/publications/modifyPublication/'+publication.publicationId, publication.publicationAll)
         .then(function (response) {
           commit('changeStatus', '');
           resolve(response);
