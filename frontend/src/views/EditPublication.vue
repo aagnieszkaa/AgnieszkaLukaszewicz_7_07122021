@@ -16,6 +16,9 @@
                         v-model="state.input.title"
                         type="text">
                         </b-form-input>
+                        <span class="error" v-if="vModification$.input.title.$error">
+                            {{ vModification$.input.title.$errors[0].$message }}
+                        </span>
                     </b-form-group>
 
                     <b-form-group
@@ -28,6 +31,9 @@
                         rows="3"
                         max-rows="6"
                         ></b-form-textarea>
+                        <span class="error" v-if="vModification$.input.textContent.$error">
+                            {{ vModification$.input.textContent.$errors[0].$message }}
+                        </span>
                     </b-form-group>
 
                     <b-form-group
