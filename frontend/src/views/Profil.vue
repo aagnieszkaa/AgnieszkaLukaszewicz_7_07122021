@@ -16,17 +16,20 @@
                     <b-row>
                         <b-button 
                         variant="primary"
+                        v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
                         class="col-5"
                         @click="deleteUser()"
                         >Supprimer le compte</b-button>
 
                         <b-button 
+                        v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
                         variant="primary"
                         class="offset-2 col-5"
                         @click="editUser()"
                         >Modifier le compte</b-button>
 
                         <b-button 
+                        v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
                         class="offset-3 col-6 mt-4"
                         @click="logout()"
                         >Déconnexion</b-button>
@@ -48,6 +51,11 @@ export default {
   components: {
     Header,
     Menu,
+  },
+  data: function () {
+    return {
+        urlId: this.$route.params.id,
+    }
   },
   mounted: function (){
     const self = this;
