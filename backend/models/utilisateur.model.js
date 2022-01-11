@@ -40,10 +40,5 @@ module.exports = (sequelize, Sequelize) => {
         onDelete: "cascade"
       });
     };
-    Utilisateur.associate = models => {
-      Utilisateur.hasMany(models.Comment, {
-        onDelete: "cascade"
-      });
-    };
     return Utilisateur;
 };
