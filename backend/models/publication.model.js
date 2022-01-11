@@ -17,17 +17,27 @@ module.exports = (sequelize, Sequelize) => {
         tableName: 'publication'
       }
     );
-    Publication.associate = models => {
-      Publication.belongsTo(models.Utilisateur, {
-        foreignKey: {
-          allowNull: false
-        }
-      });
-    };
-    Publication.associate = models => {
-      Publication.hasMany(models.Comment, {
-        onDelete: "cascade"
-      });
-    };
+    Publication.associate = models =>
+    {
+    
+          Publication.belongsTo(models.Utilisateur,
+    {
+    
+            foreignKey: {
+    
+              allowNull: false
+    
+            }
+    
+          });
+    
+          Publication.hasMany(models.Comment,
+    {
+    
+            onDelete: "cascade"
+    
+          });
+    
+        };
     return Publication;
 };

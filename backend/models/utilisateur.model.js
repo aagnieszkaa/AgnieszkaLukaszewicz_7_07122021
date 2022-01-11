@@ -35,10 +35,23 @@ module.exports = (sequelize, Sequelize) => {
         tableName: 'utilisateur'
       }
     );
-    Utilisateur.associate = models => {
-      Utilisateur.hasMany(models.Publication, {
-        onDelete: "cascade"
-      });
-    };
+    Utilisateur.associate = models =>
+    {
+    
+          Utilisateur.hasMany(models.Publication,
+    {
+    
+            onDelete: "cascade"
+    
+          });
+    
+          Utilisateur.hasMany(models.Comment,
+    {
+    
+            onDelete: "cascade"
+    
+          });
+    
+        };
     return Utilisateur;
 };

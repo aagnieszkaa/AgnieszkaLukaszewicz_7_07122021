@@ -16,9 +16,7 @@ exports.getListOfComments = (req, res, next) => {
 db.Comment.findAll({
     order: [
         ['updatedAt', 'DESC'],
-    ],
-    include: [db.Utilisateur],
-    include: [db.Publication]
+    ]
 })
 .then((comments) => {
     res.status(200).json(comments);
