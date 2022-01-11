@@ -5,6 +5,7 @@ const path = require('path');
 
 const utilisateurRoutes = require('./routes/utilisateur');
 const publicationRoutes = require('./routes/publication');
+const commentRoutes = require('./routes/comment');
 
 const app = express();
 
@@ -23,6 +24,7 @@ var corsOptions = {
 	// USE ROUTES
     app.use('/api/auth', utilisateurRoutes);
     app.use('/api/publications', publicationRoutes);
+	app.use('/api/comments', commentRoutes);
 
 
 
