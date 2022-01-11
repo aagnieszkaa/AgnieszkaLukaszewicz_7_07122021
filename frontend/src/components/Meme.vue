@@ -10,6 +10,17 @@
         <b-card-footer>
         <li>Créé le : {{publication.createdAt}}</li>
         <li>Dernière modification : {{publication.updatedAt}}</li>
+
+        <ul>
+            <li v-for="item in comments" v-bind:key="item">
+            <Comment
+                :comment="item">
+            </Comment>
+            </li>
+        </ul>
+
+
+
         <b-button 
         v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
         variant="primary"
@@ -28,9 +39,13 @@
 
 <script>
 import { mapState } from 'vuex';
+import Comment from '@/components/Comment.vue'
 
 export default {
     name: 'Meme',
+    components: {
+        Comment,
+    },
     props: {
         publication: {
             type: Object
@@ -44,7 +59,12 @@ export default {
     computed: {
         ...mapState({
         utilisateurInfo: 'utilisateurInfo',
+        comments: 'comments',
         })
+    },
+    mounted: function (){
+        const self = this;
+        self.$store.dispatch('showComments');
     },
     methods: {
         deletePost: function (id) {

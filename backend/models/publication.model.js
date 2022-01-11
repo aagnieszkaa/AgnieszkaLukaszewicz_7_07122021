@@ -24,5 +24,10 @@ module.exports = (sequelize, Sequelize) => {
         }
       });
     };
+    Publication.associate = models => {
+      Publication.hasMany(models.Comment, {
+        onDelete: "cascade"
+      });
+    };
     return Publication;
 };

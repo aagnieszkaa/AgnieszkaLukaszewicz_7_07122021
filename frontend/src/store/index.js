@@ -32,7 +32,8 @@ export default createStore({
     utilisateur: utilisateur,
     utilisateurInfo: {
     },
-    publications: []
+    publications: [],
+    comments: []
   },
   mutations: {
     changeStatus: function(state, status) {
@@ -58,6 +59,9 @@ export default createStore({
     },
     SET_PUBLICATIONS: function (state, publications) {
       state.publications = publications;
+    },
+    SET_COMMENTS: function (state, comments) {
+      state.comments = comments;
     },
   },
   actions: {
@@ -182,6 +186,21 @@ export default createStore({
           reject(error);
         }); 
       })
+    },
+    showComments: ({commit}) => {
+      commit('changeStatus', 'loading');
+      return new Promise((resolve, reject) => {
+        instance.get('/publications/getListOfComments')
+        .then(function (response) {
+          commit('changeStatus', '');
+          commit('SET_COMMENTS', response.data);
+          resolve(response);
+        })
+        .catch(function (error) {
+          commit('changeStatus', '');
+          reject(error);
+        })
+      });
     },
   },
   modules: {
