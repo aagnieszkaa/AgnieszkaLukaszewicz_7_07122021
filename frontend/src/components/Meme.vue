@@ -144,7 +144,7 @@ export default {
             console.log(this.submitFormComment());
             if(this.submitFormComment()) {
                 const self = this;
-                this.$store.dispatch('commentContent', JSON.stringify(this.state.input))
+                this.$store.dispatch('commentContent', this.state.input)
                 .then(function () {
                     self.refreshData();
                 }, function (error) {

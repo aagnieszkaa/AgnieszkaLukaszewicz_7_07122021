@@ -1,12 +1,19 @@
 <template>
     <div>
-        <div>
-            <p>{{comment.textComment}} textComment</p>
+        <div class="comment mb-2">
             <p>{{comment.Utilisateur.prenom}}</p>
+            <p>{{comment.textComment}}</p>
             <b-button 
             variant="primary"
+            class="m-1"
             @click="deleteComment(comment.id)">
             Supprimer</b-button>
+
+            <b-button 
+            variant="primary"
+            class="m-1"
+            @click="editComment()">
+            Modifier</b-button>
         </div>
 
 
@@ -51,6 +58,9 @@ export default {
                 self.error = error.response.data.error;
             })
         },
+        editComment: function () {
+            this.$router.push(`/editComment/${this.comment.id}`);
+        },
     }
 }
 </script>
@@ -59,5 +69,8 @@ export default {
 <style scoped lang="scss">
 li {
     list-style-type: none;
+}
+.comment {
+    background-color: #E0D6D6;
 }
 </style>
