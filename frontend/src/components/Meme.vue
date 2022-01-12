@@ -8,6 +8,22 @@
         <b-card-text>auteur : <span @click="goToProfile()">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</span></b-card-text>
         <b-card-text>{{publication.textContent}}</b-card-text>
 
+        <b-form>
+            <b-form-textarea
+                id="textarea-small"
+                size="sm"
+                v-model="state.input.textContent"
+                placeholder="Écrivez votre commentaire..."
+            ></b-form-textarea>
+            <b-button 
+            variant="primary"
+            class="mt-2 mb-2"
+            @click="createComment()">
+            Envoyer
+            </b-button>
+        </b-form>
+
+
         <ul>
             <li v-for="item in publication.Comments" v-bind:key="item">
             <Comment
@@ -39,6 +55,9 @@
 <script>
 import { mapState } from 'vuex';
 import Comment from '@/components/Comment.vue'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
+import { reactive, computed } from 'vue'
 
 export default {
     name: 'Meme',
@@ -50,21 +69,41 @@ export default {
             type: Object
         },
     },
+    computed: {
+        ...mapState({
+        utilisateurInfo: 'utilisateurInfo',
+        utilisateur_token_id: 'utilisateur',
+        comments: 'comments',
+        })
+    },
+    mounted: function (){
+        const self = this;
+        self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
+        self.state.input.publicationId = self.publication.id;
+        this.$store.dispatch('showComments');    
+    },
+    setup () {
+        const state = reactive({
+            input: {
+                textContent: '',
+                creatorId: '',
+                publicationId: '',
+            },
+        })
+        const rulesComment = computed(() => {
+            return {
+                input: {
+                    textContent: { required },
+                },
+            }
+        })
+        const vComment$ = useVuelidate(rulesComment, state)
+        return { state, vComment$ }
+    },
     data: function () {
         return {
             error: '',
         }
-    },
-    computed: {
-        ...mapState({
-        utilisateurInfo: 'utilisateurInfo',
-        //comments: 'comments',
-        })
-    },
-    mounted: function (){
-        console.log(this.publication);
-        const self = this;
-        self.$store.dispatch('showComments');
     },
     methods: {
         deletePost: function (id) {
@@ -91,7 +130,28 @@ export default {
         goToProfile: function () {
             this.$router.push(`/profil/${this.publication.Utilisateur.id}`);
         },
-        
+        submitFormComment() {
+            this.vComment$.$validate();
+            if(!this.vComment$.$error) {
+                return true;
+            } else {
+                this.error = '';
+                return false;
+            }
+        },
+        createComment: function () {
+            console.log(this.state.input)
+            console.log(this.submitFormComment());
+            if(this.submitFormComment()) {
+                const self = this;
+                this.$store.dispatch('commentContent', JSON.stringify(this.state.input))
+                .then(function () {
+                    self.refreshData();
+                }, function (error) {
+                    self.error = error.response.data.error;
+                })
+            }
+        },   
     },
 }
 </script>

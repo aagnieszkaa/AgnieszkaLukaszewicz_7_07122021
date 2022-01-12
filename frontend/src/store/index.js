@@ -173,7 +173,6 @@ export default createStore({
         }); 
       })
     },
-    
     modificationPublication: ({commit}, publication) => {
       return new Promise((resolve, reject) => {
         instance.put('/publications/modifyPublication/'+publication.publicationId, publication.publicationAll)
@@ -194,6 +193,20 @@ export default createStore({
         .then(function (response) {
           commit('changeStatus', '');
           commit('SET_COMMENTS', response.data);
+          resolve(response);
+        })
+        .catch(function (error) {
+          commit('changeStatus', '');
+          reject(error);
+        })
+      });
+    },
+    commentContent: ({commit}, commentInfo) => {
+      commit('changeStatus', 'loading');
+      return new Promise((resolve, reject) => {
+        instance.post('/comments/saveComment', commentInfo)
+        .then(function (response) {
+          commit('changeStatus', '');
           resolve(response);
         })
         .catch(function (error) {

@@ -1,15 +1,15 @@
 <template>
     <div>
         <p>{{comment.textContent}}</p>
-        <!-- not working
+<!--
         <p>{{comment.Utilisateur.prenom}}</p>
-        -->
+-->
     </div>
 
 </template>
 
 <script>
-
+//import { mapState } from 'vuex';
 export default {
     name: 'Comment',
     props: {
@@ -17,8 +17,14 @@ export default {
             type: Object
         },
     },
+    /*
+  computed: {
+    ...mapState({
+      comments: 'comments',
+    })
+  },*/
     mounted: function () {
-        console.log(this.comment);
+        //console.log(this.comment);
     }
 }
 </script>

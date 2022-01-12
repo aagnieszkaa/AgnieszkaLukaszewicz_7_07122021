@@ -1,6 +1,7 @@
 const db = require("../models");
-/*
+
 exports.saveComment = (req, res, next) => {
+
     const commentObject = JSON.parse(req.body.comment);
     db.Comment.create({
         UtilisateurId: commentObject.creatorId,
@@ -9,8 +10,8 @@ exports.saveComment = (req, res, next) => {
     })
       .then(() => res.status(201).json({ message: 'Commentaire publié !'}))
       .catch(error => res.status(400).json({ error }));
+    
   };
-  */
 
 exports.getListOfComments = (req, res, next) => {
 db.Comment.findAll({

@@ -126,6 +126,7 @@ export default {
         }
       },
       createPost: function () {
+        console.log(this.submitFormPublication());
         if(this.submitFormPublication()) {
           const self = this;
           console.log(self.publications);
