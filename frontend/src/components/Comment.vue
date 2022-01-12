@@ -1,7 +1,15 @@
 <template>
     <div>
+        <div>
+            <p>{{comment.textComment}} textComment</p>
+            <p>{{comment.id}}</p>
+            <b-button 
+            variant="primary"
+            @click="deleteComment(comment.id)">
+            Supprimer</b-button>
+        </div>
 
-        <p>{{comment.textComment}} textComment</p>
+        
 <!--
         <p>{{comment.Utilisateur.prenom}}</p>
 -->
@@ -26,6 +34,26 @@ export default {
   },*/
     mounted: function () {
         //console.log(this.comment);
+    },
+    methods: {
+        deleteComment: function (id) {
+            const self = this;
+            this.$store.dispatch('suppressionComment', id)
+            .then(function () {
+                self.refreshData();
+            }, function (error) {
+                self.error = error.response.data.error;
+            })
+        },
+        refreshData: function () {
+            const self = this;
+            self.$store.dispatch('showPublications')
+            .then(function (response) {
+                console.log(response);
+            }, function (error) {
+                self.error = error.response.data.error;
+            })
+        },
     }
 }
 </script>

@@ -215,7 +215,21 @@ export default createStore({
         })
       });
     },
+    suppressionComment: ({commit}, commentId) => {
+      return new Promise((resolve, reject) => {
+        instance.delete('/comments/deleteComment/'+commentId)
+        .then(function (response) {
+          commit('changeStatus', '');
+          resolve(response);
+        })
+        .catch(function (error) {
+          commit('changeStatus', '');
+          reject(error);
+        }); 
+      })
+    },
   },
+
   modules: {
   }
 })

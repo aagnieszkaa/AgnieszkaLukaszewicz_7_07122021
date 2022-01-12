@@ -31,3 +31,13 @@ db.Comment.findAll({
     }
 );
 };
+
+exports.deleteComment = (req, res, next) => {
+    db.Comment.findOne({ where: { id: req.params.id }})
+      .then(comment => {
+        db.Comment.destroy({ where: { id: req.params.id }})
+        .then(() => res.status(200).json({ message: 'Commentaire supprimé !'}))
+        .catch(error => res.status(400).json({ error }));
+      })
+      .catch(error => res.status(500).json({ error }));
+};
