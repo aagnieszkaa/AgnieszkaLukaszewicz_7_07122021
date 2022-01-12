@@ -2,17 +2,14 @@
     <div>
         <div>
             <p>{{comment.textComment}} textComment</p>
-            <p>{{comment.id}}</p>
+            <p>{{comment.Utilisateur.prenom}}</p>
             <b-button 
             variant="primary"
             @click="deleteComment(comment.id)">
             Supprimer</b-button>
         </div>
 
-        
-<!--
-        <p>{{comment.Utilisateur.prenom}}</p>
--->
+
     </div>
 
 </template>
