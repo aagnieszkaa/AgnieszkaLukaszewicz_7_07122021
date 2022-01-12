@@ -1,10 +1,11 @@
 <template>
-    <ul>
-        <li>{{comment.textContent}}</li>
+    <div>
+        <p>{{comment.textContent}}</p>
         <!-- not working
-        <li>{{comment.Utilisateur.prenom}}</li>
+        <p>{{comment.Utilisateur.prenom}}</p>
         -->
-    </ul>
+    </div>
+
 </template>
 
 <script>
@@ -17,12 +18,14 @@ export default {
         },
     },
     mounted: function () {
-        //console.log(this.comment);
+        console.log(this.comment);
     }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+li {
+    list-style-type: none;
+}
 </style>

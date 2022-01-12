@@ -62,7 +62,7 @@ export default {
         })
     },
     mounted: function (){
-        console.log(this.publication.Comments);
+        console.log(this.publication);
         const self = this;
         self.$store.dispatch('showComments');
     },
@@ -100,5 +100,8 @@ export default {
 <style scoped lang="scss">
 span {
     color: blue;
+}
+li {
+    list-style-type: none;
 }
 </style>
