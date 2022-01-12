@@ -158,7 +158,7 @@ export default {
             fd.append('utilisateur', JSON.stringify(this.state.input));
             this.$store.dispatch('modificationUtilisateur', {utilisateurAll: fd, utilisateurId: self.utilisateur_token_id.utilisateurId})
             .then(function () {
-                self.$router.push('/profil');
+                self.$router.push(`/profil/${self.utilisateur_token_id.utilisateurId}`);
             }, function (error) {
                 self.error = error.response.data.error;
             })}
