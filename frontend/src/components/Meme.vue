@@ -7,19 +7,18 @@
         <b-card-title>{{publication.title}}</b-card-title>
         <b-card-text>auteur : <span @click="goToProfile()">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</span></b-card-text>
         <b-card-text>{{publication.textContent}}</b-card-text>
-        <b-card-footer>
-        <li>Créé le : {{publication.createdAt}}</li>
-        <li>Dernière modification : {{publication.updatedAt}}</li>
 
         <ul>
-            <li v-for="item in comments" v-bind:key="item">
+            <li v-for="item in publication.Comments" v-bind:key="item">
             <Comment
                 :comment="item">
             </Comment>
             </li>
         </ul>
 
-
+        <b-card-footer>
+        <li>Créé le : {{publication.createdAt}}</li>
+        <li>Dernière modification : {{publication.updatedAt}}</li>
 
         <b-button 
         v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
@@ -59,10 +58,11 @@ export default {
     computed: {
         ...mapState({
         utilisateurInfo: 'utilisateurInfo',
-        comments: 'comments',
+        //comments: 'comments',
         })
     },
     mounted: function (){
+        console.log(this.publication.Comments);
         const self = this;
         self.$store.dispatch('showComments');
     },

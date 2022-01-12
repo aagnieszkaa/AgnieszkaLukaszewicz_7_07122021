@@ -19,7 +19,10 @@ exports.getListOfMemes = (req, res, next) => {
         order: [
             ['updatedAt', 'DESC'],
         ],
-        include: [db.Utilisateur]
+        include: [
+          {model: db.Utilisateur},
+          {model: db.Comment}
+        ]
     })
     .then((publications) => {
         res.status(200).json(publications);

@@ -1,6 +1,9 @@
 <template>
     <ul>
         <li>{{comment.textContent}}</li>
+        <!-- not working
+        <li>{{comment.Utilisateur.prenom}}</li>
+        -->
     </ul>
 </template>
 
@@ -13,6 +16,9 @@ export default {
             type: Object
         },
     },
+    mounted: function () {
+        //console.log(this.comment);
+    }
 }
 </script>
 
