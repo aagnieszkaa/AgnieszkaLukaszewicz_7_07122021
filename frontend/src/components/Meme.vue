@@ -12,7 +12,7 @@
             <b-form-textarea
                 id="textarea-small"
                 size="sm"
-                v-model="state.input.textContent"
+                v-model="state.input.textComment"
                 placeholder="Écrivez votre commentaire..."
             ></b-form-textarea>
             <b-button 
@@ -85,7 +85,7 @@ export default {
     setup () {
         const state = reactive({
             input: {
-                textContent: '',
+                textComment: '',
                 creatorId: '',
                 publicationId: '',
             },
@@ -93,7 +93,7 @@ export default {
         const rulesComment = computed(() => {
             return {
                 input: {
-                    textContent: { required },
+                    textComment: { required },
                 },
             }
         })

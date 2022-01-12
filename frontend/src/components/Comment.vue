@@ -1,6 +1,7 @@
 <template>
     <div>
         <p>{{comment.textContent}}</p>
+        <p>{{comment.textComment}} dupa</p>
 <!--
         <p>{{comment.Utilisateur.prenom}}</p>
 -->

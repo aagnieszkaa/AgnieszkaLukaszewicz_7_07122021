@@ -6,7 +6,7 @@ exports.saveComment = (req, res, next) => {
     db.Comment.create({
         UtilisateurId: commentObject.creatorId,
         PublicationId: commentObject.publicationId,
-        textContent: commentObject.textContent,
+        textComment: commentObject.textComment,
     })
       .then(() => res.status(201).json({ message: 'Commentaire publié !'}))
       .catch(error => res.status(400).json({ error }));

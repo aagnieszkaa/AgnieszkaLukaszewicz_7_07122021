@@ -81,12 +81,12 @@ export default {
       publications: 'publications',
     })
   },
-    mounted: function (){
-        const self = this;
-        self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
-        self.$store.dispatch('utilisateurInfo', self.utilisateur_token_id.utilisateurId);
-        self.$store.dispatch('showPublications');
-    },
+  mounted: function (){
+      const self = this;
+      self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
+      self.$store.dispatch('utilisateurInfo', self.utilisateur_token_id.utilisateurId);
+      self.$store.dispatch('showPublications');
+  },
   setup () {
       const state = reactive({
         input: {
@@ -107,10 +107,10 @@ export default {
       const vPublication$ = useVuelidate(rulesPublication, state)
       return { state, vPublication$ }
     },
-    data: function () {
-      return {
-          error: '',
-      }
+  data: function () {
+    return {
+      error: '',
+    }
   },
   methods: {
       photoChange: function (event) {
