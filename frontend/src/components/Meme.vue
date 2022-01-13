@@ -160,6 +160,7 @@ export default {
 <style scoped lang="scss">
 span {
     color: blue;
+    cursor: pointer;
 }
 li {
     list-style-type: none;

@@ -1,15 +1,18 @@
 <template>
     <div>
         <div class="comment mb-2">
-            <p>{{comment.Utilisateur.prenom}}</p>
+            <p>{{comment.updatedAt}}</p>
+            <p><span @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.prenom}}</span></p>
             <p>{{comment.textComment}}</p>
             <b-button 
+            v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
             variant="primary"
             class="m-1"
             @click="deleteComment(comment.id)">
             Supprimer</b-button>
 
             <b-button 
+            v-if="comment.UtilisateurId === this.utilisateurInfo.id"
             variant="primary"
             class="m-1"
             @click="editComment()">
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-//import { mapState } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
     name: 'Comment',
@@ -31,12 +34,13 @@ export default {
             type: Object
         },
     },
-    /*
   computed: {
     ...mapState({
       comments: 'comments',
+      utilisateur_token_id: 'utilisateur',
+      utilisateurInfo: 'utilisateurInfo'
     })
-  },*/
+  },
     mounted: function () {
         //console.log(this.comment);
     },
@@ -62,6 +66,9 @@ export default {
         editComment: function () {
             this.$router.push(`/editComment/${this.comment.id}`);
         },
+        goToProfile: function () {
+            this.$router.push(`/profil/${this.comment.Utilisateur.id}`);
+        },
     }
 }
 </script>
@@ -70,6 +77,10 @@ export default {
 <style scoped lang="scss">
 li {
     list-style-type: none;
+}
+span {
+    color: blue;
+    cursor: pointer;
 }
 .comment {
     background-color: #E0D6D6;
