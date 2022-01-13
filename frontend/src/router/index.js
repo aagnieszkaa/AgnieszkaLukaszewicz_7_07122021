@@ -4,6 +4,7 @@ import Profil from '../views/Profil.vue'
 import Memes from '../views/Memes.vue'
 import EditUser from '../views/EditUser.vue'
 import EditPublication from '../views/EditPublication.vue'
+import EditComment from '../views/EditComment.vue'
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/editPublication/:postId',
     name: 'EditPublication',
     component: EditPublication
+  },
+  {
+    path: '/editComment/:id',
+    name: 'EditComment',
+    component: EditComment
   }
 
 

@@ -228,6 +228,19 @@ export default createStore({
         }); 
       })
     },
+    modificationComment: ({commit}, comment) => {
+      return new Promise((resolve, reject) => {
+        instance.put('/comments/modifyComment/'+comment.commentId, comment.commentAll)
+        .then(function (response) {
+          commit('changeStatus', '');
+          resolve(response);
+        })
+        .catch(function (error) {
+          commit('changeStatus', '');
+          reject(error);
+        }); 
+      })
+    },
   },
 
   modules: {
