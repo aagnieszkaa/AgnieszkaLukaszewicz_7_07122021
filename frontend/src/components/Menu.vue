@@ -2,6 +2,7 @@
     <b-nav tabs align="center">
         <b-nav-item @click="profilPush()">Profil</b-nav-item>
         <b-nav-item @click="memesPush()">Memes</b-nav-item>
+        <b-nav-item @click="logout()">Déconnexion</b-nav-item>
     </b-nav>
 </template>
 
@@ -16,6 +17,10 @@ export default {
     })
   },
   methods: {
+    logout: function () {
+      this.$store.commit('logout');
+      this.$router.push('/');
+    },
     memesPush: function () {
       this.$router.push('/memes');
     },
