@@ -13,10 +13,15 @@
               ></b-form-textarea>
               <b-button 
               variant="primary"
-              class="mt-2 mb-2"
+              class="mt-3 mb-3"
               @click="editComment()">
               Modifier
               </b-button>
+
+              <b-button 
+              variant="primary"
+              class="m-3"
+              @click="abandon()">Abandonner</b-button>
           </b-form>
       </b-row>
   </b-container>
@@ -71,9 +76,11 @@ export default {
         }, function (error) {
           self.error = error.response.data.error;
         })
-      }
-      
+      }  
     },
+    abandon: function () {
+      this.$router.push('/memes');
+    }
   }
 }
 </script>

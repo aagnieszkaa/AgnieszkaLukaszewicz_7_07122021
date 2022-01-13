@@ -8,6 +8,30 @@
         <b-card-text>auteur : <span @click="goToProfile()">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</span></b-card-text>
         <b-card-text>{{publication.textContent}}</b-card-text>
 
+
+
+        <b-button 
+        variant="secondary"
+        @click="showMe()"
+        v-if="mode =='notShown'"
+        class="mb-2"
+        >Afficher les commentaires...</b-button>
+
+        <b-button 
+        variant="secondary"
+        @click="hideMe()"
+        v-else
+        class="mb-2"
+        >Cacher</b-button>
+
+        <ul v-if="showModal === true">
+            <li v-for="item in publication.Comments" v-bind:key="item">
+            <Comment
+                :comment="item">
+            </Comment>
+            </li>
+        </ul>
+
         <b-form>
             <b-form-textarea
                 id="textarea-small"
@@ -22,15 +46,6 @@
             Envoyer
             </b-button>
         </b-form>
-
-
-        <ul>
-            <li v-for="item in publication.Comments" v-bind:key="item">
-            <Comment
-                :comment="item">
-            </Comment>
-            </li>
-        </ul>
 
         <b-card-footer>
         <li>Créé le : {{publication.createdAt}}</li>
@@ -81,6 +96,7 @@ export default {
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
         self.state.input.publicationId = self.publication.id;
         this.$store.dispatch('showComments');    
+                console.log(this.showModal);
     },
     setup () {
         const state = reactive({
@@ -103,9 +119,22 @@ export default {
     data: function () {
         return {
             error: '',
+            showModal: false,
+            showed: false,
+            mode: 'notShown',
         }
     },
     methods: {
+        showMe: function () {
+            this.showed = true;
+            this.showModal = true;
+            this.mode = 'shown';
+        },
+        hideMe: function () {
+            this.showed = false;
+            this.showModal = false;
+            this.mode = 'notShown';
+        },
         deletePost: function (id) {
             const self = this;
             this.$store.dispatch('suppressionPublication', id)
