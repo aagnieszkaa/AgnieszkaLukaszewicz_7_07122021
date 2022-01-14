@@ -145,10 +145,15 @@
                     <b-button 
                     variant="primary"
                     v-else
-                    @click="login()">Connectez-vous</b-button>
+                    @click="login()">Connectez-vous</b-button><br>  
+                    <span class="error">
+                      {{ error }}
+                    </span>
                 </b-form>
             </b-row>
+
         </b-container>
+        
         
         <!--<span v-if="state == 'connexionEnCours'">Connexion en cours</span>-->
     </div>
@@ -237,10 +242,12 @@ computed: {
   },
   methods: {
       switchToConnexion: function () {
+          this.error = '';
           this.mode = 'login';
       },
       switchToCreation: function () {
-          this.mode = 'signup';
+          this.error = '';
+          this.mode = 'signup';   
       },
       photoChange: function (event) {
           this.state.profil_image = event.target.files[0];

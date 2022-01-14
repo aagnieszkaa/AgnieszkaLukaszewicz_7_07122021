@@ -33,6 +33,20 @@ exports.getListOfMemes = (req, res, next) => {
     );
 };
 
+exports.getOneMeme = (req, res, next) => {
+  db.Publication.findOne({ where: { id: req.params.id } }).then(
+    (publication) => {
+      res.status(200).json(publication);
+    }
+  ).catch(
+    (error) => {
+      res.status(404).json({
+        error: error
+      });
+    }
+  );
+};
+
 exports.deletePublication = (req, res, next) => {
   db.Publication.findOne({ where: { id: req.params.id }})
     .then(publication => {

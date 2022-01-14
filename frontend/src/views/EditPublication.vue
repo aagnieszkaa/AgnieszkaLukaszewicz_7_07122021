@@ -35,18 +35,18 @@
                             {{ vModification$.input.textContent.$errors[0].$message }}
                         </span>
                     </b-form-group>
-<!--
+
                     <b-row>
                         <img
                         class="col-5"
-                        ref="photoProfil"
-                        :src="this.publications.post_image" />
+                        ref="photoMeme"
+                        :src="publicationInfo.post_image" />
                         <img
                         class="col-5"
                         ref="preview"
                         src="" />
                     </b-row>
--->
+
                     <b-form-group
                     label="Image :"
                     label-for="input-image"
@@ -97,20 +97,20 @@ export default {
   computed: {
     ...mapState({
       publications: 'publications',
+      publicationInfo: 'publicationInfo',
     })
   },
-  /*
+  
   mounted: function (){
     this.$refs.preview.style.display = "none";
     const self = this;
-    this.$store.dispatch('utilisateurInfo', this.utilisateur_token_id.utilisateurId)
+    const urlId = this.$route.params.postId;
+    this.$store.dispatch('oneMemeInfo', urlId)
     .then(function () {
-      self.state.input.prenom = self.utilisateurInfo.prenom;
-      self.state.input.nom = self.utilisateurInfo.nom;
-    }, function () {
-      self.logout();
+      self.state.input.title = self.publicationInfo.title;
+      self.state.input.textContent = self.publicationInfo.textContent;
     })
-  },*/
+  },
   setup () {
     const state = reactive({
       input: {
@@ -136,9 +136,16 @@ export default {
   },
   methods: {
     photoChange: function (event) {
-          this.state.post_image = event.target.files[0];      
-          console.log(this.state.post_image);
+        this.post_image = event.target.files[0];
+        let reader = new FileReader();
+        reader.onload = () => {
+            this.$refs.preview.src = reader.result;
+            this.$refs.preview.style.display = "";
+            this.$refs.photoMeme.style.display = "none";
+        }
+        reader.readAsDataURL(this.post_image);
     },
+
     submitFormModification() {
         this.vModification$.$validate();
         if(!this.vModification$.$error) {

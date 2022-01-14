@@ -31,6 +31,8 @@ export default createStore({
     utilisateurInfo: {
     },
     publications: [],
+    publicationInfo: {
+    },
     comments: []
   },
   mutations: {
@@ -57,6 +59,9 @@ export default createStore({
     },
     SET_PUBLICATIONS: function (state, publications) {
       state.publications = publications;
+    },
+    SET_ONE_PUBLICATION: function (state, publicationInfo) {
+      state.publicationInfo = publicationInfo;
     },
     SET_COMMENTS: function (state, comments) {
       state.comments = comments;
@@ -180,6 +185,18 @@ export default createStore({
         })
         .catch(function (error) {
           commit('changeStatus', '');
+          reject(error);
+        }); 
+      })
+    },
+    oneMemeInfo: ({commit}, memeId) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/publications/getOneMeme/'+memeId)
+        .then(function (response) {
+          commit('SET_ONE_PUBLICATION', response.data);
+          resolve(response);
+        })
+        .catch(function (error) {
           reject(error);
         }); 
       })

@@ -2,7 +2,7 @@
 <div>
         <div class="comment bg-light mb-2 p-2">
 
-                <p class="comment__creator" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.prenom}}</p>
+                <p class="comment__creator" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.nom}}</p>
                 <b-dropdown id="dropdown-1" text="" dropleft size="sm"
                     variant="outline-success"
                     class="comment__dropdown"
