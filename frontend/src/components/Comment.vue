@@ -25,7 +25,7 @@
                         Modifier</b-dropdown-item>
                     </b-dropdown>
 
-            <p class="comment__date">{{comment.updatedAt}}</p>
+            <p class="comment__date">{{ formatDate(comment.updatedAt) }}</p> 
             <p>{{comment.textComment}}</p> 
         </div>
     </div>
@@ -33,6 +33,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import moment from "moment";
 
 export default {
     name: 'Comment',
@@ -52,6 +53,9 @@ export default {
         //console.log(this.comment);
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY hh:mm')
+        },
         deleteComment: function (id) {
             const self = this;
             this.$store.dispatch('suppressionComment', id)

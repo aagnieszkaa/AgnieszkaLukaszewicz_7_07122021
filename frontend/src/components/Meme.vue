@@ -9,7 +9,7 @@
     ">
         <b-card-header class="card-content">    
             <b-card-text @click="goToProfile()" class="card-content__user">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</b-card-text>
-            <p class="card-content__date">{{publication.updatedAt}}</p> 
+            <p class="card-content__date">{{ formatDate(publication.updatedAt) }}</p> 
             <b-dropdown id="dropdown-1" text="" dropleft size="sm"
             class="card-content__dropdown"
             variant="outline-success"
@@ -95,6 +95,8 @@ import Comment from '@/components/Comment.vue'
 import useVuelidate from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
+import moment from "moment";
+
 export default {
     name: 'Meme',
     components: {
@@ -110,7 +112,7 @@ export default {
         utilisateurInfo: 'utilisateurInfo',
         utilisateur_token_id: 'utilisateur',
         comments: 'comments',
-        })
+        }),
     },
     mounted: function (){
         const self = this;
@@ -145,6 +147,9 @@ export default {
         }
     },
     methods: {
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY hh:mm')
+        },
         showMe: function () {
             this.showed = true;
             this.showModal = true;
