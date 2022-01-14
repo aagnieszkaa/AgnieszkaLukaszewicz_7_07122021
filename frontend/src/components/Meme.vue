@@ -1,70 +1,89 @@
 <template>
     <b-card
-    :img-src="publication.post_image"
-    img-alt="Meme"
-    img-top
-    class="mb-2 offset-2 col-8">
-        <b-card-title>{{publication.title}}</b-card-title>
-        <b-card-text>auteur : <span @click="goToProfile()">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</span></b-card-text>
-        <b-card-text>{{publication.textContent}}</b-card-text>
+    no-body
+    class="
+    mb-4 
+    col-12
+    col-md-8
+    card-parent
+    ">
+        <b-card-header class="card-content">    
+            <b-card-text @click="goToProfile()" class="card-content__user">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</b-card-text>
+            <p class="card-content__date">{{publication.updatedAt}}</p> 
+            <b-dropdown id="dropdown-1" text="" dropleft size="sm"
+            class="card-content__dropdown"
+            variant="outline-success"
+            v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
+            >
+                <b-dropdown-item
+                v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
+                @click="deletePost(publication.id)">
+                Supprimer</b-dropdown-item >
 
+                <b-dropdown-item 
+                v-if="publication.UtilisateurId === utilisateurInfo.id"
+                @click="editPublication()">
+                Modifier</b-dropdown-item>
+            </b-dropdown>
+              
+            <b-card-title>{{publication.title}}</b-card-title>
+        </b-card-header>
+        <b-card-img 
+        :src="publication.post_image" 
+        alt="Publication" 
+        bottom
+        class="mb-2 card-content__img">
+        </b-card-img>
+        <b-card-body>
+            
+            <b-card-text>{{publication.textContent}}</b-card-text>
+            <div>
+                <b-button 
+                variant="primary"
+                @click="showMe()"
+                v-if="mode =='notShown'"
+                class="mb-2"
+                >Commentaires...</b-button>
 
+                <b-button 
+                variant="primary"
+                @click="hideMe()"
+                v-else
+                class="mb-2"
+                >Cacher</b-button>
 
-        <b-button 
-        variant="secondary"
-        @click="showMe()"
-        v-if="mode =='notShown'"
-        class="mb-2"
-        >Afficher les commentaires...</b-button>
-
-        <b-button 
-        variant="secondary"
-        @click="hideMe()"
-        v-else
-        class="mb-2"
-        >Cacher</b-button>
-
-        <ul v-if="showModal === true">
-            <li v-for="item in publication.Comments" v-bind:key="item">
-            <Comment
-                :comment="item">
-            </Comment>
-            </li>
-        </ul>
-
-        <b-form>
-            <b-form-textarea
-                id="textarea-small"
-                size="sm"
-                v-model="state.input.textComment"
-                placeholder="Écrivez votre commentaire..."
-            ></b-form-textarea>
-            <b-button 
-            variant="primary"
-            class="mt-2 mb-2"
-            @click="createComment()">
-            Envoyer
-            </b-button>
-        </b-form>
-
-        <b-card-footer>
-        <li>Créé le : {{publication.createdAt}}</li>
-        <li>Dernière modification : {{publication.updatedAt}}</li>
-
-        <b-button 
-        v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
-        variant="primary"
-        @click="deletePost(publication.id)">
-        Supprimer</b-button><br>
-
-        <b-button 
-        v-if="publication.UtilisateurId === utilisateurInfo.id"
-        variant="primary"
-        class="mt-2"
-        @click="editPublication()">
-        Modifier</b-button>
-        </b-card-footer>   
+                <b-row>
+                    <ul v-if="showModal === true">
+                        <li v-for="item in publication.Comments" v-bind:key="item" class="col-12">
+                        <Comment
+                            :comment="item" class="col-12">
+                        </Comment>
+                        </li>
+                    </ul>
+                </b-row>
+                <b-form class="d-flex formulaire justify-content-between">
+                    <b-form-textarea
+                    class="
+                    border border-success
+                    formulaire__input
+                    "
+                    v-model="state.input.textComment"
+                    placeholder="Écrivez votre commentaire..."
+                    ></b-form-textarea>
+                    <b-button 
+                    variant="success"
+                    class="
+                    formulaire__button
+                    "
+                    @click="createComment()">
+                    Envoyer
+                    </b-button>
+                </b-form>
+            </div>
+        </b-card-body>
+  
     </b-card> 
+
 </template>
 
 <script>
@@ -73,7 +92,6 @@ import Comment from '@/components/Comment.vue'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
-
 export default {
     name: 'Meme',
     components: {
@@ -176,6 +194,9 @@ export default {
                 this.$store.dispatch('commentContent', this.state.input)
                 .then(function () {
                     self.refreshData();
+                })
+                .then(function () {
+                    self.showMe();
                 }, function (error) {
                     self.error = error.response.data.error;
                 })
@@ -187,11 +208,59 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-span {
-    color: blue;
-    cursor: pointer;
+
+@mixin desktop {
+  @media screen and (min-width: 993px){
+    @content;
+  }
 }
+
 li {
     list-style-type: none;
 }
+.card-parent {
+    border: 1px solid #bdc7d0;
+    border-radius: 2%;
+}
+.card-content {
+    position: relative;
+    width: 100%;
+    &__img {
+        height: 250px;
+        object-fit: cover;
+        @include desktop {
+            height: 400px;
+        }
+    }
+    &__user {
+        color: blue;
+        cursor: pointer;
+        font-size: 1.5rem;
+        line-height: 40px;
+        height: 40px;
+        margin-bottom: 0;
+    }
+    &__date {
+        color: grey;
+        font-size: 0.8rem;
+    }
+    &__dropdown {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    }
+}
+
+.formulaire {
+    width: 100%;
+    padding: 2px;
+
+    &__input {
+        width: 69%;
+    }
+    &__button {
+        width: 30%;
+    }
+}
+
 </style>

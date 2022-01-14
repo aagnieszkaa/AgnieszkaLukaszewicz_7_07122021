@@ -1,43 +1,59 @@
 <template>
-    <div>
-        <Header></Header>
-        <Menu></Menu>
-        <b-container class="mt-4">
+  <div>
+    <Header></Header>
+    <Menu></Menu>
+    <div class="container">
+
+        <b-container class="my-4">
             <b-row>
                 <b-card
-                    :img-src="utilisateur.image_chemin"
-                    img-alt="Photo de profil"
-                    img-top
-                    class="mb-2 offset-3 col-6">
-                    <b-card-title>{{utilisateur.prenom}} {{utilisateur.nom}}</b-card-title>
-                    <b-card-text v-if="chargeCommunication">Chargé de la communication</b-card-text>
-                    <b-card-text v-else>Employée</b-card-text>
-                    <b-card-text>{{utilisateur.email}}</b-card-text>
-                    <b-row>
-                        <b-button 
-                        variant="primary"
-                        v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
-                        class="col-5"
-                        @click="deleteUser()"
-                        >Supprimer le compte</b-button>
+                no-body
+                class="profil-card 
+                mb-2 
+                offset-1 col-10
+                offset-md-3 col-md-6
+                offset-lg-4 col-lg-4
+                 ">
+                      <b-card-img 
+                      :src="utilisateur.image_chemin" 
+                      alt="Photo de profil" 
+                      top 
+                      class="mb-2 profil-card__photo">
+                      </b-card-img>
+                    <b-card-body class="d-flex flex-column justify-content-center align-items-center">
 
-                        <b-button 
-                        v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
-                        variant="primary"
-                        class="offset-2 col-5"
-                        @click="editUser()"
-                        >Modifier le compte</b-button>
+                      <b-card-title>{{utilisateur.prenom}} {{utilisateur.nom}}</b-card-title>
+                      <b-card-text v-if="chargeCommunication">Chargé de la communication</b-card-text>
+                      <b-card-text v-else>Employée</b-card-text>
+                      <b-card-text>{{utilisateur.email}}</b-card-text>
+                          <b-button 
+                          v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
+                          variant="primary"
+                          class="col-8"
+                          @click="editUser()"
+                          >Modifier le compte</b-button><br>
 
-                        <b-button 
-                        v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
-                        class="offset-3 col-6 mt-4"
-                        @click="logout()"
-                        >Déconnexion</b-button>
-                    </b-row>
+                          <b-button 
+                          variant="primary"
+                          v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
+                          class="col-8"
+                          @click="deleteUser()"
+                          >Supprimer le compte</b-button><br>
+
+
+
+                          <b-button 
+                          variant="secondary"
+                          v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
+                          class="col-8 mt-4"
+                          @click="logout()"
+                          >Déconnexion</b-button>
+                    </b-card-body>
                 </b-card>
             </b-row>
         </b-container>
     </div> 
+  </div>
 </template>
 
 <script>
@@ -98,5 +114,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.profil-card {
+  overflow: hidden;
+  border-radius: 2%;
+  padding: 0;
+  border: 1px solid #bdc7d0;
+  &__photo {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
 
 </style>

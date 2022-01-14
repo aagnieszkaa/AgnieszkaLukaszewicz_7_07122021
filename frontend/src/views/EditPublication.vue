@@ -2,9 +2,9 @@
     <div>
         <Header></Header>
         <Menu></Menu>
-        
+        <b-container class="mt-4">
             <b-row>
-                <b-form class="bg-light mt-4 mb-4 p-4">
+                <b-form class="bg-light my-4 p-4 formulaire">
                     <h2>Modifiez votre publication</h2>
 
                     <b-form-group
@@ -48,17 +48,22 @@
 
                     <b-button 
                     variant="primary"
-                    class="m-3"
+                    class="col-5 
+
+                    mt-3"
                     @click="editPost()">
-                    Modifier</b-button>
+                    Enregistrer</b-button>
 
                     <b-button 
                     variant="primary"
-                    class="m-3"
+                    class="offset-2 col-5 
+
+                    mt-3"
                     @click="abandon()">Abandonner</b-button>
 
                 </b-form>
             </b-row>
+        </b-container>
     </div>
 </template>
 
@@ -69,7 +74,7 @@ import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
 
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
 export default {
@@ -94,10 +99,9 @@ export default {
     const rulesModification = computed(() => {
       return {
         input: {
-        title: { required },
-        textContent: { required },
-      },
-      post_image: { required }}
+          title: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+          textContent: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+      }}
     })
     const vModification$ = useVuelidate(rulesModification, state)
     return { state, vModification$ }
@@ -145,6 +149,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.formulaire {
+  border: 1px solid #bdc7d0;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
 </style>
 
 

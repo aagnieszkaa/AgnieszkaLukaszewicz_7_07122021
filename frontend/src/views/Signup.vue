@@ -3,7 +3,11 @@
         <Header></Header>
         <b-container class="mt-4 mb-4">
             <b-row class="form">
-                <b-form class="offset-1 col-10">
+                <b-form class="
+                offset-1 col-10 
+                offset-md-2 col-md-8
+                offset-lg-4 col-lg-4
+                formulaire bg-light">
                     <h2 v-if="mode == 'signup'">Créer votre compte</h2>
                     <h2 v-else>Connectez-vous</h2>
                     <p v-if="mode == 'signup'">Vous avez déjà le compte ? <span class="link" @click="switchToConnexion()">Connectez-vous</span></p>
@@ -87,6 +91,7 @@
                     v-if="mode == 'signup'">
                         <input type="file" 
                         id="input-photo"
+                        class="input--photo"
                         accept="image/*"
                         @change="photoChange">
                         <span class="error" v-if="vSignup$.profil_image.$error">
@@ -154,7 +159,7 @@
 import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
 import useVuelidate from '@vuelidate/core'
-import { required, email, requiredIf } from '@vuelidate/validators'
+import { required, email, requiredIf, helpers } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
 export default {
@@ -175,24 +180,25 @@ setup () {
       profil_image: null
     })
 
-    const rulesSignup = computed(() => {
+const rulesSignup = computed(() => {
       return {
         input: {
-        nom: { required },
-        prenom: { required },
-        email: { required, email },
-        mot_de_passe: { required },
-        fonction: { required },
-        mot_de_passe_RH: { required: requiredIf(state.input.fonction == 1) }
-      },
-      profil_image: { required }}
+          nom: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+          prenom: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+          email: { required: helpers.withMessage('Veuillez renseigner ce champ !', required), email: helpers.withMessage('Veuillez saisir une adresse mail valide !', email) },
+          mot_de_passe: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+          fonction: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+          mot_de_passe_RH: { required: helpers.withMessage('Veuillez renseigner ce champ !', requiredIf(state.input.fonction == 1)) }
+        },
+        profil_image: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) }
+      }
     })
 
-    const rulesLogin = computed(() => {
+const rulesLogin = computed(() => {
       return {
         input: {
-          email: { required, email },
-          mot_de_passe: { required },
+          email: { required: helpers.withMessage('Veuillez renseigner ce champ !', required), email: helpers.withMessage('Veuillez saisir une adresse mail valide !', email) },
+          mot_de_passe: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
       }}
     })
 
@@ -289,12 +295,20 @@ computed: {
 </script>
 
 <style lang="scss" scoped>
-body{
-    background-color: #fd2d01;
+.formulaire  {
+  padding: 10px;
+  border-radius: 2%;
+  border: 1px solid #bdc7d0;
 }
 .link
 {
     color: blue;
+}
+input {
+  width: 70%;
+}
+.input--photo {
+  width: 100%;
 }
 </style>
 

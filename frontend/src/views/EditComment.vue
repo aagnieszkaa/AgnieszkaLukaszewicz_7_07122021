@@ -4,23 +4,36 @@
     <Menu></Menu>
     <b-container>
       <b-row>
-        <b-form class="mt-4">
+        <b-form class="mt-4
+        col-12 
+        offset-lg-3 col-lg-6">
               <b-form-textarea
                   id="textarea-small"
                   size="sm"
                   placeholder="Modifiez votre commentaire..."
                   v-model="state.input.textComment"
               ></b-form-textarea>
+              <span class="error" v-if="vComment$.input.textComment.$error">
+                  {{ vComment$.input.textComment.$errors[0].$message }}
+              </span>
               <b-button 
               variant="primary"
-              class="mt-3 mb-3"
+              size="sm"
+              class="
+              offset-1 col-4
+              offset-md-3 col-md-2
+              mt-3"
               @click="editComment()">
               Modifier
               </b-button>
 
               <b-button 
               variant="primary"
-              class="m-3"
+              size="sm"
+              class="
+              offset-2 col-4
+              offset-md-2 col-md-2
+              mt-3"
               @click="abandon()">Abandonner</b-button>
           </b-form>
       </b-row>
@@ -32,7 +45,7 @@
 import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
 export default {
@@ -50,7 +63,7 @@ export default {
       const rulesComment = computed(() => {
           return {
               input: {
-                  textComment: { required },
+                  textComment: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
               },
           }
       })

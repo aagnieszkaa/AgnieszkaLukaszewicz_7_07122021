@@ -5,7 +5,7 @@
         
         <b-container class="mt-4 mb-4">
             <b-row class="form">
-                <b-form class="offset-1 col-10">
+                <b-form class="offset-1 col-10 formulaire bg-light">
                     <h2>Modifier votre profil</h2>
                     <b-form-group
                     label="Nom :"
@@ -79,7 +79,7 @@ import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
 
@@ -116,8 +116,8 @@ export default {
     const rulesModification = computed(() => {
       return {
         input: {
-        nom: { required },
-        prenom: { required },
+          nom: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+          prenom: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
       }}
     })
     const vModification$ = useVuelidate(rulesModification, state)
@@ -171,6 +171,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.formulaire  {
+  padding: 10px;
+  border-radius: 2%;
+  border: 1px solid #bdc7d0;
+}
 </style>
 
 

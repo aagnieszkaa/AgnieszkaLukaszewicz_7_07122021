@@ -24,8 +24,6 @@ if (!utilisateur) {
   }
 }
 
-
-
 export default createStore({
   state: {
     status: '',

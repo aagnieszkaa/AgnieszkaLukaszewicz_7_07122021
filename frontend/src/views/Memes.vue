@@ -4,7 +4,7 @@
         <Menu></Menu>
         <b-container class="mt-4">
             <b-row>
-                <b-form class="bg-light mt-4 mb-4 p-4">
+                <b-form class="bg-light my-4 p-4 formulaire">
                     <h2>Créez votre publication</h2>
 
                     <b-form-group
@@ -42,19 +42,23 @@
 
                     <b-button 
                     variant="primary"
+                    class="col-4"
                     @click="createPost()">
                     Publier</b-button>
 
                 </b-form>
             </b-row>
-
-            <ul>
-              <li v-for="item in publications" v-bind:key="item">
-                <Meme
-                  :publication="item">
-                </Meme>
-              </li>
-            </ul>
+            <b-row>
+              <ul class="list col-12">
+                <b-row>
+                  <li v-for="item in publications" v-bind:key="item" class="col-12 d-flex flex-column align-items-center list__item">
+                    <Meme
+                      :publication="item" class="col-12">
+                    </Meme>
+                  </li>
+                </b-row>
+              </ul>
+            </b-row>
         </b-container>
     </div> 
 </template>
@@ -155,7 +159,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-li {
-  list-style-type: none;
+
+.formulaire {
+  border: 1px solid #bdc7d0;
+  border-radius: 2%;
 }
+.list {
+  &__item {
+    width: 100%;
+  }
+}
+
 </style>

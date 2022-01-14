@@ -1,9 +1,11 @@
 <template>
-    <b-nav tabs align="center">
-        <b-nav-item @click="profilPush()">Profil</b-nav-item>
-        <b-nav-item @click="memesPush()">Memes</b-nav-item>
-        <b-nav-item @click="logout()">Déconnexion</b-nav-item>
+  <div>
+    <b-nav tabs align="center" class="menu">
+        <b-nav-item class="menu__item" @click="profilPush()">Profil</b-nav-item>
+        <b-nav-item class="menu__item" @click="memesPush()">Memes</b-nav-item>
+        <b-nav-item class="menu__item" @click="logout()">Déconnexion</b-nav-item>
     </b-nav>
+  </div>
 </template>
 
 <script>
@@ -34,5 +36,16 @@ export default {
 
 
 <style scoped lang="scss">
+$color-primary: #2c9586;
+$color-secondary: #f7f4d1;
+
+
+.menu {
+  background-color: $color-secondary;
+  &__item {
+    color: black !important;
+    font-weight: bold;
+  }
+}
 
 </style>

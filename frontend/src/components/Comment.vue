@@ -1,27 +1,34 @@
 <template>
-    <div>
-        <div class="comment mb-2">
-            <p>{{comment.updatedAt}}</p>
-            <p><span @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.prenom}}</span></p>
-            <p>{{comment.textComment}}</p>
-            <b-button 
-            v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
-            variant="primary"
-            class="m-1"
-            @click="deleteComment(comment.id)">
-            Supprimer</b-button>
+<div>
+        <div class="comment bg-light mb-2 p-2">
 
-            <b-button 
-            v-if="comment.UtilisateurId === this.utilisateurInfo.id"
-            variant="primary"
-            class="m-1"
-            @click="editComment()">
-            Modifier</b-button>
+                <p class="comment__creator" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.prenom}}</p>
+                <b-dropdown id="dropdown-1" text="" dropleft size="sm"
+                    variant="outline-success"
+                    class="comment__dropdown"
+                    v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
+                    >
+                        <b-dropdown-item
+                        v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
+                        variant="primary"
+                        size="sm"
+                        class="m-1"
+                        @click="deleteComment(comment.id)">
+                        Supprimer</b-dropdown-item>
+
+                        <b-dropdown-item
+                        v-if="comment.UtilisateurId === this.utilisateurInfo.id"
+                        variant="primary"
+                        size="sm"
+                        class="m-1"
+                        @click="editComment()">
+                        Modifier</b-dropdown-item>
+                    </b-dropdown>
+
+            <p class="comment__date">{{comment.updatedAt}}</p>
+            <p>{{comment.textComment}}</p> 
         </div>
-
-
     </div>
-
 </template>
 
 <script>
@@ -78,11 +85,32 @@ export default {
 li {
     list-style-type: none;
 }
-span {
+.comment {
+    border: 1px solid #bdc7d0;
+    border-radius: 3%;
+    position: relative;
+    &__creator {
+    height: 50px;
+    line-height: 50px;
+    display: inline;
+
+    text-align: center;
     color: blue;
     cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+
+    }
+    &__dropdown {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        
+    }
+    &__date {
+        font-size: 0.8em;
+    }
 }
-.comment {
-    background-color: #E0D6D6;
-}
+
+
 </style>
