@@ -164,7 +164,8 @@ export default {
             })}
         }, 
       abandon: function () {
-        this.$router.push('/profil');
+        const self = this;
+        self.$router.push(`/profil/${self.utilisateur_token_id.utilisateurId}`);
       },      
     },
 }

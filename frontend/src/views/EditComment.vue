@@ -16,25 +16,28 @@
               <span class="error" v-if="vComment$.input.textComment.$error">
                   {{ vComment$.input.textComment.$errors[0].$message }}
               </span>
-              <b-button 
-              variant="primary"
-              size="sm"
-              class="
-              offset-1 col-4
-              offset-md-3 col-md-2
-              mt-3"
-              @click="editComment()">
-              Modifier
-              </b-button>
+              <div>
+                <b-button 
+                variant="primary"
+                size="sm"
+                class="
+                offset-1 col-4
+                offset-md-3 col-md-2
+                mt-3"
+                @click="editComment()">
+                Modifier
+                </b-button>
 
-              <b-button 
-              variant="primary"
-              size="sm"
-              class="
-              offset-2 col-4
-              offset-md-2 col-md-2
-              mt-3"
-              @click="abandon()">Abandonner</b-button>
+                <b-button 
+                variant="primary"
+                size="sm"
+                class="
+                offset-2 col-4
+                offset-md-2 col-md-2
+                mt-3"
+                @click="abandon()">Abandonner</b-button>
+              </div>
+              
           </b-form>
       </b-row>
   </b-container>

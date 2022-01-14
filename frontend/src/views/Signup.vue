@@ -60,6 +60,7 @@
                           <span class="error" v-if="vLogin$.input.email.$error">
                             {{ vLogin$.input.email.$errors[0].$message }}
                           </span>
+                          
                         </div>
                     </b-form-group>
 
@@ -146,7 +147,6 @@
                     v-else
                     @click="login()">Connectez-vous</b-button>
                 </b-form>
-                <span>{{ error }}</span>
             </b-row>
         </b-container>
         

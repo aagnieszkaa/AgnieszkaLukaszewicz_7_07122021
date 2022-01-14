@@ -70,6 +70,9 @@
                     v-model="state.input.textComment"
                     placeholder="Écrivez votre commentaire..."
                     ></b-form-textarea>
+                    <span class="error" v-if="vComment$.input.textComment.$error">
+                          {{ vComment$.input.textComment.$errors[0].$message }}
+                      </span>
                     <b-button 
                     variant="success"
                     class="
@@ -90,7 +93,7 @@
 import { mapState } from 'vuex';
 import Comment from '@/components/Comment.vue'
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 export default {
     name: 'Meme',
@@ -113,8 +116,7 @@ export default {
         const self = this;
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
         self.state.input.publicationId = self.publication.id;
-        this.$store.dispatch('showComments');    
-                console.log(this.showModal);
+        this.$store.dispatch('showComments');   
     },
     setup () {
         const state = reactive({
@@ -127,11 +129,11 @@ export default {
         const rulesComment = computed(() => {
             return {
                 input: {
-                    textComment: { required },
+                    textComment: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
                 },
             }
         })
-        const vComment$ = useVuelidate(rulesComment, state)
+        const vComment$ = useVuelidate(rulesComment, state, { $scope: false })
         return { state, vComment$ }
     },
     data: function () {
@@ -165,8 +167,7 @@ export default {
         refreshData: function () {
             const self = this;
             self.$store.dispatch('showPublications')
-            .then(function (response) {
-                console.log(response);
+            .then(function () {
             }, function (error) {
                 self.error = error.response.data.error;
             })
@@ -187,8 +188,6 @@ export default {
             }
         },
         createComment: function () {
-            console.log(this.state.input)
-            console.log(this.submitFormComment());
             if(this.submitFormComment()) {
                 const self = this;
                 this.$store.dispatch('commentContent', this.state.input)

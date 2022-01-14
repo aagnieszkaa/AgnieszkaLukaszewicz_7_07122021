@@ -16,6 +16,9 @@
                         v-model="state.input.title"
                         type="text">
                         </b-form-input>
+                        <span class="error" v-if="vPublication$.input.title.$error">
+                          {{ vPublication$.input.title.$errors[0].$message }}
+                      </span>
                     </b-form-group>
 
                     <b-form-group
@@ -28,6 +31,9 @@
                         rows="3"
                         max-rows="6"
                         ></b-form-textarea>
+                        <span class="error" v-if="vPublication$.input.textContent.$error">
+                          {{ vPublication$.input.textContent.$errors[0].$message }}
+                      </span>
                     </b-form-group>
 
                     <b-form-group
@@ -38,6 +44,9 @@
                         id="input-image"
                         accept="image/*"
                         @change="photoChange">
+                        <span class="error" v-if="vPublication$.post_image.$error">
+                          {{ vPublication$.post_image.$errors[0].$message }}
+                        </span>
                     </b-form-group>
 
                     <b-button 
@@ -69,7 +78,7 @@
   import Menu from '@/components/Menu.vue'
   import Meme from '@/components/Meme.vue'
   import useVuelidate from '@vuelidate/core'
-  import { required } from '@vuelidate/validators'
+  import { required, helpers } from '@vuelidate/validators'
   import { reactive, computed } from 'vue'
 export default {
   name: 'Memes',
@@ -103,10 +112,10 @@ export default {
       const rulesPublication = computed(() => {
         return {
           input: {
-          title: { required },
-          textContent: { required },
+          title: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+          textContent: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
         },
-        post_image: { required }}
+        post_image: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) }}
       })
       const vPublication$ = useVuelidate(rulesPublication, state)
       return { state, vPublication$ }
@@ -130,10 +139,8 @@ export default {
         }
       },
       createPost: function () {
-        console.log(this.submitFormPublication());
         if(this.submitFormPublication()) {
           const self = this;
-          console.log(self.publications);
           const fd = new FormData();
           fd.append('post_image', this.state.post_image);
           fd.append('publication', JSON.stringify(this.state.input));
@@ -148,8 +155,7 @@ export default {
       refreshData: function () {
         const self = this;
         self.$store.dispatch('showPublications')
-        .then(function (response) {
-            console.log(response);
+        .then(function () {
           }, function (error) {
             self.error = error.response.data.error;
           })

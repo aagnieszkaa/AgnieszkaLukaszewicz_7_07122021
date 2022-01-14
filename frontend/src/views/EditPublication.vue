@@ -35,7 +35,18 @@
                             {{ vModification$.input.textContent.$errors[0].$message }}
                         </span>
                     </b-form-group>
-
+<!--
+                    <b-row>
+                        <img
+                        class="col-5"
+                        ref="photoProfil"
+                        :src="this.publications.post_image" />
+                        <img
+                        class="col-5"
+                        ref="preview"
+                        src="" />
+                    </b-row>
+-->
                     <b-form-group
                     label="Image :"
                     label-for="input-image"
@@ -88,6 +99,18 @@ export default {
       publications: 'publications',
     })
   },
+  /*
+  mounted: function (){
+    this.$refs.preview.style.display = "none";
+    const self = this;
+    this.$store.dispatch('utilisateurInfo', this.utilisateur_token_id.utilisateurId)
+    .then(function () {
+      self.state.input.prenom = self.utilisateurInfo.prenom;
+      self.state.input.nom = self.utilisateurInfo.nom;
+    }, function () {
+      self.logout();
+    })
+  },*/
   setup () {
     const state = reactive({
       input: {
