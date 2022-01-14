@@ -13,7 +13,7 @@ exports.savePublication = (req, res, next) => {
     .then(() => res.status(201).json({ message: 'Publication enregistrée !'}))
     .catch(error => res.status(400).json({ error }));
 };
-  
+/*
 exports.getListOfMemes = (req, res, next) => {
     db.Publication.findAll({
         order: [
@@ -31,6 +31,33 @@ exports.getListOfMemes = (req, res, next) => {
         });
         }
     );
+};
+*/
+exports.getListOfMemes = (req, res, next) => {
+  db.Publication.findAll({
+    order: [
+        ['updatedAt', 'DESC']
+    ],
+    include: [
+      { model: db.Utilisateur },
+      { model: db.Comment,
+        order: [
+          ['updatedAt', 'DESC']
+        ],
+        include: [{model: db.Utilisateur}]
+      }
+    ]
+})
+  .then((publications) => {
+      res.status(200).json(publications);
+      })
+      .catch(
+      (error) => {
+      res.status(404).json({
+          error: error
+      });
+      }
+  );
 };
 
 exports.getOneMeme = (req, res, next) => {

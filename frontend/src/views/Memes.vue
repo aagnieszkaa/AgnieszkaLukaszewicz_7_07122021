@@ -43,7 +43,7 @@
                         <input type="file" 
                         id="input-image"
                         accept="image/*"
-                        @change="photoChange">
+                        @change="photoChange"><br>
                         <span class="error" v-if="vPublication$.post_image.$error">
                           {{ vPublication$.post_image.$errors[0].$message }}
                         </span>
@@ -60,6 +60,9 @@
             <b-row>
               <ul class="list col-12">
                 <b-row>
+                  <!--
+                  <li v-for="item in pageOfItems" v-bind:key="item" class="col-12 d-flex flex-column align-items-center list__item">
+                  -->
                   <li v-for="item in publications" v-bind:key="item" class="col-12 d-flex flex-column align-items-center list__item">
                     <Meme
                       :publication="item" class="col-12">
@@ -69,6 +72,11 @@
               </ul>
             </b-row>
         </b-container>
+        <!--
+        <b-footer>
+          <jw-pagination :items="publicationItems" :labels="customLabels" @changePage="onChangePage"></jw-pagination>
+        </b-footer>
+        -->
     </div> 
 </template>
 
@@ -80,6 +88,22 @@
   import useVuelidate from '@vuelidate/core'
   import { required, helpers } from '@vuelidate/validators'
   import { reactive, computed } from 'vue'
+
+
+  //import JwPagination from 'jw-vue-pagination';
+  //const array = this.publications;
+  //???
+  //const publicationItems = this.publications;
+
+/*
+  const customLabels = {
+    first: '<<',
+    last: '>>',
+    previous: '<',
+    next: '>'
+  };
+  */
+
 export default {
   name: 'Memes',
   components: {
@@ -123,12 +147,20 @@ export default {
   data: function () {
     return {
       error: '',
+      //publicationItems,
+      //pageOfItems: [],
+      //customLabels
     }
   },
   methods: {
       photoChange: function (event) {
           this.state.post_image = event.target.files[0];        
       },
+      /*
+      onChangePage(pageOfItems) {
+          // update page of items
+          this.pageOfItems = pageOfItems;
+      },*/
       submitFormPublication() {
         this.vPublication$.$validate();
         if(!this.vPublication$.$error) {

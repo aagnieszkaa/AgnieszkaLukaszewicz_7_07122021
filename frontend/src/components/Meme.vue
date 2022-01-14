@@ -38,22 +38,24 @@
             
             <b-card-text>{{publication.textContent}}</b-card-text>
             <div>
-                <b-button 
-                variant="primary"
-                @click="showMe()"
-                v-if="mode =='notShown'"
-                class="mb-2"
-                >Commentaires...</b-button>
+
 
                 <b-button 
                 variant="primary"
                 @click="hideMe()"
-                v-else
+                v-if="mode == 'shown'"
                 class="mb-2"
                 >Cacher</b-button>
 
+                <b-button 
+                variant="primary"
+                @click="showMe()"
+                v-else
+                class="mb-2"
+                >Commentaires...</b-button>
+                <p>{{comments}}</p>
                 <b-row>
-                    <ul v-if="showModal === true">
+                    <ul v-if="mode === 'shown'">
                         <li v-for="item in publication.Comments" v-bind:key="item" class="col-12">
                         <Comment
                             :comment="item" class="col-12">
@@ -70,9 +72,7 @@
                     v-model="state.input.textComment"
                     placeholder="Écrivez votre commentaire..."
                     ></b-form-textarea>
-                    <span class="error" v-if="vComment$.input.textComment.$error">
-                          {{ vComment$.input.textComment.$errors[0].$message }}
-                      </span>
+
                     <b-button 
                     variant="success"
                     class="
@@ -82,6 +82,9 @@
                     Envoyer
                     </b-button>
                 </b-form>
+                <span class="error" v-if="vComment$.input.textComment.$error">
+                    {{ vComment$.input.textComment.$errors[0].$message }}
+                </span>
             </div>
         </b-card-body>
   
@@ -111,14 +114,12 @@ export default {
         ...mapState({
         utilisateurInfo: 'utilisateurInfo',
         utilisateur_token_id: 'utilisateur',
-        comments: 'comments',
         }),
     },
     mounted: function (){
         const self = this;
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
-        self.state.input.publicationId = self.publication.id;
-        this.$store.dispatch('showComments');   
+        self.state.input.publicationId = self.publication.id; 
     },
     setup () {
         const state = reactive({
@@ -141,9 +142,7 @@ export default {
     data: function () {
         return {
             error: '',
-            showModal: false,
-            showed: false,
-            mode: 'notShown',
+            mode: '',
         }
     },
     methods: {
@@ -151,14 +150,10 @@ export default {
             return moment(date).format('DD/MM/YYYY hh:mm')
         },
         showMe: function () {
-            this.showed = true;
-            this.showModal = true;
             this.mode = 'shown';
         },
         hideMe: function () {
-            this.showed = false;
-            this.showModal = false;
-            this.mode = 'notShown';
+            this.mode = '';
         },
         deletePost: function (id) {
             const self = this;
@@ -195,11 +190,9 @@ export default {
         createComment: function () {
             if(this.submitFormComment()) {
                 const self = this;
-                this.$store.dispatch('commentContent', this.state.input)
+                self.$store.dispatch('commentContent', this.state.input)
                 .then(function () {
                     self.refreshData();
-                })
-                .then(function () {
                     self.showMe();
                 }, function (error) {
                     self.error = error.response.data.error;
@@ -212,16 +205,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+/*
 @mixin desktop {
   @media screen and (min-width: 993px){
     @content;
   }
 }
+*/
 
-li {
-    list-style-type: none;
-}
 .card-parent {
     border: 1px solid #bdc7d0;
     border-radius: 2%;

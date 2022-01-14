@@ -44,14 +44,10 @@ export default {
     },
   computed: {
     ...mapState({
-      comments: 'comments',
       utilisateur_token_id: 'utilisateur',
       utilisateurInfo: 'utilisateurInfo'
     })
   },
-    mounted: function () {
-        //console.log(this.comment);
-    },
     methods: {
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY hh:mm')
@@ -86,9 +82,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-li {
-    list-style-type: none;
-}
+
 .comment {
     border: 1px solid #bdc7d0;
     border-radius: 3%;
