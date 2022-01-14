@@ -116,8 +116,7 @@ export default {
       input: {
         title: '',
         textContent: '',
-      },
-      post_image: null
+      }
     })
     const rulesModification = computed(() => {
       return {
@@ -132,6 +131,7 @@ export default {
   data: function () {
     return {
         error: '',
+        post_image: null
     }
   },
   methods: {
@@ -159,7 +159,7 @@ export default {
       if(this.submitFormModification()) {
         const self = this;
         const fd = new FormData();
-        fd.append('post_image', this.state.post_image);
+        fd.append('post_image', this.post_image);
         fd.append('publication', JSON.stringify(this.state.input));
         this.$store.dispatch('modificationPublication', {publicationAll: fd, publicationId: self.$route.params.postId})
         .then(function () {

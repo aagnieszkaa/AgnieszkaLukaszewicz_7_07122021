@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Header from '@/components/Header.vue'
 import Menu from '@/components/Menu.vue'
 import useVuelidate from '@vuelidate/core'
@@ -56,6 +57,19 @@ export default {
   components: {
     Header,
     Menu
+  },
+  computed: {
+    ...mapState({
+      commentInfo: 'commentInfo',
+    })
+  },
+  mounted: function (){
+    const self = this;
+    const urlId = this.$route.params.id;
+    this.$store.dispatch('oneCommentInfo', urlId)
+    .then(function () {
+      self.state.input.textComment = self.commentInfo.textComment;
+    })
   },
   setup () {
       const state = reactive({
