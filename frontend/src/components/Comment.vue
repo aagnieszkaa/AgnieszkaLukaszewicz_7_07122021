@@ -1,22 +1,22 @@
 <template>
     <div>
         <div class="comment bg-light mb-2 p-2">
-            <p class="comment__creator" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.nom}}</p>
+            <p class="comment__creator text-dark" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.nom}}</p>
             <b-dropdown id="dropdown-1" text="" dropleft size="sm"
-            variant="outline-success"
+            variant="outline-danger"
             class="comment__dropdown"
             v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
             >
                 <b-dropdown-item
                 v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
-                variant="primary"
+                variant="danger"
                 size="sm"
                 class="m-1"
                 @click="deleteComment(comment.id)">
                 Supprimer</b-dropdown-item>
                 <b-dropdown-item
                 v-if="comment.UtilisateurId === this.utilisateurInfo.id"
-                variant="primary"
+                variant="dark"
                 size="sm"
                 class="m-1"
                 @click="editComment()">
@@ -86,7 +86,6 @@ export default {
     line-height: 50px;
     display: inline;
     text-align: center;
-    color: blue;
     cursor: pointer;
     font-size: 1.1em;
     font-weight: bold;

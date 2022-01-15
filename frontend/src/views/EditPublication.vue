@@ -53,7 +53,7 @@
               @change="photoChange">
           </b-form-group>
           <b-button 
-          variant="primary"
+          variant="danger"
           class="col-5 
           mt-3"
           @click="editPost()">
@@ -61,7 +61,7 @@
             <span v-else>Enregistrer</span>
           </b-button>
           <b-button 
-          variant="primary"
+          variant="danger"
           class="offset-2 col-5 
           mt-3"
           @click="abandon()">Abandonner</b-button>

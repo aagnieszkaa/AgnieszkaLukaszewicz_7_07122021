@@ -5,7 +5,7 @@
     <b-container class="mt-4 mb-4">
       <b-row class="form">
         <b-form class="offset-1 col-10 formulaire bg-light">
-          <h2>Modifier votre profil</h2>
+          <h2 class="font-weight-bold">Modifier votre profil</h2>
           <b-form-group
           label="Nom :"
           label-for="input-nom"
@@ -52,7 +52,7 @@
             @change="photoChange">
           </b-form-group>
           <b-button 
-          variant="primary"
+          variant="danger"
           class="m-3"
           @click="modifyUser()">
             
@@ -60,7 +60,7 @@
             <span v-else>Enregistrer</span>
           </b-button>
           <b-button 
-          variant="primary"
+          variant="danger"
           class="m-3"
           @click="abandon()">Abandonner</b-button>
         </b-form>

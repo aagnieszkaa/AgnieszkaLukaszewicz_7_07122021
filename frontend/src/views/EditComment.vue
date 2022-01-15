@@ -18,7 +18,7 @@
           </span>
           <div>
             <b-button 
-            variant="primary"
+            variant="danger"
             size="sm"
             class="
             offset-1 col-4
@@ -30,7 +30,7 @@
             </b-button>
 
             <b-button 
-            variant="primary"
+            variant="danger"
             size="sm"
             class="
             offset-2 col-4

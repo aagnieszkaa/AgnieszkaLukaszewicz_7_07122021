@@ -2,24 +2,27 @@
     <b-card
     no-body
     class="
+    bg-light
     mb-4 
     col-12
     col-md-8
     card-parent
     ">
         <b-card-header class="card-parent__card-content">    
-            <b-card-text @click="goToProfile()" class="card-parent__card-content__user">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</b-card-text>
+            <b-card-text @click="goToProfile()" class="card-parent__card-content__user text-dark">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</b-card-text>
             <p class="card-parent__card-content__date">{{ formatDate(publication.updatedAt) }}</p> 
             <b-dropdown id="dropdown-1" text="" dropleft size="sm"
             class="card-parent__card-content__dropdown"
-            variant="outline-success"
+            variant="outline-danger"
             v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
             >
                 <b-dropdown-item
+                variant="danger"
                 v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
                 @click="deletePost(publication.id)">
                 Supprimer</b-dropdown-item >
                 <b-dropdown-item 
+                variant="dark"
                 v-if="publication.UtilisateurId === utilisateurInfo.id"
                 @click="editPublication()">
                 Modifier</b-dropdown-item>
@@ -36,13 +39,13 @@
             <b-card-text>{{publication.textContent}}</b-card-text>
             <div>
                 <b-button 
-                variant="primary"
+                variant="danger"
                 @click="hideMe()"
                 v-if="mode == 'shown'"
                 class="mb-2"
                 >Cacher</b-button>
                 <b-button 
-                variant="primary"
+                variant="dark"
                 @click="showMe()"
                 v-else
                 class="mb-2"
@@ -59,14 +62,14 @@
                 <b-form class="d-flex formulaire justify-content-between">
                     <b-form-textarea
                     class="
-                    border border-success
+                    border border-danger
                     formulaire__input
                     "
                     v-model="state.input.textComment"
                     placeholder="Écrivez votre commentaire..."
                     ></b-form-textarea>
                     <b-button 
-                    variant="success"
+                    variant="danger"
                     class="formulaire__button"
                     @click="createComment()">
                         <span v-if="status == 'loading'">En cours...</span>
@@ -205,7 +208,7 @@ export default {
 
 <style scoped lang="scss">
 .card-parent {
-    border: 1px solid #bdc7d0;
+    @include border;
     border-radius: 2%;
     &__card-content {
     position: relative;
@@ -218,12 +221,12 @@ export default {
             }
         }
         &__user {
-            color: blue;
             cursor: pointer;
             font-size: 1.5rem;
             line-height: 40px;
             height: 40px;
             margin-bottom: 0;
+            font-weight: bold;
         }
         &__date {
             color: grey;

@@ -25,12 +25,12 @@
               <b-card-text>{{utilisateur.email}}</b-card-text>
               <b-button 
               v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
-              variant="primary"
+              variant="dark"
               class="col-8"
               @click="editUser()"
               >Modifier le compte</b-button><br>
               <b-button 
-              variant="primary"
+              variant="dark"
               v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
               class="col-8"
               @click="deleteUser()">
@@ -38,7 +38,7 @@
                 <span v-else>Supprimer le compte</span>
               </b-button><br>
               <b-button 
-              variant="secondary"
+              variant="danger"
               v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
               class="col-8 mt-4"
               @click="logout()">Déconnexion</b-button>

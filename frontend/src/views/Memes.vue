@@ -46,7 +46,7 @@
             </span>
           </b-form-group>
           <b-button 
-          variant="primary"
+          variant="danger"
           class="col-4"
           @click="createPost()">
             <span v-if="status == 'loading'">En cours...</span>

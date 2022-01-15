@@ -13,4 +13,8 @@ li {
 .error {
   color: red;
 }
+
+input[type=text], input[type=email], input[type=password], textarea {
+  border: 1px solid #ffd7d7;
+}
 </style>

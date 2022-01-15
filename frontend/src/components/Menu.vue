@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-nav tabs align="center" class="menu">
+    <b-nav tabs align="center" class="menu bg-light">
         <b-nav-item class="menu__item" @click="profilPush()">Profil</b-nav-item>
         <b-nav-item class="menu__item" @click="memesPush()">Memes</b-nav-item>
         <b-nav-item class="menu__item" @click="logout()">Déconnexion</b-nav-item>
@@ -35,10 +35,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$color-primary: #2c9586;
 
 .menu {
-  background-color: $color-menu;
+  @include border;
   &__item {
     font-weight: bold;
   }

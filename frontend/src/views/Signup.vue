@@ -130,14 +130,14 @@
             </span>
           </b-form-group>
           <b-button 
-          variant="primary"
+          variant="danger"
           v-if="mode == 'signup'"
           @click="signup">
             <span v-if="status == 'loading'">En cours...</span>
             <span v-else>Créez votre compte</span>
           </b-button>
           <b-button 
-          variant="primary"
+          variant="danger"
           v-else
           @click="login()">
             <span v-if="status == 'loading'">En cours...</span>
@@ -299,6 +299,7 @@ export default {
   }
   &__input--photo {
   width: 100%;
+  border: 0;
   }
 }
 input {
