@@ -15,7 +15,7 @@ export default {
   name: 'Menu',
   computed: {
     ...mapState({
-      utilisateur_token_id: 'utilisateur',
+    utilisateur_token_id: 'utilisateur',
     })
   },
   methods: {
@@ -34,18 +34,14 @@ export default {
 }
 </script>
 
-
 <style scoped lang="scss">
 $color-primary: #2c9586;
-$color-secondary: #f7f4d1;
-
 
 .menu {
-  background-color: $color-secondary;
+  background-color: $color-menu;
   &__item {
     color: black !important;
     font-weight: bold;
   }
 }
-
 </style>
