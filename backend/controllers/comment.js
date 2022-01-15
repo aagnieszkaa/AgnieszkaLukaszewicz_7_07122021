@@ -46,3 +46,22 @@ exports.modifyComment = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+exports.getListOfComments = (req, res, next) => {
+  db.Comment.findAll({
+      where: { PublicationId: req.params.postId },
+      order: [
+          ['updatedAt', 'DESC'],
+      ],
+      include: [{model: db.Utilisateur}]
+  })
+  .then((comments) => {
+      res.status(200).json(comments);
+      })
+      .catch(
+      (error) => {
+      res.status(404).json({
+          error: error
+      });
+      }
+  );
+  };

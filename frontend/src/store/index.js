@@ -224,6 +224,7 @@ export default createStore({
         instance.post('/comments/saveComment', commentInfo)
         .then(function (response) {
           commit('changeStatus', '');
+          commit('SET_COMMENTS', response.data);
           resolve(response);
         })
         .catch(function (error) {
@@ -244,6 +245,20 @@ export default createStore({
           reject(error);
         }); 
       })
+    },
+    showComments: ({commit}, postId) => {
+      commit('changeStatus', 'loading');
+      return new Promise((resolve, reject) => {
+        instance.get('/comments/getListOfComments/'+postId)
+        .then(function (response) {
+          commit('changeStatus', '');
+          resolve(response);
+        })
+        .catch(function (error) {
+          commit('changeStatus', '');
+          reject(error);
+        })
+      });
     },
     modificationComment: ({commit}, comment) => {
       return new Promise((resolve, reject) => {

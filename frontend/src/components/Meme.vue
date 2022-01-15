@@ -38,8 +38,6 @@
             
             <b-card-text>{{publication.textContent}}</b-card-text>
             <div>
-
-
                 <b-button 
                 variant="primary"
                 @click="hideMe()"
@@ -53,10 +51,9 @@
                 v-else
                 class="mb-2"
                 >Commentaires...</b-button>
-                <p>{{comments}}</p>
                 <b-row>
                     <ul v-if="mode === 'shown'">
-                        <li v-for="item in publication.Comments" v-bind:key="item" class="col-12">
+                        <li v-for="item in comments" v-bind:key="item" class="col-12">
                         <Comment
                             :comment="item" class="col-12">
                         </Comment>
@@ -112,14 +109,16 @@ export default {
     },
     computed: {
         ...mapState({
-        utilisateurInfo: 'utilisateurInfo',
-        utilisateur_token_id: 'utilisateur',
+            utilisateurInfo: 'utilisateurInfo',
+            utilisateur_token_id: 'utilisateur',
+            publications: 'publications'
         }),
     },
     mounted: function (){
         const self = this;
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
         self.state.input.publicationId = self.publication.id; 
+        self.comments = this.publication.Comments;
     },
     setup () {
         const state = reactive({
@@ -143,6 +142,7 @@ export default {
         return {
             error: '',
             mode: '',
+            comments: '',
         }
     },
     methods: {
@@ -156,20 +156,31 @@ export default {
             this.mode = '';
         },
         deletePost: function (id) {
-            const self = this;
             this.$store.dispatch('suppressionPublication', id)
-            .then(function () {
-                self.refreshData();
-            }, function (error) {
-                self.error = error.response.data.error;
+            .then(() => {
+                this.refreshData();
+            }, (error) => {
+                this.error = error.response.data.error;
             })
         },
         refreshData: function () {
+            this.$store.dispatch('showPublications')
+            .then(() => {
+            }, (error) => {
+                this.error = error.response.data.error;
+            })
+        },
+        refreshComments: function () {
             const self = this;
-            self.$store.dispatch('showPublications')
-            .then(function () {
-            }, function (error) {
-                self.error = error.response.data.error;
+            const postId = self.publication.id;
+            console.log(postId);
+            this.$store.dispatch('showComments', postId)
+            .then((response) => {
+                this.comments = response.data;
+                console.log(this.comments);
+                console.log(response.data);
+            }, (error) => {
+                this.error = error.response.data.error;
             })
         },
         editPublication: function () {
@@ -189,17 +200,16 @@ export default {
         },
         createComment: function () {
             if(this.submitFormComment()) {
-                const self = this;
-                self.$store.dispatch('commentContent', this.state.input)
-                .then(function () {
-                    self.refreshData();
-                    self.showMe();
-                }, function (error) {
-                    self.error = error.response.data.error;
+                this.$store.dispatch('commentContent', this.state.input)
+                .then(() => {
+                    this.refreshComments();
+                    this.showMe();
+                }, (error) => {
+                    this.error = error.response.data.error;
                 })
             }
         },   
-    },
+    }
 }
 </script>
 

@@ -10,5 +10,6 @@ router.post('/saveComment', auth, commentCtrl.saveComment);
 router.put('/modifyComment/:id', auth, commentCtrl.modifyComment);
 router.delete('/deleteComment/:id', auth, commentCtrl.deleteComment);
 router.get('/getOneComment/:id', auth, commentCtrl.getOneComment);
+router.get('/getListOfComments/:postId', auth, commentCtrl.getListOfComments);
 
 module.exports = router;
