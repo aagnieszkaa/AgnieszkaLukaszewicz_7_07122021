@@ -5,7 +5,6 @@ const instance = axios.create({
   baseURL: 'http://localhost:3000/api/'
 });
 
-
 let utilisateur = localStorage.getItem('utilisateur');
 if (!utilisateur) {
   utilisateur = {
@@ -38,18 +37,18 @@ export default createStore({
     }
   },
   mutations: {
-    changeStatus: function(state, status) {
+    CHANGE_STATUS: function(state, status) {
       state.status = status;
     },
-    login: function (state, utilisateur){
+    LOGIN: function (state, utilisateur){
       instance.defaults.headers.common['Authorization'] = utilisateur.token;
       localStorage.setItem('utilisateur', JSON.stringify(utilisateur));
       state.utilisateur = utilisateur;
     },
-    utilisateurInfo: function (state, utilisateurInfo) {
+    UTILISATEUR_INFO: function (state, utilisateurInfo) {
       state.utilisateurInfo = utilisateurInfo;
     },
-    logout: function (state) {
+    LOGOUT: function (state) {
       state.utilisateur = {
         utilisateurId: -1,
         token: '',
@@ -74,30 +73,30 @@ export default createStore({
   },
   actions: {
     signup: ({commit}, utilisateurInfo) => {
-      commit('changeStatus', 'loading');
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.post('/auth/signup', utilisateurInfo)
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         })
       });
     },
     login: ({commit}, utilisateurInfo) => {
-      commit('changeStatus', 'loading');
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.post('/auth/login', utilisateurInfo)
         .then(function (response) {
-          commit('changeStatus', '');
-          commit('login', response.data);
+          commit('CHANGE_STATUS', '');
+          commit('LOGIN', response.data);
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         })
       });
@@ -106,7 +105,7 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.get('/auth/infos/'+utilisateurId)
         .then(function (response) {
-          commit('utilisateurInfo', response.data);
+          commit('UTILISATEUR_INFO', response.data);
           resolve(response);
         })
         .catch(function (error) {
@@ -130,7 +129,7 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.put('/auth/modifyUser/'+utilisateur.utilisateurId, utilisateur.utilisateurAll)
         .then(function (response) {
-          commit('utilisateurInfo', response.data);
+          commit('UTILISATEUR_INFO', response.data);
           resolve(response);
         })
         .catch(function (error) {
@@ -139,31 +138,31 @@ export default createStore({
       })
     },
     publicationContent: ({commit}, publicationInfo) => {
-      commit('changeStatus', 'loading');
+      commit('CHANGE_STATUS', 'loading');
       console.log(publicationInfo);
       return new Promise((resolve, reject) => {
         instance.post('/publications/savePublication', publicationInfo)
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         })
       });
     },
     showPublications: ({commit}) => {
-      commit('changeStatus', 'loading');
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.get('/publications/getListOfMemes')
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           commit('SET_PUBLICATIONS', response.data);
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         })
       });
@@ -172,11 +171,11 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.delete('/publications/deletePublication/'+publicationId)
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         }); 
       })
@@ -185,11 +184,11 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.put('/publications/modifyPublication/'+publication.publicationId, publication.publicationAll)
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         }); 
       })
@@ -219,16 +218,16 @@ export default createStore({
       })
     },
     commentContent: ({commit}, commentInfo) => {
-      commit('changeStatus', 'loading');
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.post('/comments/saveComment', commentInfo)
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           commit('SET_COMMENTS', response.data);
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         })
       });
@@ -237,25 +236,25 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.delete('/comments/deleteComment/'+commentId)
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         }); 
       })
     },
     showComments: ({commit}, postId) => {
-      commit('changeStatus', 'loading');
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.get('/comments/getListOfComments/'+postId)
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         })
       });
@@ -264,11 +263,11 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.put('/comments/modifyComment/'+comment.commentId, comment.commentAll)
         .then(function (response) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('changeStatus', '');
+          commit('CHANGE_STATUS', '');
           reject(error);
         }); 
       })

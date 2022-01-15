@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     logout: function () {
-      this.$store.commit('logout');
+      this.$store.commit('LOGOUT');
       this.$router.push('/');
     },
     memesPush: function () {
