@@ -77,7 +77,6 @@ exports.modifyPublication = (req, res, next) => {
   db.Publication.findOne({ where: { id: req.params.id } })
     .then(publication => {
       const filename = publication.post_image.split('/images/post/')[1];
-      console.log('siema');
         fs.unlink(`images/post/${filename}`, () => {
           db.Publication.update({ ...publicationObject }, { where: { id: req.params.id } })
           .then(publication => res.status(200).json({ publication }))

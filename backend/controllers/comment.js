@@ -36,7 +36,6 @@ exports.deleteComment = (req, res, next) => {
 };
 
 exports.modifyComment = (req, res, next) => {
-    console.log(req.body);
     db.Comment.findOne({ where: { id: req.params.id } })
       .then(comment => {
         db.Comment.update({ ...req.body }, { where: { id: req.params.id } })
@@ -56,12 +55,7 @@ exports.getListOfComments = (req, res, next) => {
   })
   .then((comments) => {
       res.status(200).json(comments);
-      })
-      .catch(
-      (error) => {
-      res.status(404).json({
-          error: error
-      });
-      }
-  );
-  };
+  })
+  .catch((error) => {
+      res.status(404).json({error: error});
+  });};

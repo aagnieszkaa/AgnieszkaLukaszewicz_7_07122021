@@ -3,10 +3,7 @@ const app = require('./app');
 
 const db = require("./models");
 db.sequelize.sync();
-// In development, you may need to drop existing tables and re-sync database. Just use force: true as following code:
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log("Drop and re-sync db.");
-// });
+
 
 // Renvoie un port valide, qu'il soit fourni sous la forme d'un numéro ou d'une chaîne
 const normalizePort = val => {

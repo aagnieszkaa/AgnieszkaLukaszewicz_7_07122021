@@ -14,10 +14,5 @@ router.put('/modifyPublication/:id', auth, multer.single("post_image"), publicat
 router.delete('/deletePublication/:id', auth, publicationCtrl.deletePublication);
 router.get('/getListOfMemes', auth, publicationCtrl.getListOfMemes);
 router.get('/getOneMeme/:id', auth, publicationCtrl.getOneMeme);
-/*
-router.post('/login', maxLoggin.limiter, utilisateurCtrl.login);
-router.put('/deleteUser/:id', auth, utilisateurCtrl.deleteUser);
-router.put('/modifyUser/:id', auth, multer.single("profil_image"), utilisateurCtrl.modifyUser);
-router.get('/infos/:id', auth, utilisateurCtrl.infos);
-*/
+
 module.exports = router;

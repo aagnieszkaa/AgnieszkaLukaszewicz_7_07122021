@@ -35,10 +35,8 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  console.log(req.body);
   db.Utilisateur.findOne({ where: { email: req.body.email } })
     .then(utilisateur => {
-      console.log(utilisateur);
       if (!utilisateur) {
         return res.status(404).json({ error: 'Utilisateur non trouvé !' });
       }
@@ -102,7 +100,6 @@ exports.modifyUser = (req, res, next) => {
       ...JSON.parse(req.body.utilisateur),
       image_chemin: `${req.protocol}://${req.get('host')}/images/profil/${req.file.filename}`,
     } : { ...JSON.parse(req.body.utilisateur) };
-    console.log(utilisateurObject);
 
   db.Utilisateur.findOne({ where: { id: req.params.id } })
     .then(utilisateur => {
