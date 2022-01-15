@@ -40,7 +40,6 @@ $color-primary: #2c9586;
 .menu {
   background-color: $color-menu;
   &__item {
-    color: black !important;
     font-weight: bold;
   }
 }
