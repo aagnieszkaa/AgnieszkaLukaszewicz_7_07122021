@@ -7,11 +7,11 @@
     col-md-8
     card-parent
     ">
-        <b-card-header class="card-content">    
-            <b-card-text @click="goToProfile()" class="card-content__user">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</b-card-text>
-            <p class="card-content__date">{{ formatDate(publication.updatedAt) }}</p> 
+        <b-card-header class="card-parent__card-content">    
+            <b-card-text @click="goToProfile()" class="card-parent__card-content__user">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</b-card-text>
+            <p class="card-parent__card-content__date">{{ formatDate(publication.updatedAt) }}</p> 
             <b-dropdown id="dropdown-1" text="" dropleft size="sm"
-            class="card-content__dropdown"
+            class="card-parent__card-content__dropdown"
             variant="outline-success"
             v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
             >
@@ -19,23 +19,20 @@
                 v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
                 @click="deletePost(publication.id)">
                 Supprimer</b-dropdown-item >
-
                 <b-dropdown-item 
                 v-if="publication.UtilisateurId === utilisateurInfo.id"
                 @click="editPublication()">
                 Modifier</b-dropdown-item>
-            </b-dropdown>
-              
+            </b-dropdown>  
             <b-card-title>{{publication.title}}</b-card-title>
         </b-card-header>
         <b-card-img 
         :src="publication.post_image" 
         alt="Publication" 
         bottom
-        class="mb-2 card-content__img">
+        class="mb-2 card-parent__card-content__img">
         </b-card-img>
-        <b-card-body>
-            
+        <b-card-body> 
             <b-card-text>{{publication.textContent}}</b-card-text>
             <div>
                 <b-button 
@@ -44,7 +41,6 @@
                 v-if="mode == 'shown'"
                 class="mb-2"
                 >Cacher</b-button>
-
                 <b-button 
                 variant="primary"
                 @click="showMe()"
@@ -54,9 +50,9 @@
                 <b-row>
                     <ul v-if="mode === 'shown'">
                         <li v-for="item in comments" v-bind:key="item" class="col-12">
-                        <Comment
-                            :comment="item" class="col-12">
-                        </Comment>
+                            <Comment
+                                :comment="item" class="col-12">
+                            </Comment>
                         </li>
                     </ul>
                 </b-row>
@@ -69,12 +65,9 @@
                     v-model="state.input.textComment"
                     placeholder="Écrivez votre commentaire..."
                     ></b-form-textarea>
-
                     <b-button 
                     variant="success"
-                    class="
-                    formulaire__button
-                    "
+                    class="formulaire__button"
                     @click="createComment()">
                     Envoyer
                     </b-button>
@@ -84,9 +77,7 @@
                 </span>
             </div>
         </b-card-body>
-  
     </b-card> 
-
 </template>
 
 <script>
@@ -114,7 +105,7 @@ export default {
             publications: 'publications'
         }),
     },
-    mounted: function (){
+    mounted: function () {
         const self = this;
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
         self.state.input.publicationId = self.publication.id; 
@@ -173,12 +164,9 @@ export default {
         refreshComments: function () {
             const self = this;
             const postId = self.publication.id;
-            console.log(postId);
             this.$store.dispatch('showComments', postId)
             .then((response) => {
                 this.comments = response.data;
-                console.log(this.comments);
-                console.log(response.data);
             }, (error) => {
                 this.error = error.response.data.error;
             })
@@ -213,49 +201,39 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-/*
-@mixin desktop {
-  @media screen and (min-width: 993px){
-    @content;
-  }
-}
-*/
-
 .card-parent {
     border: 1px solid #bdc7d0;
     border-radius: 2%;
-}
-.card-content {
+    &__card-content {
     position: relative;
     width: 100%;
-    &__img {
-        height: 250px;
-        object-fit: cover;
-        @include desktop {
-            height: 400px;
+        &__img {
+            height: 250px;
+            object-fit: cover;
+            @include desktop {
+                height: 400px;
+            }
+        }
+        &__user {
+            color: blue;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 40px;
+            height: 40px;
+            margin-bottom: 0;
+        }
+        &__date {
+            color: grey;
+            font-size: 0.8rem;
+        }
+        &__dropdown {
+        position: absolute;
+        right: 5px;
+        top: 5px;
         }
     }
-    &__user {
-        color: blue;
-        cursor: pointer;
-        font-size: 1.5rem;
-        line-height: 40px;
-        height: 40px;
-        margin-bottom: 0;
-    }
-    &__date {
-        color: grey;
-        font-size: 0.8rem;
-    }
-    &__dropdown {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    }
 }
-
 .formulaire {
     width: 100%;
     padding: 2px;
@@ -267,5 +245,4 @@ export default {
         width: 30%;
     }
 }
-
 </style>
