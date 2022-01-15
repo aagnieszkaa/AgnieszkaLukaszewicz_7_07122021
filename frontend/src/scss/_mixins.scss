@@ -1,19 +1,7 @@
-@mixin tablette {
-    @media screen and (min-width: 577px) and (max-width: 992px) {
-      @content;
-    }
-  }
-  @mixin desktop {
+ @mixin desktop {
     @media screen and (min-width: 993px){
       @content;
     }
-  }
-  @mixin tablette_and_desktop
-  {
-      @media screen and (min-width: 577px)
-      {
-          @content;
-      }
   }
   @mixin border {
     border: 1px solid $color-border;

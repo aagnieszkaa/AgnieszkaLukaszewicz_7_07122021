@@ -4,8 +4,6 @@
 </template>
 
 <style lang="scss">
-
-
 li {
   list-style-type: none;
 }

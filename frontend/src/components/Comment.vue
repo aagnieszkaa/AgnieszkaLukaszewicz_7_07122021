@@ -14,7 +14,6 @@
                 class="m-1"
                 @click="deleteComment(comment.id)">
                 Supprimer</b-dropdown-item>
-
                 <b-dropdown-item
                 v-if="comment.UtilisateurId === this.utilisateurInfo.id"
                 variant="primary"
@@ -62,8 +61,7 @@ export default {
         refreshData: function () {
             const self = this;
             self.$store.dispatch('showPublications')
-            .then(function (response) {
-                console.log(response);
+            .then(function () {
             }, function (error) {
                 self.error = error.response.data.error;
             })

@@ -152,7 +152,6 @@ export default {
         this.$store.dispatch('modificationPublication', {publicationAll: fd, publicationId: self.$route.params.postId})
         .then(function () {
           self.$router.push('/memes');
-          console.log('ok');
         }, function (error) {
           self.error = error.response.data.error;
         })
