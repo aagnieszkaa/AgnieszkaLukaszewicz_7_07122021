@@ -1,30 +1,28 @@
 <template>
-<div>
+    <div>
         <div class="comment bg-light mb-2 p-2">
+            <p class="comment__creator" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.nom}}</p>
+            <b-dropdown id="dropdown-1" text="" dropleft size="sm"
+            variant="outline-success"
+            class="comment__dropdown"
+            v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
+            >
+                <b-dropdown-item
+                v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
+                variant="primary"
+                size="sm"
+                class="m-1"
+                @click="deleteComment(comment.id)">
+                Supprimer</b-dropdown-item>
 
-                <p class="comment__creator" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.nom}}</p>
-                <b-dropdown id="dropdown-1" text="" dropleft size="sm"
-                    variant="outline-success"
-                    class="comment__dropdown"
-                    v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
-                    >
-                        <b-dropdown-item
-                        v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
-                        variant="primary"
-                        size="sm"
-                        class="m-1"
-                        @click="deleteComment(comment.id)">
-                        Supprimer</b-dropdown-item>
-
-                        <b-dropdown-item
-                        v-if="comment.UtilisateurId === this.utilisateurInfo.id"
-                        variant="primary"
-                        size="sm"
-                        class="m-1"
-                        @click="editComment()">
-                        Modifier</b-dropdown-item>
-                    </b-dropdown>
-
+                <b-dropdown-item
+                v-if="comment.UtilisateurId === this.utilisateurInfo.id"
+                variant="primary"
+                size="sm"
+                class="m-1"
+                @click="editComment()">
+                Modifier</b-dropdown-item>
+            </b-dropdown>
             <p class="comment__date">{{ formatDate(comment.updatedAt) }}</p> 
             <p>{{comment.textComment}}</p> 
         </div>
@@ -42,12 +40,12 @@ export default {
             type: Object
         },
     },
-  computed: {
-    ...mapState({
-      utilisateur_token_id: 'utilisateur',
-      utilisateurInfo: 'utilisateurInfo'
-    })
-  },
+    computed: {
+        ...mapState({
+        utilisateur_token_id: 'utilisateur',
+        utilisateurInfo: 'utilisateurInfo'
+        })
+    },
     methods: {
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY hh:mm')
@@ -80,35 +78,28 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
 .comment {
-    border: 1px solid #bdc7d0;
+    @include border;
     border-radius: 3%;
     position: relative;
     &__creator {
     height: 50px;
     line-height: 50px;
     display: inline;
-
     text-align: center;
     color: blue;
     cursor: pointer;
     font-size: 1.1em;
     font-weight: bold;
-
     }
     &__dropdown {
         position: absolute;
         right: 5px;
-        top: 5px;
-        
+        top: 5px;  
     }
     &__date {
         font-size: 0.8em;
     }
 }
-
-
 </style>
