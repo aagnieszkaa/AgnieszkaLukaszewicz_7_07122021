@@ -54,7 +54,11 @@
           <b-button 
           variant="primary"
           class="m-3"
-          @click="modifyUser()">Enregistrer</b-button>
+          @click="modifyUser()">
+            
+            <span v-if="status == 'loading'">En cours...</span>
+            <span v-else>Enregistrer</span>
+          </b-button>
           <b-button 
           variant="primary"
           class="m-3"
@@ -84,6 +88,7 @@ export default {
     ...mapState({
     utilisateur_token_id: 'utilisateur',
     utilisateurInfo: 'utilisateurInfo',
+    status: 'status'
     })
   },
   mounted: function (){

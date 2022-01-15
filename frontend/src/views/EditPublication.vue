@@ -57,7 +57,9 @@
           class="col-5 
           mt-3"
           @click="editPost()">
-          Enregistrer</b-button>
+            <span v-if="status == 'loading'">En cours...</span>
+            <span v-else>Enregistrer</span>
+          </b-button>
           <b-button 
           variant="primary"
           class="offset-2 col-5 
@@ -87,6 +89,7 @@ export default {
     ...mapState({
     publications: 'publications',
     publicationInfo: 'publicationInfo',
+    status: 'status'
     })
   },
   mounted: function () {

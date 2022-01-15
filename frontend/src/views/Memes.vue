@@ -49,7 +49,9 @@
           variant="primary"
           class="col-4"
           @click="createPost()">
-          Publier</b-button>
+            <span v-if="status == 'loading'">En cours...</span>
+            <span v-else>Publier</span>
+          </b-button>
         </b-form>
       </b-row>
       <b-row>
@@ -89,6 +91,7 @@ export default {
     utilisateur_token_id: 'utilisateur',
     utilisateurInfo: 'utilisateurInfo',
     publications: 'publications',
+    status: 'status',
     })
   },
   mounted: function (){

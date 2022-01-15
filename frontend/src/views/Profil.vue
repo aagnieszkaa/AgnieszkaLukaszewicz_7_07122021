@@ -33,14 +33,15 @@
               variant="primary"
               v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
               class="col-8"
-              @click="deleteUser()"
-              >Supprimer le compte</b-button><br>
+              @click="deleteUser()">
+                <span v-if="status == 'loading'">En cours...</span>
+                <span v-else>Supprimer le compte</span>
+              </b-button><br>
               <b-button 
               variant="secondary"
               v-if="this.utilisateur_token_id.utilisateurId == this.urlId"
               class="col-8 mt-4"
-              @click="logout()"
-              >Déconnexion</b-button>
+              @click="logout()">Déconnexion</b-button>
             </b-card-body>
           </b-card>
         </b-row>
@@ -84,6 +85,7 @@ export default {
     ...mapState({
     utilisateur: 'utilisateurInfo',
     utilisateur_token_id: 'utilisateur',
+    status: 'status',
     })
   },
   methods: {

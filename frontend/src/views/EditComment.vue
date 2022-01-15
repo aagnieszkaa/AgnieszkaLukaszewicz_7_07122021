@@ -25,7 +25,8 @@
             offset-md-3 col-md-2
             mt-3"
             @click="editComment()">
-            Modifier
+              <span v-if="status == 'loading'">En cours...</span>
+              <span v-else>Modifier</span>
             </b-button>
 
             <b-button 
@@ -60,6 +61,7 @@ export default {
   computed: {
     ...mapState({
     commentInfo: 'commentInfo',
+    status: 'status'
     })
   },
   mounted: function (){

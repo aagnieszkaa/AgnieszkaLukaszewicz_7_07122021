@@ -114,25 +114,31 @@ export default createStore({
       })
     },
     suppressionUtilisateur: ({commit}, utilisateurId) => {
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.put('/auth/deleteUser/'+utilisateurId)
         .then(function (response) {
+          commit('CHANGE_STATUS', '');
           commit('DELETE_USER', response.data);
           resolve(response);
         })
         .catch(function (error) {
+          commit('CHANGE_STATUS', '');
           reject(error);
         }); 
       })
     },
     modificationUtilisateur: ({commit}, utilisateur) => {
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.put('/auth/modifyUser/'+utilisateur.utilisateurId, utilisateur.utilisateurAll)
         .then(function (response) {
+          commit('CHANGE_STATUS', '');
           commit('UTILISATEUR_INFO', response.data);
           resolve(response);
         })
         .catch(function (error) {
+          commit('CHANGE_STATUS', '');
           reject(error);
         }); 
       })
@@ -152,34 +158,31 @@ export default createStore({
       });
     },
     showPublications: ({commit}) => {
-      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.get('/publications/getListOfMemes')
         .then(function (response) {
-          commit('CHANGE_STATUS', '');
           commit('SET_PUBLICATIONS', response.data);
           resolve(response);
         })
         .catch(function (error) {
-          commit('CHANGE_STATUS', '');
           reject(error);
         })
       });
     },
     suppressionPublication: ({commit}, publicationId) => {
+      commit;
       return new Promise((resolve, reject) => {
         instance.delete('/publications/deletePublication/'+publicationId)
         .then(function (response) {
-          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('CHANGE_STATUS', '');
           reject(error);
         }); 
       })
     },
     modificationPublication: ({commit}, publication) => {
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.put('/publications/modifyPublication/'+publication.publicationId, publication.publicationAll)
         .then(function (response) {
@@ -232,33 +235,31 @@ export default createStore({
       });
     },
     suppressionComment: ({commit}, commentId) => {
+      commit;
       return new Promise((resolve, reject) => {
         instance.delete('/comments/deleteComment/'+commentId)
         .then(function (response) {
-          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('CHANGE_STATUS', '');
           reject(error);
         }); 
       })
     },
     showComments: ({commit}, postId) => {
-      commit('CHANGE_STATUS', 'loading');
+      commit;
       return new Promise((resolve, reject) => {
         instance.get('/comments/getListOfComments/'+postId)
         .then(function (response) {
-          commit('CHANGE_STATUS', '');
           resolve(response);
         })
         .catch(function (error) {
-          commit('CHANGE_STATUS', '');
           reject(error);
         })
       });
     },
     modificationComment: ({commit}, comment) => {
+      commit('CHANGE_STATUS', 'loading');
       return new Promise((resolve, reject) => {
         instance.put('/comments/modifyComment/'+comment.commentId, comment.commentAll)
         .then(function (response) {

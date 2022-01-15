@@ -69,7 +69,8 @@
                     variant="success"
                     class="formulaire__button"
                     @click="createComment()">
-                    Envoyer
+                        <span v-if="status == 'loading'">En cours...</span>
+                        <span v-else>Envoyer</span>
                     </b-button>
                 </b-form>
                 <span class="error" v-if="vComment$.input.textComment.$error">
@@ -102,7 +103,8 @@ export default {
         ...mapState({
             utilisateurInfo: 'utilisateurInfo',
             utilisateur_token_id: 'utilisateur',
-            publications: 'publications'
+            publications: 'publications',
+            status: 'status',
         }),
     },
     mounted: function () {

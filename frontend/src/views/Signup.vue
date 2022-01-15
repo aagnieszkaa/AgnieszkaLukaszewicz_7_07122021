@@ -132,18 +132,23 @@
           <b-button 
           variant="primary"
           v-if="mode == 'signup'"
-          @click="signup">Créez votre compte</b-button>
+          @click="signup">
+            <span v-if="status == 'loading'">En cours...</span>
+            <span v-else>Créez votre compte</span>
+          </b-button>
           <b-button 
           variant="primary"
           v-else
-          @click="login()">Connectez-vous</b-button><br>  
+          @click="login()">
+            <span v-if="status == 'loading'">En cours...</span>
+            <span v-else>Connectez-vous</span>
+          </b-button><br>  
           <span class="error">
             {{ error }}
           </span>
         </b-form>
       </b-row>
     </b-container>  
-      <!--<span v-if="state == 'connexionEnCours'">Connexion en cours</span>-->
   </div>
 </template>
 
