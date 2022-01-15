@@ -1,83 +1,71 @@
 <template>
-    <div>
-        <Header></Header>
-        <Menu></Menu>
-        <b-container class="mt-4">
-            <b-row>
-                <b-form class="bg-light my-4 p-4 formulaire">
-                    <h2>Créez votre publication</h2>
-
-                    <b-form-group
-                    label="Titre :"
-                    label-for="input-title"
-                    class="mb-2">
-                        <b-form-input
-                        id="input-title"
-                        v-model="state.input.title"
-                        type="text">
-                        </b-form-input>
-                        <span class="error" v-if="vPublication$.input.title.$error">
-                          {{ vPublication$.input.title.$errors[0].$message }}
-                      </span>
-                    </b-form-group>
-
-                    <b-form-group
-                    label="Description :"
-                    label-for="input-description"
-                    class="mb-2">
-                        <b-form-textarea
-                        id="input-description"
-                        v-model="state.input.textContent"
-                        rows="3"
-                        max-rows="6"
-                        ></b-form-textarea>
-                        <span class="error" v-if="vPublication$.input.textContent.$error">
-                          {{ vPublication$.input.textContent.$errors[0].$message }}
-                      </span>
-                    </b-form-group>
-
-                    <b-form-group
-                    label="Image :"
-                    label-for="input-image"
-                    class="mb-2">
-                        <input type="file" 
-                        id="input-image"
-                        accept="image/*"
-                        @change="photoChange"><br>
-                        <span class="error" v-if="vPublication$.post_image.$error">
-                          {{ vPublication$.post_image.$errors[0].$message }}
-                        </span>
-                    </b-form-group>
-
-                    <b-button 
-                    variant="primary"
-                    class="col-4"
-                    @click="createPost()">
-                    Publier</b-button>
-
-                </b-form>
-            </b-row>
-            <b-row>
-              <ul class="list col-12">
-                <b-row>
-                  <!--
-                  <li v-for="item in pageOfItems" v-bind:key="item" class="col-12 d-flex flex-column align-items-center list__item">
-                  -->
-                  <li v-for="item in publications" v-bind:key="item" class="col-12 d-flex flex-column align-items-center list__item">
-                    <Meme
-                      :publication="item" class="col-12">
-                    </Meme>
-                  </li>
-                </b-row>
-              </ul>
-            </b-row>
-        </b-container>
-        <!--
-        <b-footer>
-          <jw-pagination :items="publicationItems" :labels="customLabels" @changePage="onChangePage"></jw-pagination>
-        </b-footer>
-        -->
-    </div> 
+  <div>
+    <Header></Header>
+    <Menu></Menu>
+    <b-container class="mt-4">
+      <b-row>
+        <b-form class="bg-light my-4 p-4 formulaire">
+          <h2>Créez votre publication</h2>
+          <b-form-group
+          label="Titre :"
+          label-for="input-title"
+          class="mb-2">
+            <b-form-input
+            id="input-title"
+            v-model="state.input.title"
+            type="text">
+            </b-form-input>
+            <span class="error" v-if="vPublication$.input.title.$error">
+              {{ vPublication$.input.title.$errors[0].$message }}
+            </span>
+          </b-form-group>
+          <b-form-group
+          label="Description :"
+          label-for="input-description"
+          class="mb-2">
+            <b-form-textarea
+            id="input-description"
+            v-model="state.input.textContent"
+            rows="3"
+            max-rows="6"
+            ></b-form-textarea>
+            <span class="error" v-if="vPublication$.input.textContent.$error">
+              {{ vPublication$.input.textContent.$errors[0].$message }}
+            </span>
+          </b-form-group>
+          <b-form-group
+          label="Image :"
+          label-for="input-image"
+          class="mb-2">
+            <input type="file" 
+            id="input-image"
+            accept="image/*"
+            @change="photoChange"><br>
+            <span class="error" v-if="vPublication$.post_image.$error">
+              {{ vPublication$.post_image.$errors[0].$message }}
+            </span>
+          </b-form-group>
+          <b-button 
+          variant="primary"
+          class="col-4"
+          @click="createPost()">
+          Publier</b-button>
+        </b-form>
+      </b-row>
+      <b-row>
+        <ul class="list col-12">
+          <b-row>
+            <li v-for="item in publications" v-bind:key="item" 
+            class="col-12 d-flex flex-column align-items-center list__item">
+              <Meme
+                :publication="item" class="col-12">
+              </Meme>
+            </li>
+          </b-row>
+        </ul>
+      </b-row>
+    </b-container>
+  </div> 
 </template>
 
 <script>
@@ -89,21 +77,6 @@
   import { required, helpers } from '@vuelidate/validators'
   import { reactive, computed } from 'vue'
 
-
-  //import JwPagination from 'jw-vue-pagination';
-  //const array = this.publications;
-  //???
-  //const publicationItems = this.publications;
-
-/*
-  const customLabels = {
-    first: '<<',
-    last: '>>',
-    previous: '<',
-    next: '>'
-  };
-  */
-
 export default {
   name: 'Memes',
   components: {
@@ -113,54 +86,46 @@ export default {
   },
   computed: {
     ...mapState({
-      utilisateur_token_id: 'utilisateur',
-      utilisateurInfo: 'utilisateurInfo',
-      publications: 'publications',
+    utilisateur_token_id: 'utilisateur',
+    utilisateurInfo: 'utilisateurInfo',
+    publications: 'publications',
     })
   },
   mounted: function (){
-      const self = this;
-      self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
-      self.$store.dispatch('utilisateurInfo', self.utilisateur_token_id.utilisateurId);
-      self.$store.dispatch('showPublications');
+    const self = this;
+    self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
+    self.$store.dispatch('utilisateurInfo', self.utilisateur_token_id.utilisateurId);
+    self.$store.dispatch('showPublications');
   },
   setup () {
-      const state = reactive({
+    const state = reactive({
+      input: {
+        title: '',
+        textContent: '',
+        creatorId: '',
+      },
+      post_image: null
+    })
+    const rulesPublication = computed(() => {
+      return {
         input: {
-          title: '',
-          textContent: '',
-          creatorId: '',
-        },
-        post_image: null
-      })
-      const rulesPublication = computed(() => {
-        return {
-          input: {
           title: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
           textContent: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
         },
         post_image: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) }}
       })
-      const vPublication$ = useVuelidate(rulesPublication, state)
-      return { state, vPublication$ }
-    },
+    const vPublication$ = useVuelidate(rulesPublication, state)
+    return { state, vPublication$ }
+  },
   data: function () {
     return {
       error: '',
-      //publicationItems,
-      //pageOfItems: [],
-      //customLabels
     }
   },
   methods: {
       photoChange: function (event) {
-          this.state.post_image = event.target.files[0];        
+        this.state.post_image = event.target.files[0];        
       },
-      /*
-      onChangePage(pageOfItems) {
-          // update page of items
-          this.pageOfItems = pageOfItems;
-      },*/
       submitFormPublication() {
         this.vPublication$.$validate();
         if(!this.vPublication$.$error) {
@@ -188,18 +153,17 @@ export default {
         const self = this;
         self.$store.dispatch('showPublications')
         .then(function () {
-          }, function (error) {
+        }, function (error) {
             self.error = error.response.data.error;
-          })
-        }
-      },
+          }
+      )}
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-
 .formulaire {
-  border: 1px solid #bdc7d0;
+  @include border;
   border-radius: 2%;
 }
 .list {
@@ -207,5 +171,4 @@ export default {
     width: 100%;
   }
 }
-
 </style>
