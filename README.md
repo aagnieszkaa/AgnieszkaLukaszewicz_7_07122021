@@ -52,7 +52,28 @@ Vous pouvez modifier votre profil ou le désactiver depuis l'onglet 'profil'.
 Vous pouvez publier, modifier et supprimer les publications contenant des images. Chaque publication peut être commentée. 
 Vous pouvez vous déconnecter depuis votre profil ou depuis le menu.
 
+## Spécifiations de l’API
 
+Base URL : http://localhost:3000/api/
+
+Aucune entrée de la base de donnés ne peut pas être nulle.
+
+### USER /auth
+
+{ id : integer, nom : string, prenom : string, mot_de_passe : string, image_chemin : string, fonction : boolean, enabled : boolean, createdAt : datetime, updatedAt : datetime }
+
+![USER_API](https://user-images.githubusercontent.com/81988403/149644642-e66e2c53-5cad-4803-8cec-9225cf19edc5.PNG)
+
+### PUBLICATION /publications
+
+{ id : integer, title : string, post_image : string, textContent : string, PublicationId : integer, createdAt : datetime, updatedAt : datetime }
+
+![PUBLICATION_API](https://user-images.githubusercontent.com/81988403/149644648-a685de82-8133-4bb4-8c7f-cc46163b418c.PNG)
+### COMMENT /comments
+
+{ id : integer, textComment : string, PublicationId : integer, CommentId : integer, createdAt : datetime, updatedAt : datetime }
+
+![COMMENT_API](https://user-images.githubusercontent.com/81988403/149644667-62450642-2114-40e8-96ca-3e4820e693eb.PNG)
 
 
 
