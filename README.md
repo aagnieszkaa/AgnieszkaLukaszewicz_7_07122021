@@ -62,7 +62,7 @@ Aucune entrée de la base de donnés ne peut pas être nulle.
 
 { id : integer, nom : string, prenom : string, mot_de_passe : string, image_chemin : string, fonction : boolean, enabled : boolean, createdAt : datetime, updatedAt : datetime }
 
-![USER_API](https://user-images.githubusercontent.com/81988403/149657190-04ca27b0-e0b9-4d4b-b1b1-95b5ee784e1a.PNG)
+![USER_API](https://user-images.githubusercontent.com/81988403/149659177-7948d275-b6b6-4a6b-9c13-26a94f66e69d.PNG)
 
 ### PUBLICATION /publications
 
