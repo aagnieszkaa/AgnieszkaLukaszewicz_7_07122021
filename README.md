@@ -88,7 +88,7 @@ Aucune entrée de la base de donnés ne peut pas être nulle.
 
 ### COMMENT `/comments`
 
-{ id : integer, textComment : string, PublicationId : integer, CommentId : integer, createdAt : datetime, updatedAt : datetime }
+{ id : integer, textComment : string, PublicationId : integer, UtilisateurId : integer, createdAt : datetime, updatedAt : datetime }
 
 ![COMMENT_API](https://user-images.githubusercontent.com/81988403/149657240-5085e2bc-4742-4ab7-b3ea-f874a1468f31.PNG)
 
