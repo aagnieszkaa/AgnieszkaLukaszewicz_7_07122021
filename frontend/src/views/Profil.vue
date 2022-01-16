@@ -112,7 +112,7 @@ export default {
   overflow: hidden;
   border-radius: 2%;
   padding: 0;
-  border: 1px solid #bdc7d0;
+  @include border;
   &__photo {
     height: 250px;
     width: 100%;

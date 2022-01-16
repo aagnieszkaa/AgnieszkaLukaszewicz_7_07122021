@@ -6,11 +6,11 @@ module.exports = (sequelize, Sequelize) => {
       },
       post_image: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       textContent: {
         type: Sequelize.TEXT,
-        allowNull: true
+        allowNull: false
       }
     },
       {
