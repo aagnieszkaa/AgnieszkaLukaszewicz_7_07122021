@@ -2,6 +2,7 @@
   <div>
     <Header></Header>
     <Menu></Menu>
+    <h1 class="h1">Bienvenue sur le réseau social de Groupomania !</h1>
     <b-container class="mt-4 mb-4">
       <b-row class="form">
         <b-form class="offset-1 col-10 formulaire bg-light">
@@ -36,8 +37,10 @@
             <img
             class="col-5"
             ref="photoProfil"
+            alt="photo de profil"
             :src="utilisateurInfo.image_chemin" />
             <img
+            alt="photo de profil preview"
             class="col-5"
             ref="preview"
             src="" />

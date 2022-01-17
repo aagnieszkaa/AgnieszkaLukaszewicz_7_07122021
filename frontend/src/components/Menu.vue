@@ -34,8 +34,11 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 
+.nav-link {
+  color: black!important;
+}
 .menu {
   @include border;
   &__item {

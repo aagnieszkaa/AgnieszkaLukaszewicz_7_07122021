@@ -2,11 +2,13 @@
   <div>
     <Header></Header>
     <Menu></Menu>
+    <h1 class="h1 mt-4">Bienvenue sur le réseau social de Groupomania !</h1>
     <b-container>
       <b-row>
         <b-form class="mt-4
         col-12 
         offset-lg-3 col-lg-6">
+          <label for="textarea-small" id="textarea__label">Modifier votre commentaire</label>
           <b-form-textarea
               id="textarea-small"
               size="sm"
@@ -22,7 +24,6 @@
             size="sm"
             class="
             offset-1 col-4
-            offset-md-3 col-md-2
             mt-3"
             @click="editComment()">
               <span v-if="status == 'loading'">En cours...</span>
@@ -33,8 +34,7 @@
             variant="danger"
             size="sm"
             class="
-            offset-2 col-4
-            offset-md-2 col-md-2
+            offset-1 col-4
             mt-3"
             @click="abandon()">Abandonner</b-button>
           </div>   
@@ -117,4 +117,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#textarea__label {
+  font-weight: bold;
+  display: block;
+  text-align: center;
+  margin-bottom: 2px;
+}
 </style>

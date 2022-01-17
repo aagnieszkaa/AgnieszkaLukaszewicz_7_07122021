@@ -3,6 +3,7 @@
     <Header></Header>
     <Menu></Menu>
     <div class="container">
+      <h1 class="h1 mt-4">Bienvenue sur le réseau social de Groupomania !</h1>
       <b-container class="my-4">
         <b-row>
           <b-card
@@ -19,7 +20,7 @@
             class="mb-2 profil-card__photo">
             </b-card-img>
             <b-card-body class="d-flex flex-column justify-content-center align-items-center">
-              <b-card-title>{{utilisateur.prenom}} {{utilisateur.nom}}</b-card-title>
+              <h2>{{utilisateur.prenom}} {{utilisateur.nom}}</h2>
               <b-card-text v-if="chargeCommunication">Chargé de la communication</b-card-text>
               <b-card-text v-else>Employée</b-card-text>
               <b-card-text>{{utilisateur.email}}</b-card-text>

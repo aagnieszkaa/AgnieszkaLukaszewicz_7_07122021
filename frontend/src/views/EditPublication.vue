@@ -2,6 +2,7 @@
   <div>
     <Header></Header>
     <Menu></Menu>
+    <h1 class="h1 mt-4">Bienvenue sur le réseau social de Groupomania !</h1>
     <b-container class="mt-4">
       <b-row>
         <b-form class="bg-light my-4 p-4 formulaire">
@@ -37,10 +38,12 @@
             <img
             class="col-5"
             ref="photoMeme"
+            alt="photo de publication"
             :src="publicationInfo.post_image" />
             <img
             class="col-5"
             ref="preview"
+            alt="photo de publication preview"
             src="" />
           </b-row>
           <b-form-group

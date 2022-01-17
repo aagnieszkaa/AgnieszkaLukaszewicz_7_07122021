@@ -1,26 +1,31 @@
 <template>
     <div>
         <div class="comment bg-light mb-2 p-2">
-            <p class="comment__creator text-dark" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.nom}}</p>
+            <h5 class="comment__creator text-dark" @click="goToProfile()">{{comment.Utilisateur.prenom}} {{comment.Utilisateur.nom}}</h5>
             <b-dropdown id="dropdown-1" text="" dropleft size="sm"
             variant="outline-danger"
             class="comment__dropdown"
             v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
             >
+                <template #button-content>
+                    <p class="comment__dropdown__text">dropdown list</p>
+                </template>
                 <b-dropdown-item
                 v-if="comment.UtilisateurId === this.utilisateurInfo.id || this.utilisateurInfo.fonction === true"
                 variant="danger"
                 size="sm"
                 class="m-1"
                 @click="deleteComment(comment.id)">
-                Supprimer</b-dropdown-item>
+                    <span role="menuitem">Supprimer</span>
+                </b-dropdown-item>
                 <b-dropdown-item
                 v-if="comment.UtilisateurId === this.utilisateurInfo.id"
                 variant="dark"
                 size="sm"
                 class="m-1"
                 @click="editComment()">
-                Modifier</b-dropdown-item>
+                    <span role="menuitem">Modifier</span>
+                </b-dropdown-item>
             </b-dropdown>
             <p class="comment__date">{{ formatDate(comment.updatedAt) }}</p> 
             <p>{{comment.textComment}}</p> 
@@ -94,6 +99,9 @@ export default {
         position: absolute;
         right: 5px;
         top: 5px;  
+        &__text {
+            display: none;
+        }
     }
     &__date {
         font-size: 0.8em;

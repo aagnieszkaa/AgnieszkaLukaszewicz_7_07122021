@@ -9,29 +9,37 @@
     card-parent
     ">
         <b-card-header class="card-parent__card-content">    
-            <b-card-text @click="goToProfile()" class="card-parent__card-content__user text-dark">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</b-card-text>
+            <h3 @click="goToProfile()" class="card-parent__card-content__user text-dark">{{ publication.Utilisateur.prenom }} {{ publication.Utilisateur.nom }}</h3>
             <p class="card-parent__card-content__date">{{ formatDate(publication.updatedAt) }}</p> 
-            <b-dropdown id="dropdown-1" text="" dropleft size="sm"
+            <b-dropdown id="dropdown-1" dropleft size="sm"
             class="card-parent__card-content__dropdown"
             variant="outline-danger"
+            role="menu"
             v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
             >
+                <template #button-content>
+                <p class="card-parent__card-content__dropdown__p">dropdown list</p>
+                </template>
                 <b-dropdown-item
+                role="menuItem"
                 variant="danger"
                 v-if="publication.UtilisateurId === utilisateurInfo.id || utilisateurInfo.fonction === true"
                 @click="deletePost(publication.id)">
-                Supprimer</b-dropdown-item >
+                    <span role="menuitem">Supprimer</span>
+                </b-dropdown-item >
                 <b-dropdown-item 
                 variant="dark"
+                role="menuItem"
                 v-if="publication.UtilisateurId === utilisateurInfo.id"
                 @click="editPublication()">
-                Modifier</b-dropdown-item>
+                    <span role="menuitem">Modifier</span>
+                </b-dropdown-item>
             </b-dropdown>  
             <b-card-title>{{publication.title}}</b-card-title>
         </b-card-header>
         <b-card-img 
         :src="publication.post_image" 
-        alt="Publication" 
+        :alt="getImgAlt()" 
         bottom
         class="mb-2 card-parent__card-content__img">
         </b-card-img>
@@ -60,11 +68,13 @@
                     </ul>
                 </b-row>
                 <b-form class="d-flex formulaire justify-content-between">
+                    
                     <b-form-textarea
                     class="
                     border border-danger
                     formulaire__input
                     "
+                    id="textarea"
                     v-model="state.input.textComment"
                     placeholder="Écrivez votre commentaire..."
                     ></b-form-textarea>
@@ -142,6 +152,9 @@ export default {
         }
     },
     methods: {
+        getImgAlt() {
+            return 'Photo de publication ' + this.publication.id;
+        },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY hh:mm')
         },
@@ -236,18 +249,24 @@ export default {
         position: absolute;
         right: 5px;
         top: 5px;
+        &__p {
+            display: none;
+        }
         }
     }
 }
 .formulaire {
     width: 100%;
     padding: 2px;
-
     &__input {
         width: 69%;
     }
     &__button {
         width: 30%;
     }
+    &__textarea {
+        display: none;
+    }
 }
+
 </style>

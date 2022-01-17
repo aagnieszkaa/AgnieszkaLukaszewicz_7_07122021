@@ -3,6 +3,7 @@
     <Header></Header>
     <Menu></Menu>
     <b-container class="mt-4">
+      <h1 class="h1">Bienvenue sur le réseau social de Groupomania !</h1>
       <b-row>
         <b-form class="bg-light my-4 p-4 formulaire">
           <h2>Créez votre publication</h2>
@@ -57,6 +58,7 @@
       <b-row>
         <ul class="list col-12">
           <b-row>
+            <label for="textarea" id="textarea__label">Écrivez votre commentaire...</label>
             <li v-for="item in publications" v-bind:key="item" 
             class="col-12 d-flex flex-column align-items-center list__item">
               <Meme
@@ -173,5 +175,8 @@ export default {
   &__item {
     width: 100%;
   }
+}
+#textarea__label {
+    display: none;
 }
 </style>

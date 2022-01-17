@@ -2,6 +2,7 @@
   <div>
     <Header></Header>
     <b-container class="mt-4 mb-4">
+      <h1 class="h1 mb-4">Bienvenue sur le réseau social de Groupomania !</h1>
       <b-row class="form">
         <b-form class="
         offset-1 col-10 
