@@ -27,7 +27,13 @@
                     <span role="menuitem">Modifier</span>
                 </b-dropdown-item>
             </b-dropdown>
-            <p class="comment__date">{{ formatDate(comment.updatedAt) }}</p> 
+            <p class="comment__date">
+                <span>{{ formatDate(comment.createdAt) }}</span><br>
+                <span
+                v-if='comment.updatedAt != comment.createdAt'>
+                    Modifié le : {{ formatDate(comment.updatedAt) }}
+                </span>
+            </p> 
             <p>{{comment.textComment}}</p> 
         </div>
     </div>
@@ -55,19 +61,10 @@ export default {
             return moment(date).format('DD/MM/YYYY hh:mm')
         },
         deleteComment: function (id) {
-            const self = this;
             this.$store.dispatch('suppressionComment', id)
-            .then(function () {
-                self.refreshData();
-            }, function (error) {
-                self.error = error.response.data.error;
-            })
-        },
-        refreshData: function () {
-            const self = this;
-            self.$store.dispatch('showPublications')
-            .then(function () {
-            }, function (error) {
+            .then(() => {
+                this.$emit("delComment");
+            }, (error) => {
                 self.error = error.response.data.error;
             })
         },

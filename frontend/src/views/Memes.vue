@@ -97,6 +97,10 @@ export default {
     })
   },
   mounted: function (){
+    if (this.utilisateur_token_id.utilisateurId == -1) {
+      this.$router.push('/');
+      return;
+    }
     const self = this;
     self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
     self.$store.dispatch('utilisateurInfo', self.utilisateur_token_id.utilisateurId);

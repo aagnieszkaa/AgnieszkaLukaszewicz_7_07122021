@@ -45,6 +45,9 @@
         </b-card-img>
         <b-card-body> 
             <b-card-text>{{publication.textContent}}</b-card-text>
+            <b-button class="mb-2">
+                <i class="far fa-heart"></i> Like
+            </b-button>
             <div>
                 <b-button 
                 variant="danger"
@@ -62,7 +65,9 @@
                     <ul v-if="mode === 'shown'">
                         <li v-for="item in comments" v-bind:key="item" class="col-12">
                             <Comment
-                                :comment="item" class="col-12">
+                                :comment="item" 
+                                @delComment="refreshComments()"
+                                class="col-12">
                             </Comment>
                         </li>
                     </ul>
@@ -124,7 +129,7 @@ export default {
         const self = this;
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
         self.state.input.publicationId = self.publication.id; 
-        self.comments = this.publication.Comments;
+        self.refreshComments();
     },
     setup () {
         const state = reactive({

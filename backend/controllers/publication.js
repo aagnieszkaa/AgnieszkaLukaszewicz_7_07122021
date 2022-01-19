@@ -17,16 +17,10 @@ exports.savePublication = (req, res, next) => {
 exports.getListOfMemes = (req, res, next) => {
   db.Publication.findAll({
     order: [
-        ['updatedAt', 'DESC']
+        ['createdAt', 'DESC']
     ],
     include: [
-      { model: db.Utilisateur },
-      { model: db.Comment,
-        order: [
-          ['updatedAt', 'DESC']
-        ],
-        include: [{model: db.Utilisateur}]
-      }
+      { model: db.Utilisateur }
     ]
 })
   .then((publications) => {

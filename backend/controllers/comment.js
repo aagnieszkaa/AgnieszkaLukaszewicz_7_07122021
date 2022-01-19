@@ -49,7 +49,7 @@ exports.getListOfComments = (req, res, next) => {
   db.Comment.findAll({
       where: { PublicationId: req.params.postId },
       order: [
-          ['updatedAt', 'DESC'],
+          ['createdAt', 'DESC'],
       ],
       include: [{model: db.Utilisateur}]
   })
