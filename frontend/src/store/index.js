@@ -272,6 +272,18 @@ export default createStore({
         }); 
       })
     },
+    publicationLike: ({commit}, publicationInfo) => {
+      commit;
+      return new Promise((resolve, reject) => {
+        instance.post('/likes/likePublication/'+publicationInfo.publicationId+'/'+publicationInfo.utilisateurId)
+        .then(function (response) {
+          resolve(response);
+        })
+        .catch(function (error) {
+          reject(error);
+        })
+      });
+    },
   },
 
   modules: {

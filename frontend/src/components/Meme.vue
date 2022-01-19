@@ -41,13 +41,17 @@
         :src="publication.post_image" 
         :alt="getImgAlt()" 
         bottom
-        class="mb-2 card-parent__card-content__img">
+        class="card-parent__card-content__img">
         </b-card-img>
         <b-card-body> 
+            <span class="span">{{likesCount}}</span>
+            <button class="button--like"
+            @click="postLike()">
+                <i class="fas fa-heart button--like__icon"></i> 
+                J'aime
+            </button>
+            
             <b-card-text>{{publication.textContent}}</b-card-text>
-            <b-button class="mb-2">
-                <i class="far fa-heart"></i> Like
-            </b-button>
             <div>
                 <b-button 
                 variant="danger"
@@ -130,6 +134,7 @@ export default {
         self.state.input.creatorId = self.utilisateur_token_id.utilisateurId;
         self.state.input.publicationId = self.publication.id; 
         self.refreshComments();
+        self.likesCount = self.publication.likes;
     },
     setup () {
         const state = reactive({
@@ -154,6 +159,8 @@ export default {
             error: '',
             mode: '',
             comments: '',
+            likesCount: null,
+            like: false
         }
     },
     methods: {
@@ -219,12 +226,34 @@ export default {
                     this.error = error.response.data.error;
                 })
             }
-        },   
+        }, 
+        postLike() {
+            const self = this;
+            const utilisateurId = self.utilisateur_token_id.utilisateurId;
+            const publicationId = self.publication.id;
+            console.log(utilisateurId);
+            console.log(publicationId);
+            this.$store.dispatch('publicationLike', {utilisateurId, publicationId})
+            .then((response) => {
+                if (response.data.like == false) {
+                this.like = false;
+                this.likesCount--;
+                } else {
+                    this.like = true;
+                    this.likesCount++;   
+            }
+            });
+        },  
     }
 }
 </script>
 
 <style scoped lang="scss">
+/*
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap');
+*/
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
 .card-parent {
     @include border;
     border-radius: 2%;
@@ -273,5 +302,22 @@ export default {
         display: none;
     }
 }
-
+.button--like {
+    background: none;
+    border: 0;
+    margin-bottom: 6px;
+    font-size: 1.5em;
+    /*border-bottom: 2px solid black;*/
+    font-family: 'Dancing Script', cursive;
+    &__icon {
+        background: linear-gradient(180deg, #9f6bf2 0%, black 100%);
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        background-clip: text;
+       -webkit-text-fill-color:transparent;
+    }
+}
+.span {
+    font-family: 'Dancing Script', cursive;
+}
 </style>

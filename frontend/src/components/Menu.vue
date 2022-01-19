@@ -2,8 +2,8 @@
   <div>
     <b-nav tabs align="center" class="menu bg-light">
         <b-nav-item class="menu__item" @click="profilPush()">Profil</b-nav-item>
-        <b-nav-item class="menu__item" @click="memesPush()">Memes</b-nav-item>
-        <b-nav-item class="menu__item" @click="logout()">Déconnexion</b-nav-item>
+        <b-nav-item class="menu__item" @click="memesPush()">Publication</b-nav-item>
+        <b-nav-item class="menu__item" id="deconnexion" @click="logout()">Déconnexion</b-nav-item>
     </b-nav>
   </div>
 </template>
@@ -38,6 +38,10 @@ export default {
 
 .nav-link {
   color: black!important;
+  cursor: pointer;
+  &:hover {
+    color: #df4759!important;
+  }
 }
 .menu {
   @include border;
@@ -45,4 +49,12 @@ export default {
     font-weight: bold;
   }
 }
+#deconnexion {
+  font-weight: normal;
+  &:hover {
+    font-weight: bold;
+    background-color: #ffd7d7;
+  }
+}
+
 </style>

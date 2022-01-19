@@ -14,7 +14,7 @@ li {
   color: red;
 }
 
-input[type=text], input[type=email], input[type=password], textarea {
+input[type=text], input[type=email], input[type=password], textarea, #input-description {
   border: 1px solid #ffd7d7;
 }
 

@@ -11,6 +11,10 @@ module.exports = (sequelize, Sequelize) => {
       textContent: {
         type: Sequelize.TEXT,
         allowNull: false
+      },
+      likes: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       }
     },
       {
