@@ -1,5 +1,5 @@
 # Formation Développeur Web - OpenClassrooms
-**Projet 5 : "Créez un réseau social d’entreprise"**
+**Projet 7 : "Créez un réseau social d’entreprise"**
 
 ## Démarrage du projet :
 
