@@ -1,6 +1,12 @@
 # Formation Développeur Web - OpenClassrooms
 **Projet 7 : "Créez un réseau social d’entreprise"**
 
+**Compétences évaluées**
+- Authentifier un utilisateur et maintenir sa session
+- Personnaliser le contenu envoyé à un client web
+- Gérer un stockage de données à l'aide de SQL
+- Implémenter un stockage de données sécurisé en utilisant SQL
+
 ## Démarrage du projet :
 
 ### 1. Entrez dans la ligne de commandes et cloner le projet avec la commande : 
