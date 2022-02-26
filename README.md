@@ -73,7 +73,7 @@ Vous pouvez publier, modifier et supprimer les publications contenant des images
 
 Vous pouvez vous déconnecter depuis votre profil ou depuis le menu.
 
-## Spécifiations de l’API
+## Spécifications de l’API
 
 Base URL : `http://localhost:3000/api/`
 
